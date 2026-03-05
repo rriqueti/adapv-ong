@@ -1,0 +1,32 @@
+<script src="/js/alterar/patrimonio.js"></script>
+<div class="container">
+    <div class="container-fluid">
+
+        <h1 class="h3 mb-4 text-gray-800">Alterar Patrimonio</h1>
+        <% if (typeof msg != "undefined") { %>
+            <span><%= msg %></span>
+        <% } %>
+
+        <input id="id" hidden value="<%= patrimonio.patrim_id %>">
+        <input id="createdAt" hidden value="<%= patrimonio.createdAt %>">
+
+        <div class="col-md-6" <%= patrimonio.patrim_valor === null ? 'hidden' : '' %>>
+            <label for="patrim_valor" class="form-label">Dinheiro:<span class="text-danger">*</span></label>
+            <input type="text" value="<%= patrimonio.patrim_valor %>" name="patrim_valor" class="form-control" id="patrim_valor" placeholder="Digite o nome do projeto">
+        </div>
+
+        <div class="col-md-6" <%= patrimonio.doa_id === null ? 'hidden' : '' %>>
+            <label for="doa_id" class="form-label">Doador<span class="text-danger">*</span></label>
+            <input type="text" disabled value="<%= patrimonio.doa_id %>" name="doa_id" class="form-control" id="doa_id">
+        </div>
+
+        <br>
+        <br>
+
+        <div class="col-12">
+            <button type="button" class="btn btn-success px-4 py-3" id="btnAlterar">Salvar</button>
+            <button type="button" class="btn btn-secondary px-3 py-3" id="cancelar">Cancelar</button>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,54 @@
+<link rel="stylesheet" type="text/css"  media="print" href="/css/print.css">
+<script src="/js/listar/adocao.js"></script>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+
+<h1>Adoções Registradas</h1>
+<div style="display: flex; justify-content: space-between;">
+    <a id="novoReg" class="btn btn-secondary" style="max-width: 200px;" href="/adocao/cadastrar">Nova Adoção</a>
+    <div>
+        <button id="btnExportarExcel" class="btn btn-info" >Exportar para Excel</button>
+        <button id="btnExportarPdf"  onclick="window.print()" class="btn btn-info">Exportar para PDF</button>
+    </div>
+</div>
+
+<hr>
+    <div>
+        <table id="tabelaAdocao" class="table table-striped">
+            <thead>
+                <th>Id</th>
+                <th>Adotante</th>
+                <th>Animal</th>
+                <th>Registro criado</th>
+                <th>Registro atualizado</th>
+            </thead>
+            <tbody>
+                <% for (let i = 0; i < listaAdocao.length; i++)  { %>
+                    <%
+                    valor = listaAdocao[i].pess_id
+                    for(let j = 0; j < listaPessoa.length; j++){
+                        if(listaPessoa[j].pess_id == valor){
+                            listaAdocao[i].pess_id = listaPessoa[j].pess_nome
+                        }
+                    }
+                    valor = listaAdocao[i].ani_id
+                    for(let j = 0; j < listaAnimal.length; j++){
+                        if(listaAnimal[j].ani_id == valor){
+                            listaAdocao[i].ani_id = listaAnimal[j].ani_nome
+                        }
+                    }
+                    %>
+                    <tr>
+                        <td><%= listaAdocao[i].ado_id %></td>
+                        <td><%= listaAdocao[i].pess_id %></td>
+                        <td><%= listaAdocao[i].ani_id %></td>
+                        <td><%= listaAdocao[i].createdAt %></td>
+                        <td><%= listaAdocao[i].updatedAt %></td>
+                        <td>
+                            <a id="alterabtn" href="/adocao/alterar/<%= listaAdocao[i].ado_id %>" class="btn btn-primary"><i class="fas fa-pen"></i></a>
+                            <button id="delbtn" data-codigoexclusao="<%= listaAdocao[i].ado_id %>" class="btn btn-danger btnExclusao"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>

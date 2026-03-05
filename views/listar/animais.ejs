@@ -1,0 +1,56 @@
+<link rel="stylesheet" type="text/css"  media="print" href="/css/print.css">
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+<script src="/js/listar/animais.js"></script>
+
+<h1>Animais cadastrados</h1>
+<div style="display: flex; justify-content: space-between;">
+    <a id="novoReg" class="btn btn-secondary" style="max-width: 200px;" href="/animais/cadastrar">Novo animal</a>
+    <div>
+        <button id="btnExportarExcel" class="btn btn-info" >Exportar para Excel</button>
+        <button id="btnExportarPdf"  onclick="window.print()" class="btn btn-info">Exportar para PDF</button>
+    </div>
+</div>
+
+<hr>
+    <div>
+        <table id="tabelaAnimais" class="table table-striped">
+            <thead>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Data de Nascimento</th>
+                <th>Raça</th>
+                <th>Sexo</th>
+                <th>Especie</th>
+                <th>Pelagem</th>
+                <th>Esterilização</th>
+                <th>Estado</th>
+                <th>Disponível</th>
+                <th>Descrição</th>
+                <th>Registro criado</th>
+                <th>Registro atualizado</th>
+            </thead>
+            <tbody>
+                <% for (let i = 0; i < lista.length; i++)  { %>
+                    <tr>
+                        <td><%= lista[i].ani_id %></td>
+                        <td><%= lista[i].ani_nome %></td>
+                        <td><%= lista[i].ani_nascimento.split("-").reverse().join("/") %></td>
+                        <td><%= lista[i].ani_raca %></td>
+                        <td><%= lista[i].ani_sexo %></td>
+                        <td><%= lista[i].ani_especie %></td>
+                        <td><%= lista[i].ani_pelagem %></td>
+                        <td><%= lista[i].ani_ester %></td>
+                        <td><%= lista[i].ani_estado %></td>
+                        <td><%= lista[i].ani_disponivel %></td>
+                        <td><%= lista[i].ani_descricao %></td>
+                        <td><%= lista[i].createdAt %></td>
+                        <td><%= lista[i].updatedAt %></td>
+                        <td>
+                            <a id="alterabtn" href="/animais/alterar/<%= lista[i].ani_id %>" class="btn btn-primary"><i class="fas fa-pen"></i></a>
+                            <button id="delbtn" data-codigoexclusao="<%= lista[i].ani_id %>" class="btn btn-danger btnExclusao"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>

@@ -1,0 +1,71 @@
+<script src="/js/cadastrar/doacoes.js"></script>
+<div class="container">
+    <div class="container-fluid">
+
+     <h1 class="h3 mb-4 text-gray-800">Cadastrar Doação</h1>
+        <div>
+            <% if (typeof msg != "undefined") { %>             
+                <span  ><%= msg %></span>
+            <% } %>
+        </div>   
+
+        <div class="col-md-4">
+            <label for="doa_tipo" class="form-label">Tipo de doação<span class="text-danger">*</span></label>
+            <select name="doa_tipo" id="doa_tipo" class="form-select">
+                <option value="" selected disabled>Selecione...</option>
+                <option value="Dinheiro">Dinheiro</option>
+                <option value="Produto">Produto</option>
+            </select>
+        </div>
+        
+        <div class="col-md-8">
+            <label for="doa_desc" class="form-label">Descrição<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="doa_desc" name="doa_desc" placeholder="Digite a descrição da doação" maxlength="200">
+        </div>
+        
+        <div class="col-md-4">
+            <label for="doa_qnt" class="form-label">Quantidade<span class="text-danger">*</span></label>
+            <input type="number" step="0.01" class="form-control" id="doa_qnt" name="doa_qnt" placeholder="Digite a quantidade" maxlength="200">
+        </div>
+        <div class="mt-2 col-md-4 p-2 bg-secondary-subtle rounded">
+            <div class="d-flex justify-content-center" >
+                <label class="text-decoration-underline" >Usar quando o doador não estiver cadastrado</label>
+            </div>
+            <div class="">
+                <label for="doa_doador" class="form-label">Doador</label>
+                <input type="text" class="form-control" id="doa_doador" name="doa_doador" placeholder="Digite o nome do doador" maxlength="200">
+            </div>
+            
+            <div class="">
+                <label for="doa_cpf_cnpj" class="form-label">CPF/CNPJ</label>
+                <input type="text" class="form-control" id="doa_cpf_cnpj" name="doa_cpf_cnpj" placeholder="Digite o CPF ou CNPJ" maxlength="200">
+            </div>
+            
+            <div class="">
+                <label for="doa_rg" class="form-label">RG</label>
+                <input type="text" class="form-control" id="doa_rg" name="doa_rg" placeholder="Digite o RG" maxlength="200">
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <label for="doa_data" class="form-label">Data<span class="text-danger">*</span></label>
+            <input type="date" class="form-control" id="doa_data" name="doa_data">
+        </div>
+
+        <div class="col-md-4">
+            <label for="pess_id" class="form-label">Pessoa<span class="text-danger">*</span></label>
+            <select name="pess_id" id="pess_id" class="form-select">
+                <option value="" selected>Selecione...</option>
+                <% listaPessoa.forEach(function(pessoa) { %>
+                    <option value="<%= pessoa.pess_id %>">NOME: <%= pessoa.pess_nome %> - CPF: <%= pessoa.pess_cpf%></option>
+                <% }); %>
+            </select>
+        </div>
+
+        <br><br>
+        <div class="col-12">
+            <button type="button" class="btn btn-success px-4 py-3" id="btnCadastrar">Salvar</button>
+            <button type="button" class="btn btn-secondary px-3 py-3" id="cancelar">Cancelar</button>
+        </div>
+    </div>
+</div>

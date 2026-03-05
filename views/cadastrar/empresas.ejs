@@ -1,0 +1,99 @@
+<script src="/js/cadastrar/empresas.js"></script>
+
+<script>
+    function formatCnpj(cnpj) {
+        var v = cnpj.value;
+
+        if (v.length == 3 || v.length == 7) {
+            cnpj.value = v.replace(/[^0-9./-]/g, "").slice(0, -1) + ".";
+        } else if (v.length == 11) {
+            cnpj.value = v.replace(/[^0-9./-]/g, "").slice(0, -1) + "/";
+        } else if (v.length == 16) {
+            cnpj.value = v.replace(/[^0-9./-]/g, "").slice(0, -1) + "-";
+        } else if (v.length == 18){
+            cnpj.value = v.replace(/[^0-9./-]/g, "")
+        }
+    }
+
+    function formatCep(cep) {
+        var v = cep.value;
+
+        if (v.length == 6) {
+            cep.value = v.replace(/[^0-9-]/g, "").slice(0, -1) + "-";
+        } else if (v.length == 10) {
+            cep.value = v.replace(/[^0-9-]/g, "").slice(0, -1);
+        }
+    }
+
+    function formatCelular(celular) {
+        var v = celular.value;
+
+        if (v.length == 2) {
+            celular.value = "(" + v.replace(/[^0-9-()]/g, "").slice(0, -1);
+        } else if (v.length == 4) {
+            celular.value = v.replace(/[^0-9-()]/g, "").slice(0, -1) + ")";
+        } else if (v.length == 10) {
+            celular.value = v.replace(/[^0-9-()]/g, "").slice(0, -1) + "-";
+        } else if (v.length == 14) {
+            celular.value = v.replace(/[^0-9-()]/g, "");
+        }
+    }
+</script>
+
+<div class="container">
+    <div class="container-fluid">
+
+     <h1 class="h3 mb-4 text-gray-800">Cadastrar Empresa</h1>
+        <div>
+            <% if (typeof msg != "undefined") { %>             
+                <span  ><%= msg %></span>
+            <% } %>
+        </div>   
+        <div class="col-md-4">
+            <label for="emp_nome" class="form-label">Nome da empresa<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="emp_nome" name="emp_nome" placeholder="Digite o nome da empresa" maxlength="200">
+        </div>
+        <div class="col-md-4">
+            <label for="emp_cnpj" class="form-label">CNPJ<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="emp_cnpj" name="emp_cnpj" placeholder="Digite o CNPJ" maxlength="18" oninput="formatCnpj(this)">
+        </div>
+        <div class="col-md-4">
+            <label for="emp_cep" class="form-label">CEP<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="emp_cep" name="emp_cep" placeholder="Digite o CEP" maxlength="10" oninput="formatCep(this)">
+        </div>
+        <div class="col-md-4">
+            <label for="emp_num" class="form-label">Número<span class="text-danger">*</span></label>
+            <input type="number" class="form-control" id="emp_num" name="emp_num" placeholder="Digite o número" maxlength="200">
+        </div>
+        <div class="col-md-4">
+            <label for="emp_cidade" class="form-label">Cidade<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="emp_cidade" name="emp_cidade" placeholder="Digite a cidade" maxlength="200">
+        </div>
+        <div class="col-md-4">
+            <label for="emp_estado" class="form-label">Estado<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="emp_estado" name="emp_estado" placeholder="Digite o estado" maxlength="200">
+        </div>
+        <div class="col-md-4">
+            <label for="emp_rua" class="form-label">Rua<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="emp_rua" name="emp_rua" placeholder="Digite a rua" maxlength="200">
+        </div>
+        <div class="col-md-4">
+            <label for="emp_bairro" class="form-label">Bairro<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="emp_bairro" name="emp_bairro" placeholder="Digite o bairro" maxlength="200">
+        </div>
+        <div class="col-md-4">
+            <label for="emp_complemento" class="form-label">Complemento</label>
+            <input type="text" class="form-control" id="emp_complemento" name="emp_complemento" placeholder="Digite o complemento" maxlength="200">
+        </div>
+        <div class="col-md-4">
+            <label for="emp_telefone" class="form-label">Telefone<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="emp_telefone" name="emp_telefone" placeholder="Digite o telefone" maxlength="14" oninput="formatCelular(this)">
+        </div>
+
+        <br><br>
+        <div class="col-12">
+            <button type="button" class="btn btn-success px-4 py-3" id="btnCadastrar">Salvar</button>
+            <button type="button" class="btn btn-secondary px-3 py-3" id="cancelar">Cancelar</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,139 @@
+<script src="/js/alterar/animais.js"></script>
+<div class="container">
+        <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-4 text-gray-800">Alterar Animal</h1>
+        <div>
+            <% if (typeof msg != "undefined") { %>             
+                <span  ><%= msg %></span>
+            <% } %>
+        </div>
+        <input id="id" hidden value="<%= animais.ani_id %>">
+        <input id="createdAt" hidden value="<%= animais.createdAt %>">
+        <div class="col-md-6">
+            <label for="nome" class="form-label">Nome<span class="text-danger">*</span></label>
+            <input type="text" value="<%= animais.ani_nome%>" class="form-control" id="nome" name="nome" placeholder="Digite o nome do animal" maxlength="200">
+        </div>
+        <div class="col-md-4">
+            <label for="sexo" class="form-label">Sexo<span class="text-danger">*</span></label>
+            <select id="sexo" class="form-select" name="sexo">
+                <option value="" <%= animais.ani_sexo === "" ? "selected" : "" %> disabled>Selecione...</option>
+                <option value="Macho" <%= animais.ani_sexo === "Macho" ? "selected" : "" %>>Macho</option>
+                <option value="Femea" <%= animais.ani_sexo === "Femea" ? "selected" : "" %>>Fêmea</option>
+                <option value="Indefinido" <%= animais.ani_sexo === "Indefinido" ? "selected" : "" %>>Indefinido</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="ester" class="form-label">Esterilização<span class="text-danger">*</span></label>
+            <select id="ester" class="form-select" name="ester">
+                <option value="" <%= animais.ani_ester === "" ? "selected" : "" %> disabled>Selecione...</option>
+                <option value="Fertil" <%= animais.ani_ester === "Fertil" ? "selected" : "" %>>Fertil</option>
+                <option value="Castrado" <%= animais.ani_ester === "Castrado" ? "selected" : "" %>>Castrado</option>
+                <option value="Vasectomia" <%= animais.ani_ester === "Vasectomia" ? "selected" : "" %>>Vasectomia</option>                
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label for="nome" class="form-label">Data de Nascimento<span class="text-danger">*</span></label>
+            <input type="date" value="<%= animais.ani_nascimento%>" class="form-control" id="campoData" name="campoData" placeholder="aaaa-mm-dd" maxlength="200">
+        </div>
+        <div class="col-md-4">
+            <label for="especie" class="form-label">Espécie<span class="text-danger">*</span></label>
+            <select id="especie" class="form-select" name="especie">
+                <option value="" <%= animais.ani_especie === "" ? "selected" : "" %> disabled>Selecione...</option>
+                <option value="Canino" <%= animais.ani_especie === "Canino" ? "selected" : "" %>>Canino</option>
+                <option value="Felino" <%= animais.ani_especie === "Felino" ? "selected" : "" %>>Felino</option>
+                <option value="Outros" <%= animais.ani_especie === "Outros" ? "selected" : "" %>>Outros</option>                
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="estado" class="form-label">Estado<span class="text-danger">*</span></label>
+            <select id="estado" class="form-select" name="estado">
+                <option value="" <%= animais.ani_estado === "" ? "selected" : "" %> disabled>Selecione...</option>
+                <option value="Habitando na ONG" <%= animais.ani_estado === "Habitando na ONG" ? "selected" : "" %>>Habitando na ONG</option>
+                <option value="Solto" <%= animais.ani_estado === "Solto" ? "selected" : "" %>>Solto</option>
+                <option value="Adotado" <%= animais.ani_estado === "Adotado" ? "selected" : "" %>>Adotado</option>                
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="raca" class="form-label">Raça<span class="text-danger">*</span></label>
+            <select id="raca" class="form-select" name="raca">
+                <option style="color: gray;" disabled>=====Canino=====</option>
+                <option value="" <%= animais.ani_raca === "" ? "selected" : "" %> disabled>Selecione...</option>
+                <%
+                var racasCaninas = [
+                "Akita", "Beagle", "Bichon Frise", "Bulldog", "Chihuahua", "Cocker Spaniel", "Dachshund", "Golden Retriever", 
+                "Labrador Retriever", "Lhasa Apso", "Maltese", "Poodle", "Pug", "Rottweiler", "Shih Tzu", "Vizsla", "Weimaraner", 
+                "Yorkshire Terrier"
+
+                ];
+                
+                for (var i = 0; i < racasCaninas.length; i++) {
+                    var raca = racasCaninas[i];
+                %>
+                <option value="<%= raca %>" <%= animais.ani_raca === raca ? "selected" : "" %>><%= raca %></option>
+                <%
+                }
+                %>
+                
+                <option style="color: gray;" disabled>=====Felino=====</option>
+                <%
+                var racasFelinas = [
+                "Abyssinian", "American Bobtail", "American Curl", "American Shorthair", "American Wirehair", "Balinese", "Bengal", 
+                "Birman", "British Shorthair", "Burmese", "Chartreux", "Colorpoint Shorthair", "Cornish Rex", "Devon Rex", 
+                "Egyptian Mau", "European Burmese", "Exotic Shorthair", "Havana Brown", "Himalayan", "Japanese Bobtail", "Javanese", 
+                "Korat", "Maine Coon", "Manx", "Norwegian Forest Cat", "Ocicat", "Oriental", "Persian", "Ragamuffin", "Ragdoll", 
+                "Russian Blue", "Scottish Fold", "Selkirk Rex", "Siamese", "Siberian", "Singapura", "Somali", "Sphynx", "Tonkinese", 
+                "Turkish Angora", "Turkish Van"
+
+                ];
+                
+                for (var j = 0; j < racasFelinas.length; j++) {
+                    var racaFelina = racasFelinas[j];
+                %>
+                <option value="<%= racaFelina %>" <%= animais.ani_raca === racaFelina ? "selected" : "" %>><%= racaFelina %></option>
+                <%
+                }
+                %>
+                         
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="pelagem" class="form-label">Pelagem<span class="text-danger">*</span></label>
+            <select class="form-select" name="pelagem" id="pelagem">
+                <option value="" <%= animais.ani_pelagem === "" ? "selected" : "" %> disabled>Selecione...</option>
+                <%
+                var opcoesPelagem = ["Amarelo", "Preto c/ Branco", "Azul", "Branco", "Caramelo", "Preto c/ Branco", "Caramelo c/ Branco", "Cinza", "Vermelho", "Marrom"];
+
+                opcoesPelagem.forEach(function(pelagem) {
+                %>
+                <option value="<%= pelagem %>" <%= animais.ani_pelagem === pelagem ? "selected" : "" %>><%= pelagem %></option>
+                <%
+                });
+                %>
+
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="disp" class="form-label">Disponível para qualquer atividade?<span class="text-danger">*</span></label>
+            <select id="disp" class="form-select" name="disp">
+                <option value="" <%= animais.ani_disponivel === "" ? "selected" : "" %> disabled>Selecione...</option>
+                <option value="Sim" <%= animais.ani_disponivel === "Sim" ? "selected" : "" %>>Sim</option>
+                <option value="Nao" <%= animais.ani_disponivel === "Nao" ? "selected" : "" %>>Não</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="desc" class="form-label">Descrição<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" value="<%= animais.ani_descricao%>" id="desc" name="desc" placeholder="Digite uma descrição" maxlength="200">
+        </div>
+        <br><br>
+        <div class="col-12">
+            <button type="button" class="btn btn-success px-4 py-3" id="btnAlterar">Alterar</button>
+            <button type="button" class="btn btn-secondary px-3 py-3" id="cancelar">Cancelar</button>
+
+        </div>
+
+    </div> 
+
+</div>

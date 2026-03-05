@@ -1,0 +1,60 @@
+<link rel="stylesheet" type="text/css"  media="print" href="/css/print.css">
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+<script src="/js/listar/empresas.js"></script>
+
+<h1>Empresas Cadastrados</h1>
+<div style="display: flex; justify-content: space-between;">
+    <a id="novoReg" class="btn btn-secondary" style="max-width: 200px;" href="/empresas/cadastrar">Nova empresa</a>
+    <div>
+        <button id="btnExportarExcel" class="btn btn-info" >Exportar para Excel</button>
+        <button id="btnExportarPdf"  onclick="window.print()" class="btn btn-info">Exportar para PDF</button>
+    </div>
+
+</div>
+
+<hr>
+    <div>
+
+        <table id="tabelaEmpresas" class="table table-striped">
+            <thead>
+                <th>Id</th>
+                <th>Nome da empresa</th>
+                <th>CNPJ</th>
+                <th>CEP</th>
+                <th>Rua</th>
+                <th>Bairro</th>
+                <th>Numero</th>
+                <th>Cidade</th>
+                <th>Estado</th>
+                <th>Complemento</th>
+                <th>Telefone</th>
+                <th>createdAt</th>
+                <th>updatedAt</th>
+            </thead>
+            <tbody>
+                <% for (let i = 0; i < listaEmpresas.length; i++) { %>
+                    <tr>
+                        <td><%= listaEmpresas[i].emp_id %></td>
+                        <td><%= listaEmpresas[i].emp_nome %></td>
+                        <td><%= listaEmpresas[i].emp_cnpj %></td>
+                        <td><%= listaEmpresas[i].emp_cep %></td>
+                        <td><%= listaEmpresas[i].emp_rua %></td>
+                        <td><%= listaEmpresas[i].emp_bairro %></td>
+                        <td><%= listaEmpresas[i].emp_num %></td>
+                        <td><%= listaEmpresas[i].emp_cidade %></td>
+                        <td><%= listaEmpresas[i].emp_estado %></td>
+                        <td><%= listaEmpresas[i].emp_complemento %></td>
+                        <td><%= listaEmpresas[i].emp_telefone %></td>
+                        <td><%= listaEmpresas[i].createdAt %></td>
+                        <td><%= listaEmpresas[i].updatedAt %></td>
+                        <td>
+                            <a id="alterabtn" href="/empresas/alterar/<%= listaEmpresas[i].emp_id %>" class="btn btn-primary"><i class="fas fa-pen"></i></a>
+                            <button id="delbtn" data-codigoexclusao="<%= listaEmpresas[i].emp_id %>" class="btn btn-danger btnExclusao"><i class="fas fa-trash"></i></button>
+                        </td>
+                        
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+
+    </div>

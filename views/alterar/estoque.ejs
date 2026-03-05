@@ -1,0 +1,34 @@
+<script src="/js/alterar/estoque.js"></script>
+<div class="container">
+
+    <div class="container-fluid">
+
+        <h1 class="h3 mb-4 text-gray-800">Alterar Estoque</h1>
+        <% if (typeof msg != "undefined") { %>
+            <span><%= msg %></span>
+        <% } %>
+
+        <input type="text" id="id" hidden value="<%= estoque.estoq_id %>">
+        <input type="text" id="createdAt" hidden value="<%= estoque.createdAt %>">
+
+        <div class="col-md-6">
+            <label for="prod_id" class="form-label">Produto<span class="text-danger">*</span></label>
+            <input type="text" value="<%= estoque.prod_id %>" name="prod_id" id="prod_id" class="form-control">
+        </div>
+
+        <div class="col-md-6">
+            <label for="doa_id" class="form-label">Doador<span class="text-danger">*</span></label>
+            <input type="text" value="<%= estoque.doa_id %>" name="doa_id" class="form-control" id="doa_id">
+        </div>
+
+        <br>
+        <br>
+
+        <div class="col-12">
+            <button type="button" class="btn btn-success px-4 py-3" id="btnAlterar">Salvar</button>
+            <button type="button" class="btn btn-secondary px-3 py-3" id="cancelar">Cancelar</button>
+        </div>
+
+    </div>
+
+</div>

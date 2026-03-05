@@ -1,0 +1,82 @@
+<script src="/js/alterar/endereco.js"></script>
+<script>
+    function formatCep(cep) {
+        var v = cep.value;
+
+        if (v.length == 6) {
+            cep.value = v.replace(/[^0-9-]/g, "").slice(0, -1) + "-";
+        } else if (v.length == 10) {
+            cep.value = v.replace(/[^0-9-]/g, "").slice(0, -1);
+        }
+    }
+</script>
+<div class="container">
+    <div class="container-fluid">
+
+     <h1 class="h3 mb-4 text-gray-800">Alterar Endereço</h1>
+        <div>
+            <% if (typeof msg != "undefined") { %>             
+                <span  ><%= msg %></span>
+            <% } %>
+        </div>   
+        <input type="text" id="end_id" hidden value="<%= endereco.end_id %>">
+        <input type="text" id="createdAt" hidden value="<%= endereco.createdAt %>">
+
+        <div class="col-md-4">
+            <label for="end_cep" class="form-label">CEP<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="end_cep" name="end_cep" placeholder="Digite o CEP" value="<%= endereco.end_cep %>" oninput="formatCep(this)" maxlength="9">
+        </div>
+
+        <div class="col-md-8">
+            <label for="end_rua" class="form-label">Rua<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="end_rua" name="end_rua" placeholder="Digite o nome da rua" value="<%= endereco.end_rua %>" maxlength="200">
+        </div>
+
+        <div class="col-md-6">
+            <label for="end_bairro" class="form-label">Bairro<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="end_bairro" name="end_bairro" placeholder="Digite o bairro" value="<%= endereco.end_bairro %>" maxlength="200">
+        </div>
+
+        <div class="col-md-2">
+            <label for="end_numero" class="form-label">Número<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="end_numero" name="end_numero" placeholder="Digite o número" value="<%= endereco.end_numero %>" maxlength="200">
+        </div>
+
+        <div class="col-md-6">
+            <label for="end_cidade" class="form-label">Cidade<span class="text-danger">*</span></label>
+            <select id="end_cidade" class="form-select" name="end_cidade">
+                <option value="" <%= endereco.end_cidade === "" ? "selected" : "" %>>Selecione...</option>
+                <option value="Sorocaba" <%= endereco.end_cidade === "Sorocaba" ? "selected" : "" %>>Sorocaba</option>
+            </select>
+        </div>
+
+        <div class="col-md-4">
+            <label for="end_estado" class="form-label">Estado<span class="text-danger">*</span></label>
+            <select id="end_estado" class="form-select" name="end_estado">
+                <option value="" <%= endereco.end_estado === "" ? "selected" : "" %>>Selecione...</option>
+                <option value="SP" <%= endereco.end_estado === "SP" ? "selected" : "" %>>São Paulo</option>
+            </select>
+        </div>
+
+        <div class="col-md-12">
+            <label for="end_complemento" class="form-label">Complemento</label>
+            <input type="text" class="form-control" id="end_complemento" name="end_complemento" placeholder="Digite o complemento" value="<%= endereco.end_complemento %>" maxlength="200">
+        </div>
+
+        <div class="col-md-6">
+            <label for="pess_id" class="form-label">Pessoa<span class="text-danger">*</span></label>
+            <select name="pess_id" id="pess_id" class="form-select">
+                <option value="" selected disabled>Selecione...</option>
+                <% listaPessoa.forEach(pessoa => { %>
+                    <option value="<%= pessoa.pess_id %>" <%= pessoa.pess_id === endereco.pess_id ? "selected" : "" %>><%= pessoa.pess_nome %></option>
+                <% }) %>
+            </select>
+        </div>
+
+        <br><br>
+        <div class="col-12">
+            <button type="button" class="btn btn-success px-4 py-3" id="btnAlterar">Alterar</button>
+            <button type="button" class="btn btn-secondary px-3 py-3" id="cancelar">Cancelar</button>
+        </div>
+    </div>
+</div>

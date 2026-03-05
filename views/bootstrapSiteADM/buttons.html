@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" type="image/x-icon" href="/prototiposite/OngAdapvindexswitch/imagens/CatDogScPng Oficial.png">
+
+    <title>GuiaPet - Cadastrar Animais</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="/prototiposite/OngAdapvindexswitch/bootstrapSiteADM/vendor/fontawesome-free/css/all.min.css"
+        rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/prototiposite/OngAdapvindexswitch/bootstrapSiteADM/css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-laugh-wink"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">GuiaPet</div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active alinharlogos">
+                <a href="/prototiposite/OngAdapvindexswitch/index.html">
+                    <img src="img/CatDogScPngOficialPretoeBranco.png" alt="logotipo" class="imglogo">
+                    <span class="nomelogo">ADAPV</span>
+                </a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Interface
+            </div>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Painel de Controle</span></a>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Cadastrar</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Opções: </h6>
+                        <a class="collapse-item" href="buttons.html">Animais</a>
+                        <a class="collapse-item" href="cards.html">Voluntários</a>
+                        <a class="collapse-item" href="projetos.html">Projetos</a>
+                        <a class="collapse-item" href="empresa.html">Empresas</a>
+                        <a class="collapse-item" href="adocoes.html">Adoções</a>
+                        <a class="collapse-item" href="doacoes.html">Doações</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Utilities Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                    aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-fw fa-wrench"></i>
+                    <span>Buscar</span>
+                </a>
+                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Opções: </h6>
+                        <a class="collapse-item" href="listaranimais.html">Lista Animais</a>
+                        <a class="collapse-item" href="listarvoluntarios.html">Lista Voluntários</a>
+                        <a class="collapse-item" href="listarprojetos.html">Lista Projetos</a>
+                        <a class="collapse-item" href="listarempresas.html">Lista Empresas</a>
+                        <a class="collapse-item" href="listaradocoes.html">Lista Adoções</a>
+                        <a class="collapse-item" href="listardoacoes.html">Lista Doações</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <!-- Topbar Search -->
+                    <form
+                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Procure por..."
+                                aria-label="Search" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <li class="nav-item dropdown no-arrow d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search fa-fw"></i>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small"
+                                            placeholder="Search for..." aria-label="Search"
+                                            aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Alerts -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw"></i>
+                                <!-- Counter - Alerts -->
+                                <span class="badge badge-danger badge-counter">3+</span>
+                            </a>
+                            <!-- Dropdown - Alerts -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header">
+                                    Notificações
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-primary">
+                                            <i class="fas fa-file-alt text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">Dezembro 13, 2023</div>
+                                        <span class="">Lembrete: Vacinação do cão Max em 21/12/2023, 10h.</span>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-success">
+                                            <i class="fas fa-donate text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">Dezembro 15, 2023</div>
+                                        Alcançamos a meta do mês de 1500 reais! Obrigado a todos pelo apoio!.
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-warning">
+                                            <i class="fas fa-exclamation-triangle text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">Dezembro 16, 2019</div>
+                                        Por favor, realizem a atualização de segurança no painel administrativo imediatamente para proteger nossos dados e sistemas.
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Mostrar todas notificações</a>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Messages -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-envelope fa-fw"></i>
+                                <!-- Counter - Messages -->
+                                <span class="badge badge-danger badge-counter">7</span>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="messagesDropdown">
+                                <h6 class="dropdown-header">
+                                    Centro de Mensagens
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="img/undraw_profile_1.svg"
+                                            alt="...">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div class="font-weight-bold">
+                                        <div class="text-truncate">Estou com problemas para acessar o site. Podem ajudar?</div>
+                                        <div class="small text-gray-500">Sara Souza · 58m</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="img/undraw_profile_2.svg"
+                                            alt="...">
+                                        <div class="status-indicator"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Encontrei um erro na página de doações. Podem verificar?</div>
+                                        <div class="small text-gray-500">Morgan Freeman · 1d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="img/undraw_profile_3.svg"
+                                            alt="...">
+                                        <div class="status-indicator bg-warning"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Sugiro adicionar doações mensais automáticas no site.</div>
+                                        <div class="small text-gray-500">André Rodrigues · 2d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
+                                            alt="...">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Ótimo trabalho no site! Interface muito amigável.</div>
+                                        <div class="small text-gray-500">Hector Pereira · 2w</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Ler mais mensagens</a>
+                            </div>
+                        </li>
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Victor Hugo</span>
+                                <img class="img-profile rounded-circle"
+                                    src="img/undraw_profile.svg">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Perfil
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Configurações
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Registro Ativo
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-4 text-gray-800">Cadastrar Animal</h1>
+                    <div class="div-principal">
+                        <div class="subtitulo-nome">
+                            <h5><b>Nome</b></h5>
+                            <a href="index.html">
+                                <button type="button"><iconify-icon icon="mingcute:arrow-up-fill"
+                                        rotate="270deg"></iconify-icon>Voltar</button>
+                            </a>
+                        </div>
+
+                        <div class="opcoes-de-cadastro">
+                            <button type="button" id="botao-geral" class="ativo">Geral</button>
+                            <button type="button" id="botao-foto" class="">Foto</button>
+                            <button type="button" id="botao-extra" class="">Extra</button>
+                        </div>
+                        <div class="opcao-geral" id="opcao-geral">
+                            <div class="quebra">
+                                <div class="opcao-geral-divs">
+                                    <label for="">Nome<span>*</span></label>
+                                    <input type="text" id="nome" placeholder="Digite o nome do animal">
+                                    <p id="erroNome" class="mensagemErro"></p>
+                                </div>
+                                <div class="opcao-geral-divs">
+                                    <label for="">Sexo<span>*</span></label>
+                                    <select name="sexo" id="sexo">
+                                        <option value="selecione">Selecione...</option>
+                                        <option value="Macho">Macho</option>
+                                        <option value="Femea">Fêmea</option>
+                                        <option value="Indefinido">Indefinido</option>
+                                    </select>
+                                    <p id="erroSexo" class="mensagemErro"></p>
+                                </div>
+                                <div class="opcao-geral-divs">
+                                    <label for="">Esterilização</label>
+                                    <select name="ester" id="ester">
+                                        <option value="selecione">Selecione...</option>
+                                        <option value="Fertil">Fertil</option>
+                                        <option value="Castrado">Castrado</option>
+                                        <option value="Vasectomia">Vasectomia</option>
+                                    </select>
+                                    <p id="erroEster" class="mensagemErro"></p>
+                                </div>
+                            </div>
+                            <div class="quebra">
+                                <div class="opcao-geral-divs">
+                                    <label for="">Data de Nascimento</label>
+                                    <input type="text" id="campoData" maxlength="10" placeholder="dd/mm/aaaa"
+                                        onkeyup="vData(this)">
+                                    <p id="erroData" class="mensagemErro"></p>
+                                </div>
+                                <div class="opcao-geral-divs">
+                                    <label for="">Espécie<span>*</span></label>
+                                    <select name="especie" id="especie">
+                                        <option value="selecione">Selecione...</option>
+                                        <option value="Canino">Canino</option>
+                                        <option value="Felino">Felino</option>
+                                        <option value="Outros">Outros</option>
+                                    </select>
+                                    <p id="erroEspecie" class="mensagemErro"></p>
+                                </div>
+                                <div class="opcao-geral-divs">
+                                    <label for="">Estado<span>*</span></label>
+                                    <select name="estado" id="estado">
+                                        <option value="selecione">Selecione...</option>
+                                        <option value="HabitandonaONG">Habitando na ONG</option>
+                                        <option value="Solto">Solto</option>
+                                        <option value="Adotado">Adotado</option>
+                                    </select>
+                                    <p id="erroEstado" class="mensagemErro"></p>
+                                </div>
+                            </div>
+                            <div class="quebra">
+                                <div class="opcao-geral-divs">
+                                    <label for="">Raça</label>
+                                    <select name="raca" id="raca">
+                                        <option value="">Selecione...</option>
+                                        <option value="Labrador Retriever">Labrador Retriever</option>
+                                        <option value="Golden Retriever">Golden Retriever</option>
+                                        <option value="Beagle">Beagle</option>
+                                        <option value="Bulldog">Bulldog</option>
+                                        <option value="Poodle">Poodle</option>
+                                        <option value="Rottweiler">Rottweiler</option>
+                                        <option value="Yorkshire Terrier">Yorkshire Terrier</option>
+                                        <option value="Boxer">Boxer</option>
+                                        <option value="Dachshund">Dachshund</option>
+                                        <option value="Siberian Husky">Siberian Husky</option>
+                                        <option value="Doberman Pinscher">Doberman Pinscher</option>
+                                        <option value="Great Dane">Great Dane</option>
+                                        <option value="Cavalier King Charles Spaniel">Cavalier King Charles Spaniel</option>
+                                        <option value="Shih Tzu">Shih Tzu</option>
+                                        <option value="Boston Terrier">Boston Terrier</option>
+                                        <option value="Pomeranian">Pomeranian</option>
+                                        <option value="Chihuahua">Chihuahua</option>
+                                        <option value="German Shepherd">German Shepherd</option>
+                                        <option value="Australian Shepherd">Australian Shepherd</option>
+                                        <option value="Pug">Pug</option>
+                                        <option value="Border Collie">Border Collie</option>
+                                        <option value="Cocker Spaniel">Cocker Spaniel</option>
+                                        <option value="Shetland Sheepdog">Shetland Sheepdog</option>
+                                        <option value="French Bulldog">French Bulldog</option>
+                                        <option value="Maltese">Maltese</option>
+                                        <option value="Bull Terrier">Bull Terrier</option>
+                                        <option value="Basset Hound">Basset Hound</option>
+                                        <option value="American Staffordshire Terrier">American Staffordshire Terrier </option>
+                                        <option value="Shiba Inu">Shiba Inu</option>
+                                        <option value="Akita">Akita</option>
+                                        <option value="Bloodhound">Bloodhound</option>
+                                        <option value="Weimaraner">Weimaraner</option>
+                                        <option value="Bernese Mountain Dog">Bernese Mountain Dog</option>
+                                        <option value="Mastiff">Mastiff</option>
+                                        <option value="Saint Bernard">Saint Bernard</option>
+                                        <option value="Newfoundland">Newfoundland</option>
+                                        <option value="Samoyed">Samoyed</option>
+                                        <option value="Portuguese Water Dog">Portuguese Water Dog</option>
+                                        <option value="Irish Setter">Irish Setter</option>
+                                        <option value="Whippet">Whippet</option>
+
+                                        <option value="Yorkshire" style="color: red;">=====Gatos=====</option>
+
+                                        <option value="Maine Coon">Maine Coon</option>
+                                        <option value="Siamês">Siamês</option>
+                                        <option value="Persa">Persa</option>
+                                        <option value="Ragdoll">Ragdoll</option>
+                                        <option value="Bengal">Bengal</option>
+                                        <option value="Sphynx">Sphynx</option>
+                                        <option value="Abyssinian">Abyssinian</option>
+                                        <option value="British Shorthair">British Shorthair</option>
+                                        <option value="Burmese">Burmese</option>
+                                        <option value="Oriental Shorthair">Oriental Shorthair</option>
+                                        <option value="Scottish Fold">Scottish Fold</option>
+                                        <option value="Siamese">Siamese</option>
+                                        <option value="Siberian">Siberian</option>
+                                        <option value="Norwegian Forest Cat">Norwegian Forest Cat</option>
+                                        <option value="American Shorthair">American Shorthair</option>
+                                        <option value="Ragamuffin">Ragamuffin</option>
+                                        <option value="Devon Rex">Devon Rex</option>
+                                        <option value="Russian Blue">Russian Blue</option>
+                                        <option value="Egyptian Mau">Egyptian Mau</option>
+                                        <option value="Cornish Rex">Cornish Rex</option>
+                                        <option value="Tonkinese">Tonkinese</option>
+                                        <option value="Turkish Angora">Turkish Angora</option>
+                                        <option value="Manx">Manx</option>
+                                        <option value="Himalayan">Himalayan</option>
+                                        <option value="American Curl">American Curl</option>
+                                        <option value="Balinese">Balinese</option>
+                                        <option value="Bombay">Bombay</option>
+                                        <option value="Burmilla">Burmilla</option>
+                                        <option value="Chartreux">Chartreux</option>
+                                        <option value="Havana Brown">Havana Brown</option>
+                                        <option value="Japanese Bobtail">Japanese Bobtail</option>
+                                        <option value="Korat">Korat</option>
+                                        <option value="LaPerm">LaPerm</option>
+                                        <option value="Ocicat">Ocicat</option>
+                                        <option value="Somali">Somali</option>
+                                        <option value="Turkish Van">Turkish Van</option>
+                                        <option value="Exotic Shorthair">Exotic Shorthair</option>
+                                        <option value="Pixie-bob">Pixie-bob</option>
+
+                                    </select>
+                                    <p id="erroRaca" class="mensagemErro"></p>
+                                </div>
+                                <div class="opcao-geral-divs">
+                                    <label for="">Pelagem</label>
+                                    <select name="pelagem" id="pelagem">
+                                        <option value="">Selecione...</option>
+                                        <option value="Amarelo">Amarelo</option>
+                                        <option value="Preto c/ Branco">Preto c/ Branco</option>
+                                        <option value="Azul">Azul</option>
+                                        <option value="Branco">Branco</option>
+                                        <option value="Caramelo">Caramelo</option>
+                                        <option value="Preto c/ Branco">Preto c/ Branco</option>
+                                        <option value="Caramelo c/ Branco">Caramelo c/ Branco</option>
+                                        <option value="Cinza">Cinza</option>
+                                        <option value="Vermelho">Vermelho</option>
+                                        <option value="Marrom">Marrom</option>
+                                    </select>
+                                    <p id="erroPelagem" class="mensagemErro"></p>
+                                </div>
+                            </div>
+
+                        </div> 
+                        <div class="opcao-foto" id="opcao-foto" style="display: none;">
+                            <input type="file" id="inputfile" style="display: none;" accept="image/*">
+                            <button type="button" id="botaofile"><iconify-icon icon="solar:gallery-send-broken"></iconify-icon>Selecione a Foto</button><!--! Colocar funcionalidade ao botão -->
+                            <p><span>Atenção!!!</span> Imagem <span>.JPG OU .PNG</span> de no mínimo 150x150px</p>
+                            <img id="preview" style="display: none; max-width: 500px; max-height: 500px;">
+                        </div>
+                        <div class="opcao-extra" id="opcao-extra" style="display: none;">
+
+                            <label for="">Situação de chegada</label>
+                            <textarea cols="30" rows="10"></textarea>
+                            <label for="">Marcações</label>
+                            <textarea cols="30" rows="10"></textarea>
+                            <p>* Cuidados especificos, alimentação, doença, medicações, tratamentos, etc.</p>
+                        </div>
+                        <div class="confirm">
+                            <button type="button" class="confirmar" onclick="adicionarItem2()">Salvar</button>
+                            <a href="buttons.html"><button type="button" class="cancelar">Cancelar</button></a>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <div>
+                <table class="myTable" id="tabela">
+
+                </table>
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; WireLock 2023</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Pronto para sair?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Selecione "Logout" abaixo se você está pronto para terminar a sessão.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <a class="btn btn-primary" href="/prototiposite/OngAdapvindexswitch/loginNovo.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+    <!-- Script icon -->
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <!-- Register Change option -->
+    <script src="js/options.js"></script>
+    <!-- VALIDAÇÃO -->
+    <script src="js/validaocao.js"></script>
+    <!-- TABELA -->
+    <script src="js/tabelaanimal.js"></script>
+</body>
+
+</html>

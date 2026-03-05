@@ -1,0 +1,55 @@
+<link rel="stylesheet" type="text/css"  media="print" href="/css/print.css">
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+<script src="/js/listar/endereco.js"></script>
+
+<h1>Endereços Cadastrados</h1>
+<div style="display: flex; justify-content: space-between;">
+    <a id="novoReg" class="btn btn-secondary" style="max-width: 200px;" href="/endereco/cadastrar">Novo Endereço</a>
+    <div>
+        <button id="btnExportarExcel" class="btn btn-info" >Exportar para Excel</button>
+        <button id="btnExportarPdf"  onclick="window.print()" class="btn btn-info">Exportar para PDF</button>
+    </div>
+</div>
+
+<hr>
+    <div>
+
+        <table id="tabelaEndereco" class="table table-striped">
+            <thead>
+                <th>Id</th>
+                <th>CEP</th>
+                <th>Rua</th>
+                <th>Bairro</th>
+                <th>Numero</th>
+                <th>Cidade</th>
+                <th>Estado</th>
+                <th>Complemento</th>
+                <th>Id pessoa</th>
+                <th>createdAt</th>
+                <th>updatedAt</th>
+            </thead>
+            <tbody>
+                <% for (let i = 0; i < listaEndereco.length; i++) { %>
+                    <tr>
+                        <td><%= listaEndereco[i].end_id %></td>
+                        <td><%= listaEndereco[i].end_cep %></td>
+                        <td><%= listaEndereco[i].end_rua %></td>
+                        <td><%= listaEndereco[i].end_bairro %></td>
+                        <td><%= listaEndereco[i].end_numero %></td>
+                        <td><%= listaEndereco[i].end_cidade %></td>
+                        <td><%= listaEndereco[i].end_estado %></td>
+                        <td><%= listaEndereco[i].end_complemento %></td>
+                        <td><%= listaEndereco[i].pess_id %></td>
+                        <td><%= listaEndereco[i].createdAt %></td>
+                        <td><%= listaEndereco[i].updatedAt %></td>
+                        <td>
+                            <a id="alterabtn" href="/endereco/alterar/<%= listaEndereco[i].end_id %>" class="btn btn-primary"><i class="fas fa-pen"></i></a>
+                            <button id="delbtn" data-codigoexclusao="<%= listaEndereco[i].end_id %>" class="btn btn-danger btnExclusao"><i class="fas fa-trash"></i></button>
+                        </td>
+                        
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+
+    </div>

@@ -1,0 +1,53 @@
+<link rel="stylesheet" type="text/css"  media="print" href="/css/print.css">
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+<script src="/js/listar/pessoa.js"></script>
+
+<h1>Pessoas Cadastradas</h1>
+<div style="display: flex; justify-content: space-between;">
+    <a id="novoReg" class="btn btn-secondary" style="max-width: 200px;" href="/pessoa/cadastrar">Nova Pessoa</a>
+    <div>
+        <button id="btnExportarExcel" class="btn btn-info" >Exportar para Excel</button>
+        <button id="btnExportarPdf"  onclick="window.print()" class="btn btn-info">Exportar para PDF</button>
+    </div>
+</div>
+
+<hr>
+    <div>
+
+        <table id="tabelaPessoas" class="table table-striped">
+            <thead>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>RG</th>
+                <th>Data de Nascimento</th>
+                <th>Nacionalidade</th>
+                <th>Gênero</th>
+                <th>Telefone</th>
+                <th>Registro criado</th>
+                <th>Registro atualizado</th>
+            </thead>
+            <tbody>
+                <% for (let i = 0; i < lista.length; i++) { %>
+                    <tr>
+                        <td><%= lista[i].pess_id %></td>
+                        <td><%= lista[i].pess_nome %></td>
+                        <td><%= lista[i].pess_cpf %></td>
+                        <td><%= lista[i].pess_rg %></td>
+                        <td><%= lista[i].pess_nasc.split("-").reverse().join("/") %></td>
+                        <td><%= lista[i].pess_nacio %></td>
+                        <td><%= lista[i].pess_genero %></td>
+                        <td><%= lista[i].pess_tel %></td>
+                        <td><%= lista[i].createdAt %></td>
+                        <td><%= lista[i].updatedAt %></td>
+                        <td>
+                            <a id="alterabtn" href="/pessoa/alterar/<%= lista[i].pess_id %>" class="btn btn-primary"><i class="fas fa-pen"></i></a>
+                            <button id="delbtn" data-codigoexclusao="<%= lista[i].pess_id %>" class="btn btn-danger btnExclusao"><i class="fas fa-trash"></i></button>
+                        </td>
+                        
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+
+    </div>

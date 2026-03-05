@@ -1,0 +1,62 @@
+<link rel="stylesheet" type="text/css"  media="print" href="/css/print.css">
+<script src="/js/listar/doacoes.js"></script>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+
+<h1>Doações Cadastradas</h1>
+<div style="display: flex; justify-content: space-between;">
+    <a id="novoReg" class="btn btn-secondary" style="max-width: 200px;" href="/doacoes/cadastrar">Nova doação</a>
+    <div>
+        <button id="btnExportarExcel" class="btn btn-info" >Exportar para Excel</button>
+        <button id="btnExportarPdf"  onclick="window.print()" class="btn btn-info">Exportar para PDF</button>
+    </div>
+</div>
+
+<hr>
+    <div>
+
+        <table id="tabelaDoacoes" class="table table-striped">
+            <thead>
+                <th>Id</th>
+                <th>Tipo</th>
+                <th>Descrição</th>
+                <th>Quantidade</th>
+                <th>Doador</th>
+                <th>CPF/CNPJ</th>
+                <th>RG</th>
+                <th>Data de doação</th>
+                <th>Doador registrado</th>
+                <th>Registro criado</th>
+                <th>Registro atualizado</th>
+            </thead>
+            <tbody>
+                <% for (let i = 0; i < listaDoacoes.length; i++) { %>
+                    <% 
+                    for (let j = 0; j < listaPess.length; j++) {
+                        if (listaDoacoes[i].pess_id == listaPess[j].pess_id) {
+                            listaDoacoes[i].pess_id = listaPess[j].pess_nome;
+                        }
+                    }
+                    %>
+                    <tr>
+                        <td><%= listaDoacoes[i].doa_id %></td>
+                        <td><%= listaDoacoes[i].doa_tipo %></td>
+                        <td><%= listaDoacoes[i].doa_desc %></td>
+                        <td><%= listaDoacoes[i].doa_qnt %></td>
+                        <td><%= listaDoacoes[i].doa_doador %></td>
+                        <td><%= listaDoacoes[i].doa_cpf_cnpj %></td>
+                        <td><%= listaDoacoes[i].doa_rg %></td>
+                        <td><%= listaDoacoes[i].doa_data.split("-").reverse().join("/") %></td>
+                        <td><%= listaDoacoes[i].pess_id %></td>
+                        <td><%= listaDoacoes[i].createdAt %></td>
+                        <td><%= listaDoacoes[i].updatedAt %></td>
+                        <td>
+                            <a id="alterabtn" href="/doacoes/alterar/<%= listaDoacoes[i].doa_id %>" class="btn btn-primary"><i class="fas fa-pen"></i></a>
+                            <button id="delbtn" data-codigoexclusao="<%= listaDoacoes[i].doa_id %>" class="btn btn-danger btnExclusao"><i class="fas fa-trash"></i></button>
+                        </td>
+                        
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+
+    </div>

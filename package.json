@@ -1,0 +1,41 @@
+{
+  "name": "ong-adapv",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Guxta-RDM/ONG-ADAPV.git"
+  },
+  "keywords": [
+    "ONG",
+    "Javascript",
+    "SQL",
+    "Node",
+    "MVC"
+  ],
+  "author": "Equipe 7 - PI3",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Guxta-RDM/ONG-ADAPV/issues"
+  },
+  "homepage": "https://github.com/Guxta-RDM/ONG-ADAPV#readme",
+  "dependencies": {
+    "@prisma/client": "^7.4.2",
+    "bootstrap": "^5.3.3",
+    "busca-cep": "^0.5.0",
+    "cookie-parser": "^1.4.6",
+    "ejs": "^3.1.9",
+    "express": "^4.19.2",
+    "express-ejs-layouts": "^2.5.1",
+    "js-datepicker": "^5.18.2",
+    "luxon": "^3.4.4",
+    "mysql2": "^3.9.3"
+  },
+  "devDependencies": {
+    "prisma": "^7.4.2"
+  }
+}

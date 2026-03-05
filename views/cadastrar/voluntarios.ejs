@@ -1,0 +1,28 @@
+<script src="/js/cadastrar/voluntarios.js"></script>
+<div class="container">
+
+    <div class="container-fluid">
+        
+        <h1 class="h3 mb-4 text-gray-800">Registrar Voluntários</h1>
+        <% if (typeof msg != "undefined") {%>
+            <span><%= msg %></span>
+        <% } %>
+
+        <div class="col-md-6">
+            <label for="idVolun" class="form-label">Nome do voluntário<span class="text-danger">*</span></label>
+            <select name="idVolun" class="form-select" id="idVolun">
+                <option value="" selected>Selecione...</option>
+                <% listaPessoa.forEach(function(pessoas) { %>
+                    <option value="<%= pessoas.pess_id %>">NOME: <%= pessoas.pess_nome %> - CPF: <%= pessoas.pess_cpf %></option>
+                <% }); %>
+            </select>
+        </div>
+        <br><br>
+        <div class="col-12">
+            <button type="button" class="btn btn-success px-4 py-3" id="btnCadastrar">Salvar</button>
+            <button type="button" class="btn btn-secondary px-3 py-3" id="cancelar">Cancelar</button>
+        </div>
+
+    </div>
+
+</div>

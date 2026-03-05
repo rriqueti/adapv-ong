@@ -1,0 +1,39 @@
+<script src="/js/cadastrar/estoque.js"></script>
+<div class="container">
+    <div class="container-fluid">
+
+        <h1 class="h3 mb-4 text-gray-800">Cadastrar Estoque</h1>
+        <% if (typeof msg != "undefined") { %>
+            <span><%= msg %></span>
+        <% } %>
+
+        <div class="col-md-6">
+            <label for="prod_id" class="form-label">Produto<span class="text-danger">*</span></label>
+            <select name="prod_id" id="prod_id" class="form-select">
+                <option value="" selected>Selecione...</option>
+                <% listaPro.forEach(function(produto) { %>
+                    <option value="<%= produto.prod_id %>">Nome: <%= produto.prod_nome %></option>
+                <% }); %> 
+            </select>
+        </div>
+
+        <div class="col-md-6">
+            <label for="doa_id" class="form-label">Doação<span class="text-danger">*</span></label>
+            <select name="doa_id" id="doa_id" class="form-select">
+                <option value="" selected>Selecione...</option>
+                <% listaDoa.forEach(function(doacoes) { %>
+                    <option value="<%= doacoes.doa_id %>">NOME: <%= doacoes.doa_doador %> - CPF: <%= doacoes.doa_cpf_cnpj%></option>
+                <% }); %>
+            </select>
+        </div>
+
+        <br>
+        <br>
+
+        <div class="col-12">
+            <button type="button" class="btn btn-success px-4 py-3" id="btnCadastrar">Salvar</button>
+            <button type="button" class="btn btn-secondary px-3 py-3" id="cancelar">Cancelar</button>
+        </div>
+
+    </div>
+</div>

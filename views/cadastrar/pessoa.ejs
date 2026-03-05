@@ -1,0 +1,93 @@
+<script src="/js/cadastrar/pessoa.js"></script>
+
+<script>
+    function formatCPF(cpf) {
+        var v = cpf.value;
+
+        if (v.length == 4 || v.length == 8) {
+            cpf.value = v.replace(/[^0-9.-]/g, "").slice(0, -1) + ".";
+        } else if (v.length == 12) {
+            cpf.value = v.replace(/[^0-9.-]/g, "").slice(0, -1) + "-";
+        } else if (v.length == 15) {
+            cpf.value = v.replace(/[^0-9.-]/g, "");
+        }
+    }
+
+    function formatRG(rg) {
+        var v = rg.value;
+
+        if (v.length == 3 || v.length == 7) {
+            rg.value = v.replace(/[^0-9.-]/g, "").slice(0, -1) + ".";
+        } else if (v.length == 11) {
+            rg.value = v.replace(/[^0-9.-]/g, "").slice(0, -1) + "-";
+        }
+    }
+
+    function formatCelular(celular) {
+        var v = celular.value;
+
+        if (v.length == 2) {
+            celular.value = "(" + v.replace(/[^0-9-()]/g, "").slice(0, -1);
+        } else if (v.length == 4) {
+            celular.value = v.replace(/[^0-9-()]/g, "").slice(0, -1) + ")";
+        } else if (v.length == 10) {
+            celular.value = v.replace(/[^0-9-()]/g, "").slice(0, -1) + "-";
+        } else if (v.length == 15) {
+            celular.value = v.replace(/[^0-9-()]/g, "");
+        }
+    }
+</script>
+<div class="container">
+    <div class="container-fluid">
+
+     <h1 class="h3 mb-4 text-gray-800">Cadastrar Pessoa</h1>
+        <div>
+            <% if (typeof msg != "undefined") { %>             
+                <span  ><%= msg %></span>
+            <% } %>
+        </div>   
+
+        <div class="col-md-6">
+            <label for="nome" class="form-label">Nome<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite o nome da pessoa" maxlength="200">
+        </div>
+        <div class="col-md-6">
+            <label for="cpf" class="form-label">CPF<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Digite o CPF da pessoa" oninput="formatCPF(this)" maxlength="14">
+        </div>
+        <div class="col-md-6">
+            <label for="rg" class="form-label">RG<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="rg" name="rg" placeholder="Digite o RG da pessoa" maxlength="13" oninput="formatRG(this)">
+        </div>
+        <div class="col-md-6">
+            <label for="dataNasc" class="form-label">Data de Nascimento<span class="text-danger">*</span></label>
+            <input type="date" class="form-control" id="dataNasc" name="dataNasc" placeholder="Digite a data de nascimento da pessoa" >
+        </div>
+        <div class="col-md-6">
+            <label for="nacio" class="form-label">Nacionalidade<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="nacio" name="nacio" placeholder="Digite a nacionalidade da pessoa" maxlength="200">
+        </div>
+        <div class="col-md-6">
+            <label for="gene" class="form-label">Gênero<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="gene" name="gene" placeholder="Digite o gênero da pessoa" maxlength="200">
+        </div>
+        <div class="col-md-6">
+            <label for="telefone" class="form-label">Telefone<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="telefone" name="telefone" placeholder="Digite o número de telefone da pessoa" oninput="formatCelular(this)" maxlength="14">
+        </div>
+        <div class="col-md-6">
+            <label for="tipo" class="form-label">Tipo<span class="text-danger">*</span></label>
+            <select id="tipo" class="form-select" name="tipo">
+                <option value="" selected>Selecione...</option>
+                <option value="ADM">ADM</option>
+                <option value="Normal">Normal</option>
+            </select>
+        </div>
+
+        <br><br>
+        <div class="col-12">
+            <button type="button" class="btn btn-success px-4 py-3" id="btnCadastrar">Salvar</button>
+            <button type="button" class="btn btn-secondary px-3 py-3" id="cancelar">Cancelar</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+<script src="/js/cadastrar/projeto.js"></script>
+<div class="container">
+    <div class="container-fluid">
+
+        <h1 class="h3 mb-4 text-gray-800">Registrar Projeto</h1>
+        <% if (typeof msg != "undefined") { %>
+            <span><%= msg %></span>
+        <% } %>
+
+        <div class="col-md-6">
+            <label for="nomePro" class="form-label">Nome do Projeto<span class="text-danger">*</span></label>
+            <input type="text" name="nomePro" class="form-control" id="nomePro" placeholder="Digite o nome do projeto">
+        </div>
+
+        <div class="col-md-6">
+            <label for="dataPro" class="form-label">Data do Projeto<span class="text-danger">*</span></label>
+            <input type="date" name="dataPro" class="form-control" id="dataPro" placeholder="aaaa-mm-dd">
+        </div>
+
+        <div class="col-md-6">
+            <label for="descPro" class="form-label">Descrição do Projeto<span class="text-danger">*</span></label>
+            <input type="text" name="descPro" class="form-control" id="descPro" placeholder="Dê uma descrição para o projeto">
+        </div>
+
+        <br>
+        <br>
+
+        <div class="col-12">
+            <button type="button" class="btn btn-success px-4 py-3" id="btnCadastrar">Salvar</button>
+            <button type="button" class="btn btn-secondary px-3 py-3" id="cancelar">Cancelar</button>
+        </div>
+
+    </div>
+</div>

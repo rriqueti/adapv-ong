@@ -1,0 +1,65 @@
+<script src="/js/alterar/atividades.js"></script>
+<div class="container">
+    <div class="container-fluid">
+
+     <h1 class="h3 mb-4 text-gray-800">Alterar Atividade</h1>
+        <div>
+            <% if (typeof msg != "undefined") { %>             
+                <span  ><%= msg %></span>
+            <% } %>
+        </div>   
+
+        <input id="id" hidden value="<%= atividade.atv_id %>">
+        <input id="createdAt" hidden value="<%= atividade.createdAt %>">
+        <div class="col-md-4">
+            <label for="atv_nome" class="form-label">Nome da atividade<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="atv_nome" name="atv_nome" placeholder="Digite o nome da atividade" value="<%= atividade.atv_nome %>" maxlength="200">
+        </div>
+        
+        <div class="col-md-8">
+            <label for="atv_desc" class="form-label">Descrição<span class="text-danger">*</span></label>
+            <input class="form-control" id="atv_desc" name="atv_desc" placeholder="Digite a descrição da atividade" value="<%= atividade.atv_desc %>" maxlength="200">
+        </div>
+        
+        <div class="col-md-4">
+            <label for="atv_data" class="form-label">Data<span class="text-danger">*</span></label>
+            <input type="date" class="form-control" id="atv_data" name="atv_data" value="<%= atividade.atv_data %>">
+        </div>
+        
+        <div class="col-md-4">
+            <label for="vol_id" class="form-label">Voluntário</label>
+            <select name="vol_id" id="vol_id" class="form-select">
+                <option value="" selected disabled>Selecione...</option>
+                <% listaVolun.forEach(function(volun) { %>
+                    <% var isPessoa = listaPessVolun.find(pessoa => pessoa.pess_id === volun.pess_id) %>
+                    <option value="<%= volun.vol_id %>" <%= atividade.vol_id === volun.vol_id ? "selected" : "" %> > <%= volun.vol_id %> - Nome: <%= isPessoa.pess_nome %> - CPF: <%= isPessoa.pess_cpf%></option>
+                <% }); %>
+            </select>
+        </div>
+        
+        <div class="col-md-4">
+            <label for="emp_id" class="form-label">Empresa</label>
+            <select name="emp_id" id="emp_id" class="form-select">
+                <option value="" selected disabled>Selecione...</option>
+                <% listaEmp.forEach(function(empresa) { %>
+                    <option value="<%= empresa.emp_id %>" <%= atividade.emp_id === empresa.emp_id ? "selected" : "" %> > <%= empresa.emp_id %> - Nome: <%= empresa.emp_nome %>%></option>
+                <% }); %>
+            </select>        
+        </div>
+        
+        <div class="col-md-4">
+            <label for="pro_id" class="form-label">Projeto<span class="text-danger">*</span></label>
+            <select name="pro_id" id="pro_id" class="form-select">
+                <option value="" selected disabled>Selecione...</option>
+                <% listaProj.forEach(function(projeto) { %>
+                    <option value="<%= projeto.pro_id %>" <%= atividade.pro_id === projeto.pro_id ? "selected" : "" %> > <%= projeto.pro_id %> - <%= projeto.pro_nome %> - Descrição: <%= projeto.pro_desc %>%></option>
+                <% }); %>
+            </select>         </div>
+
+        <br><br>
+        <div class="col-12">
+            <button type="button" class="btn btn-success px-4 py-3" id="btnAlterar">Salvar</button>
+            <button type="button" class="btn btn-secondary px-3 py-3" id="cancelar">Cancelar</button>
+        </div>
+    </div>
+</div>

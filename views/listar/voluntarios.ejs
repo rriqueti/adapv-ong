@@ -1,0 +1,45 @@
+<link rel="stylesheet" type="text/css"  media="print" href="/css/print.css">
+<script src="/js/listar/voluntarios.js"></script>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+
+<h1>Voluntarios Registrados</h1>
+<div style="display: flex; justify-content: space-between;">
+    <a id="novoReg" class="btn btn-secondary" style="max-width: 200px;" href="/voluntarios/cadastrar">Novo Voluntário</a>
+    <div>
+        <button id="btnExportarExcel" class="btn btn-info" >Exportar para Excel</button>
+        <button id="btnExportarPdf"  onclick="window.print()" class="btn btn-info">Exportar para PDF</button>
+    </div>
+</div>
+
+<hr>
+    <div>
+        <table id="tabelaVolunt" class="table table-striped">
+            <thead>
+                <th>Id</th>
+                <th>Pessoa</th>
+                <th>Data de Registro</th>
+                <th>Data de Atualização</th>
+            </thead>
+            <tbody>
+                <% for (let i = 0; i < listaVolun.length; i++)  { %>
+                    <%
+                    for (let j = 0; j < listaPessoa.length; j++) {
+                        if (listaVolun[i].pess_id == listaPessoa[j].pess_id) {
+                            listaVolun[i].pess_id = listaPessoa[j].pess_nome;
+                        }
+                    }
+                    %>
+                    <tr>
+                        <td><%= listaVolun[i].vol_id %></td>
+                        <td><%= listaVolun[i].pess_id %></td>
+                        <td><%= listaVolun[i].createdAt %></td> 
+                        <td><%= listaVolun[i].updatedAt %></td>
+                        <td>
+                            <a id="alterabtn" href="/voluntarios/alterar/<%= listaVolun[i].vol_id %>" class="btn btn-primary"><i class="fas fa-pen"></i></a>
+                            <button id="delbtn" data-codigoexclusao="<%= listaVolun[i].vol_id %>" class="btn btn-danger btnExclusao"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>

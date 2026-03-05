@@ -1,0 +1,43 @@
+<script src="/js/alterar/eventos.js"></script>
+<div class="container">
+
+    <div class="container-fluid">
+
+        <h1 class="h3 mb-4 text-gray-800">Alterar Evento</h1>
+        <% if (typeof msg != "undefined") {%>
+            <span><%= msg %></span>
+        <% } %>
+        <input type="text" id="even_id" hidden value="<%= evento.even_id %>">
+        <input type="text" id="createdAt" hidden value="<%= evento.createdAt %>">
+        <div class="col-md-6">
+            <label for="even_nome" class="form-label">Nome do Evento<span class="text-danger">*</span></label>
+            <input value="<%= evento.even_nome %>" type="text" class="form-control" id="even_nome" name="even_nome" placeholder="Digite o nome do evento" maxlength="200">
+        </div>
+        <div class="col-md-6">
+            <label for="even_descricao" class="form-label">Descrição do Evento<span class="text-danger">*</span></label>
+            <input value="<%= evento.even_descricao %>" type="text" class="form-control" id="even_descricao" name="even_descricao" placeholder="Digite uma descrição do evento" maxlength="200">
+        </div>
+        <div class="col-md-6">
+            <label for="even_local" class="form-label">Local do Evento<span class="text-danger">*</span></label>
+            <input value="<%= evento.even_local %>" type="text" class="form-control" id="even_local" name="even_local" placeholder="Digite o local do evento" maxlength="200">
+        </div>
+        <div class="col-md-6">
+            <label for="even_dataInicio" class="form-label">Data de Início<span class="text-danger">*</span></label>
+            <input value="<%= evento.even_dataInicio %>" type="date" class="form-control" id="even_dataInicio" name="even_dataInicio" placeholder="Digite a data de início do evento">
+        </div>
+        <div class="col-md-6">
+            <label for="even_dataFinal" class="form-label">Data de Término<span class="text-danger">*</span></label>
+            <input value="<%= evento.even_dataFinal %>" type="date" class="form-control" id="even_dataFinal" name="even_dataFinal" placeholder="Digite a data de término do evento">
+        </div>
+
+        <br>
+        <br>
+
+        <div class="col-12">
+            <button type="button" class="btn btn-success px-4 py-3" id="btnAlterar">Salvar</button>
+            <button type="button" class="btn btn-secondary px-3 py-3" id="cancelar">Cancelar</button>
+        </div>
+
+    </div>
+
+</div>

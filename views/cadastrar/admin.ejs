@@ -1,0 +1,37 @@
+<script src="/js/cadastrar/admin.js"></script>
+<div class="container">
+
+    <div class="container-fluid">
+        
+        <h1 class="h3 mb-4 text-gray-800">Registrar novo administrador</h1>
+        <% if (typeof msg != "undefined") {%>
+            <span><%= msg %></span>
+        <% } %>
+
+        <div class="col-md-6">
+            <label for="pess_id" class="form-label">Pessoa<span class="text-danger">*</span></label>
+            <select name="pess_id" id="pess_id" class="form-select">
+                <option value="" selected disabled>Selecione...</option>
+                <% listaPessoa.forEach(function(pessoa) { %>
+                    <option value="<%= pessoa.pess_id %>"> <%= pessoa.pess_id %> - Nome: <%= pessoa.pess_nome %> - CPF: <%= pessoa.pess_cpf%></option>
+                <% }); %>
+            </select>
+        </div>
+
+        <div class="col-md-6">
+            <label for="adm_email" class="form-label">Email<span class="text-danger">*</span></label>
+            <input type="text" name="adm_email" id="adm_email" class="form-control" placeholder="Insira seu email">
+        </div>
+        <div class="col-md-6">
+            <label for="adm_senha" class="form-label">Senha<span class="text-danger">*</span></label>
+            <input type="password" name="adm_senha" id="adm_senha" class="form-control" placeholder="Insira sua senha">
+        </div>
+        <br><br>
+        <div class="col-12">
+            <button type="button" class="btn btn-success px-4 py-3" id="btnCadastrar">Salvar</button>
+            <button type="button" class="btn btn-secondary px-3 py-3" id="cancelar">Cancelar</button>
+        </div>
+
+    </div>
+
+</div>

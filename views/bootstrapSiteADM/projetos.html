@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" type="image/x-icon" href="/prototiposite/OngAdapvindexswitch/imagens/CatDogScPng Oficial.png">
+
+    <title>GuiaPet - Cadastrar Projetos</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="/prototiposite/OngAdapvindexswitch/bootstrapSiteADM/vendor/fontawesome-free/css/all.min.css"
+        rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/prototiposite/OngAdapvindexswitch/bootstrapSiteADM/css/sb-admin-2.min.css" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-laugh-wink"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">GuiaPet</div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active alinharlogos">
+                <a href="/prototiposite/OngAdapvindexswitch/index.html">
+                    <img src="img/CatDogScPngOficialPretoeBranco.png" alt="logotipo" class="imglogo">
+                    <span class="nomelogo">ADAPV</span>
+                </a>
+            </li>
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Interface
+            </div>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Painel de Controle</span></a>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Cadastrar</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Opções: </h6>
+                        <a class="collapse-item" href="buttons.html">Animais</a>
+                        <a class="collapse-item" href="cards.html">Voluntários</a>
+                        <a class="collapse-item" href="projetos.html">Projetos</a>
+                        <a class="collapse-item" href="empresa.html">Empresas</a>
+                        <a class="collapse-item" href="adocoes.html">Adoções</a>
+                        <a class="collapse-item" href="doacoes.html">Doações</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Utilities Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                    aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-fw fa-wrench"></i>
+                    <span>Buscar</span>
+                </a>
+                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Opções: </h6>
+                        <a class="collapse-item" href="listaranimais.html">Lista Animais</a>
+                        <a class="collapse-item" href="listarvoluntarios.html">Lista Voluntários</a>
+                        <a class="collapse-item" href="listarprojetos.html">Lista Projetos</a>
+                        <a class="collapse-item" href="listarempresas.html">Lista Empresas</a>
+                        <a class="collapse-item" href="listaradocoes.html">Lista Adoções</a>
+                        <a class="collapse-item" href="listardoacoes.html">Lista Doações</a>
+                    </div>
+                </div>
+            </li>
+
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <!-- Topbar Search -->
+                    <form
+                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Procure por..."
+                                aria-label="Search" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <li class="nav-item dropdown no-arrow d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search fa-fw"></i>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small"
+                                            placeholder="Search for..." aria-label="Search"
+                                            aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Alerts -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw"></i>
+                                <!-- Counter - Alerts -->
+                                <span class="badge badge-danger badge-counter">3+</span>
+                            </a>
+                            <!-- Dropdown - Alerts -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header">
+                                    Notificações
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-primary">
+                                            <i class="fas fa-file-alt text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">Dezembro 13, 2023</div>
+                                        <span class="">Lembrete: Vacinação do cão Max em 21/12/2023, 10h.</span>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-success">
+                                            <i class="fas fa-donate text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">Dezembro 15, 2023</div>
+                                        Alcançamos a meta do mês de 1500 reais! Obrigado a todos pelo apoio!.
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-warning">
+                                            <i class="fas fa-exclamation-triangle text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">Dezembro 16, 2019</div>
+                                        Por favor, realizem a atualização de segurança no painel administrativo imediatamente para proteger nossos dados e sistemas.
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Mostrar todas notificações</a>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Messages -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-envelope fa-fw"></i>
+                                <!-- Counter - Messages -->
+                                <span class="badge badge-danger badge-counter">7</span>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="messagesDropdown">
+                                <h6 class="dropdown-header">
+                                    Centro de Mensagens
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="img/undraw_profile_1.svg"
+                                            alt="...">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div class="font-weight-bold">
+                                        <div class="text-truncate">Estou com problemas para acessar o site. Podem ajudar?</div>
+                                        <div class="small text-gray-500">Sara Souza · 58m</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="img/undraw_profile_2.svg"
+                                            alt="...">
+                                        <div class="status-indicator"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Encontrei um erro na página de doações. Podem verificar?</div>
+                                        <div class="small text-gray-500">Morgan Freeman · 1d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="img/undraw_profile_3.svg"
+                                            alt="...">
+                                        <div class="status-indicator bg-warning"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Sugiro adicionar doações mensais automáticas no site.</div>
+                                        <div class="small text-gray-500">André Rodrigues · 2d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
+                                            alt="...">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Ótimo trabalho no site! Interface muito amigável.</div>
+                                        <div class="small text-gray-500">Hector Pereira · 2w</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Ler mais mensagens</a>
+                            </div>
+                        </li>
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Victor Hugo</span>
+                                <img class="img-profile rounded-circle"
+                                    src="img/undraw_profile.svg">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Perfil
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Configurações
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Registro Ativo
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-4 text-gray-800">Cadastrar Projetos</h1>
+                    <!--! Colocar filtragem, completar com as informações cada input e select, implementar funcionalidade de salvar. -->
+                    <div class="div-principal">
+                        <div class="subtitulo-nome">
+                            <h5><b>Nome</b></h5>
+                            <a href="index.html">
+                                <button type="button"><iconify-icon icon="mingcute:arrow-up-fill"
+                                        rotate="270deg"></iconify-icon>Voltar</button>
+                            </a>
+                        </div>
+
+                        <div class="opcoes-de-cadastro">
+                            <button type="button" id="botao-geral" class="ativo">Geral</button>
+                            <button type="button" id="botao-foto" class="" style="display: none;">Endereço</button>
+                            <button type="button" id="botao-extra" class="" style="display: none;">Extra</button>
+                        </div>
+                        <div class="opcao-geral" id="opcao-geral">
+                            <div class="quebra-volun-nomes">
+                                <div class="opcao-geral-nomes">
+                                    <label for="">Nome do Voluntário<span>*</span></label>
+                                    <select id="volun" multiple="multiple" style="width: 100%;">
+                                        <option value="Gabriel">Gabriel</option>
+                                        <option value="Gabriela">Gabriela</option>
+                                        <option value="João">João</option>
+                                        <option value="Maria">Maria</option>
+                                        <option value="Melyna">Melyna</option>
+                                        <!-- Adicione outras opções conforme necessário -->
+                                      </select>
+                                      <p id="erroVolun" class="mensagemErro"></p>
+                                </div>
+                                <div class="opcao-geral-nomes">
+                                    <label for="">Nome da Empresa<span>*</span></label>
+                                    <select id="empresa" multiple="multiple" style="width: 100%;">
+                                        <option value="MKRacoes">MK Rações</option>
+                                        <option value="Petland">Petland</option>
+                                        <option value="Apple">Apple</option>
+                                        <option value="Microsoft">Microsoft</option>
+                                        <option value="Google">Google</option>
+                                        <option value="Amazon">Amazon</option>
+                                        <option value="Facebook">Facebook</option>
+                                        <option value="Tesla">Tesla</option>
+                                        <option value="Samsung">Samsung</option>
+                                        <option value="Toyota">Toyota</option>
+                                        <option value="CocaCola">Coca-Cola</option>
+                                        <option value="Nike">Nike</option>
+                                        <!-- Adicione outras opções conforme necessário -->
+                                      </select>
+                                      <p id="erroEmpresa" class="mensagemErro"></p>
+                                </div>
+                            </div>
+                            <div class="quebra-volun-doc">
+                                <div class="opcao-geral-docs">
+                                    <label for="">Nome do Projeto<span>*</span></label>
+                                    <input type="text" id="nome" placeholder="Digite o nome do projeto"/>
+                                    <p id="erroNome" class="mensagemErro"></p>
+                                </div>
+                                <div class="opcao-geral-docs">
+                                    <label for="">Data<span>*</span></label>
+                                    <input type="text" id="campoData" placeholder="dd/mm/aaaa" maxlength="10"onkeyup="vData(this)">
+                                    <p id="erroData" class="mensagemErro"></p>
+                                </div>
+                            </div>
+                            <div class="quebra-volun-detail">
+                                <div class="opcao-geral-docs">
+                                    <label for="">Descrição<span>*</span></label>
+                                    <textarea cols="50" rows="10" id="descricao"></textarea>
+                                    <p id="erroDescricao" class="mensagemErro"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="opcao-foto opcao-geral" id="opcao-foto" style="display: none;">
+                            <div class="quebra-volun-nomes">
+                                <div class="opcao-geral-divs">
+                                    <label for="">CEP</label>
+                                    <input type="text" id="campoCEP" onkeypress="mCEP(this)" maxlength="10" placeholder="00.000-000">
+                                </div>
+                                <div class="opcao-geral-nomes">
+                                    <label for="">Endereço</label>
+                                    <input type="text" id="campoRua" class="nomecompleto" placeholder="Rua da empresa">
+                                </div>
+                                <div class="opcao-geral-docs">
+                                    <label for="">Número</label>
+                                    <input type="number" id="campoNum" placeholder="xxx">
+                                </div>
+                            </div>
+                            <div class="quebra-volun-doc">
+
+                                <div class="opcao-geral-docs">
+                                    <label for="">Bairro</label>
+                                    <input type="text" placeholder="Bairro da Empresa">
+                                </div>
+                                <div class="opcao-geral-divs">
+                                    <label for="">Complemento</label>
+                                    <input type="text" id="datanascimento" placeholder="">
+                                </div>
+                            </div>
+                            <div class="quebra-volun-detail">
+
+                                <div class="opcao-geral-divs">
+                                    <label for="">Cidade<span>*</span></label>
+                                    <select name="City" id="Citys">
+                                        <option value="Selecione...">Selecione...</option>
+                                        <option value="Americana">Americana</option>
+                                        <option value="Araraquara">Araraquara</option>
+                                        <option value="Atibaia">Atibaia</option>
+                                        <option value="Barueri">Barueri</option>
+                                        <option value="Bauru">Bauru</option>
+                                        <option value="Botucatu">Botucatu</option>
+                                        <option value="Bragança Paulista">Bragança Paulista</option>
+                                        <option value="Campinas">Campinas</option>
+                                        <option value="Cotia">Cotia</option>
+                                        <option value="Diadema">Diadema</option>
+                                        <option value="Ferraz de Vasconcelos">Ferraz de Vasconcelos</option>
+                                        <option value="Franca">Franca</option>
+                                        <option value="Guarulhos">Guarulhos</option>
+                                        <option value="Hortolândia">Hortolândia</option>
+                                        <option value="Indaiatuba">Indaiatuba</option>
+                                        <option value="Itanhaém">Itanhaém</option>
+                                        <option value="Itapevi">Itapevi</option>
+                                        <option value="Itaquaquecetuba">Itaquaquecetuba</option>
+                                        <option value="Itu">Itu</option>
+                                        <option value="Jacareí">Jacareí</option>
+                                        <option value="Jundiaí">Jundiaí</option>
+                                        <option value="Limeira">Limeira</option>
+                                        <option value="Marília">Marília</option>
+                                        <option value="Mogi das Cruzes">Mogi das Cruzes</option>
+                                        <option value="Osasco">Osasco</option>
+                                        <option value="Pindamonhangaba">Pindamonhangaba</option>
+                                        <option value="Piracicaba">Piracicaba</option>
+                                        <option value="Presidente Prudente">Presidente Prudente</option>
+                                        <option value="Ribeirão Preto">Ribeirão Preto</option>
+                                        <option value="Santo André">Santo André</option>
+                                        <option value="Santos">Santos</option>
+                                        <option value="São Bernardo do Campo">São Bernardo do Campo</option>
+                                        <option value="São Caetano do Sul">São Caetano do Sul</option>
+                                        <option value="São Carlos">São Carlos</option>
+                                        <option value="São José dos Campos">São José dos Campos</option>
+                                        <option value="São Paulo">São Paulo</option>
+                                        <option value="São Vicente">São Vicente</option>
+                                        <option value="Sorocaba">Sorocaba</option>
+                                        <option value="Sumaré">Sumaré</option>
+                                        <option value="Suzano">Suzano</option>
+                                        <option value="Taubaté">Taubaté</option>
+                                    </select>
+                                </div>
+                                <div class="opcao-geral-divs">
+                                    <label for="">Estado<span>*</span></label>
+                                    <select name="Estadu" id="Estadu">
+                                        <option value="Selecione...">Selecione...</option>
+                                        <!-- Acre -->
+                                        <option value="Rio Branco">Rio Branco</option>
+                                        <option value="Cruzeiro do Sul">Cruzeiro do Sul</option>
+                                        <option value="Senador Guiomard">Senador Guiomard</option>
+                                        <option value="Tarauacá">Tarauacá</option>
+                                        <option value="Feijó">Feijó</option>
+
+                                        <!-- Alagoas -->
+                                        <option value="Maceió">Maceió</option>
+                                        <option value="Arapiraca">Arapiraca</option>
+                                        <option value="Palmeira dos Índios">Palmeira dos Índios</option>
+                                        <option value="Rio Largo">Rio Largo</option>
+                                        <option value="União dos Palmares">União dos Palmares</option>
+
+                                        <!-- Amapá -->
+                                        <option value="Macapá">Macapá</option>
+                                        <option value="Santana">Santana</option>
+                                        <option value="Laranjal do Jari">Laranjal do Jari</option>
+                                        <option value="Oiapoque">Oiapoque</option>
+                                        <option value="Porto Grande">Porto Grande</option>
+
+                                        <!-- Amazonas -->
+                                        <option value="Manaus">Manaus</option>
+                                        <option value="Parintins">Parintins</option>
+                                        <option value="Itacoatiara">Itacoatiara</option>
+                                        <option value="Manacapuru">Manacapuru</option>
+                                        <option value="Coari">Coari</option>
+
+                                        <!-- Bahia -->
+                                        <option value="Salvador">Salvador</option>
+                                        <option value="Feira de Santana">Feira de Santana</option>
+                                        <option value="Vitória da Conquista">Vitória da Conquista</option>
+                                        <option value="Camaçari">Camaçari</option>
+                                        <option value="Juazeiro">Juazeiro</option>
+
+                                        <!-- Ceará -->
+                                        <option value="Fortaleza">Fortaleza</option>
+                                        <option value="Caucaia">Caucaia</option>
+                                        <option value="Juazeiro do Norte">Juazeiro do Norte</option>
+                                        <option value="Maracanaú">Maracanaú</option>
+                                        <option value="Sobral">Sobral</option>
+
+                                        <!-- Espírito Santo -->
+                                        <option value="Vitória">Vitória</option>
+                                        <option value="Vila Velha">Vila Velha</option>
+                                        <option value="Serra">Serra</option>
+                                        <option value="Cariacica">Cariacica</option>
+                                        <option value="Linhares">Linhares</option>
+
+                                        <!-- Goiás -->
+                                        <option value="Goiânia">Goiânia</option>
+                                        <option value="Aparecida de Goiânia">Aparecida de Goiânia</option>
+                                        <option value="Anápolis">Anápolis</option>
+                                        <option value="Rio Verde">Rio Verde</option>
+                                        <option value="Luziânia">Luziânia</option>
+
+                                        <!-- Maranhão -->
+                                        <option value="São Luís">São Luís</option>
+                                        <option value="Imperatriz">Imperatriz</option>
+                                        <option value="São José de Ribamar">São José de Ribamar</option>
+                                        <option value="Timon">Timon</option>
+                                        <option value="Caxias">Caxias</option>
+
+                                        <!-- Mato Grosso -->
+                                        <option value="Cuiabá">Cuiabá</option>
+                                        <option value="Várzea Grande">Várzea Grande</option>
+                                        <option value="Rondonópolis">Rondonópolis</option>
+                                        <option value="Sinop">Sinop</option>
+                                        <option value="Tangará da Serra">Tangará da Serra</option>
+
+                                        <!-- Mato Grosso do Sul -->
+                                        <option value="Campo Grande">Campo Grande</option>
+                                        <option value="Dourados">Dourados</option>
+                                        <option value="Três Lagoas">Três Lagoas</option>
+                                        <option value="Corumbá">Corumbá</option>
+                                        <option value="Ponta Porã">Ponta Porã</option>
+
+                                        <!-- Minas Gerais -->
+                                        <option value="Belo Horizonte">Belo Horizonte</option>
+                                        <option value="Uberlândia">Uberlândia</option>
+                                        <option value="Contagem">Contagem</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="opcao-extra" id="opcao-extra" style="display: none;">
+
+                            <label for="">Marcações</label>
+                            <textarea cols="30" rows="10"></textarea>
+                            <label for="">Observações</label>
+                            <textarea cols="30" rows="10"></textarea>
+                            <p>Sugestões: Alergias, preferência de afazeres. aptidões, dias disponíveis para ajudar,
+                                etc.</p>
+                        </div>
+                        <div class="confirm">
+                            <button type="button" class="confirmar" onclick="adicionarProjeto()">Salvar</button>
+                            <a href="projetos.html"><button type="button" class="cancelar">Cancelar</button></a>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <!-- /.container-fluid -->
+                
+            </div>
+            <div>
+                <table class="myTable" id="tabela">
+
+                </table>
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; WireLock 2023</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Pronto para sair?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Selecione "Logout" abaixo se você está pronto para terminar a sessão.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <a class="btn btn-primary" href="/prototiposite/OngAdapvindexswitch/loginNovo.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+    <!-- Script icon -->
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <!-- Register Change option -->
+    <script src="js/options.js"></script>
+    <!-- VALIDAÇÃO -->
+    <script src="js/validaocao.js"></script>
+    <!-- ADICIONAR TABELA -->
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>\
+    <script src="js/multiselect.js"></script>
+    <script src="js/tabelaProj.js"></script>
+</body>
+
+</html>

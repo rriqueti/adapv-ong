@@ -1,0 +1,72 @@
+<link rel="stylesheet" type="text/css"  media="print" href="/css/print.css">
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+<script src="/js/listar/atividades.js"></script>
+
+<h1>Atividades Cadastradas</h1>
+<div style="display: flex; justify-content: space-between;">
+    <a id="novoReg" class="btn btn-secondary" style="max-width: 200px;" href="/atividades/cadastrar">Nova atividade</a>
+    <div>
+        <button id="btnExportarExcel" class="btn btn-info" >Exportar para Excel</button>
+        <button id="btnExportarPdf"  onclick="window.print()" class="btn btn-info">Exportar para PDF</button>
+    </div>
+</div>
+
+<hr>
+    <div>
+
+        <table id="tabelaAtiv" class="table table-striped">
+            <thead>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Data</th>
+                <th>Voluntário participante</th>
+                <th>Empresa investidora</th>
+                <th>Projeto responsável</th>
+                <th>Registro criado</th>
+                <th>Registro atualizado</th>
+            </thead>
+            <tbody>
+                <% for (let i = 0; i < listaAtividade.length; i++) { %>
+                    <%
+                    for(let j = 0; j < listaVolun.length; j++){
+                        if(listaVolun[j].vol_id == listaAtividade[i].vol_id){
+                            for(let k = 0; k < listaPessoa.length; k++){
+                                if(listaPessoa[k].pess_id == listaVolun[j].pess_id){
+                                    listaAtividade[i].vol_id = listaPessoa[k].pess_nome
+                                }
+                            }
+                        }
+                    }
+                    for(let j = 0; j < listaEmp.length; j++){
+                        if(listaEmp[j].emp_id == listaAtividade[i].emp_id){
+                            listaAtividade[i].emp_id = listaEmp[j].emp_nome
+                        }
+                    }
+                    for(let j = 0; j < listaProj.length; j++){
+                        if(listaProj[j].pro_id == listaAtividade[i].pro_id){
+                            listaAtividade[i].pro_id = listaProj[j].pro_nome
+                        }
+                    }
+                    %>
+                    <tr>
+                        <td><%= listaAtividade[i].atv_id %></td>
+                        <td><%= listaAtividade[i].atv_nome %></td>
+                        <td><%= listaAtividade[i].atv_desc %></td>
+                        <td><%= listaAtividade[i].atv_data.split("-").reverse().join("/") %></td>
+                        <td><%= listaAtividade[i].vol_id %></td>
+                        <td><%= listaAtividade[i].emp_id %></td>
+                        <td><%= listaAtividade[i].pro_id %></td>
+                        <td><%= listaAtividade[i].createdAt %></td>
+                        <td><%= listaAtividade[i].updatedAt %></td>
+                        <td>
+                            <a id="alterabtn" href="/atividades/alterar/<%= listaAtividade[i].atv_id %>" class="btn btn-primary"><i class="fas fa-pen"></i></a>
+                            <button id="delbtn" data-codigoexclusao="<%= listaAtividade[i].atv_id %>" class="btn btn-danger btnExclusao"><i class="fas fa-trash"></i></button>
+                        </td>
+                        
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+
+    </div>

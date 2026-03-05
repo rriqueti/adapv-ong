@@ -1,0 +1,48 @@
+<link rel="stylesheet" type="text/css"  media="print" href="/css/print.css">
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+<script src="/js/listar/produtos.js"></script>
+
+<h1>Produtos Registrados</h1>
+<div style="display: flex; justify-content: space-between;">
+    <a id="novoReg" class="btn btn-secondary" style="max-width: 200px;" href="/produtos/cadastrar">Novo Produto</a>
+    <div>
+        <button id="btnExportarExcel" class="btn btn-info" >Exportar para Excel</button>
+        <button id="btnExportarPdf"  onclick="window.print()" class="btn btn-info">Exportar para PDF</button>
+    </div>
+</div>
+
+<hr>
+<div>
+    <table id="tabelaProduto" class="table table-striped">
+        <thead>
+            <th>Id</th>
+            <th>Nome</th>
+            <th>Tipo</th>
+            <th>Descrição</th>
+            <th>Quantidade</th>
+            <th>Situação</th>
+            <th>Valor</th>
+            <th>Registro criado</th>
+            <th>Registro atualizado</th>
+        </thead>
+        <tbody>
+            <% for (let i = 0; i < listaProd.length; i++) { %>
+                <tr>
+                    <td><%= listaProd[i].prod_id %></td>
+                    <td><%= listaProd[i].prod_nome %></td>
+                    <td><%= listaProd[i].prod_tipo %></td>
+                    <td><%= listaProd[i].prod_desc %></td>
+                    <td><%= listaProd[i].prod_qnt %></td>
+                    <td><%= listaProd[i].prod_situa %></td>
+                    <td><%= listaProd[i].prod_valor %></td>
+                    <td><%= listaProd[i].createdAt %></td>
+                    <td><%= listaProd[i].updatedAt %></td>
+                    <td>
+                        <a id="alterabtn" href="/produtos/alterar/<%= listaProd[i].prod_id %>" class="btn btn-primary"><i class="fas fa-pen"></i></a>
+                        <button id="delbtn" data-codigoexclusao="<%= listaProd[i].prod_id %>" class="btn btn-danger btnExclusao"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,181 @@
+
+<script src="/js/cadastrar/animais.js"></script>
+<div class="container">
+        <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-4 text-gray-800">Cadastrar Animal</h1>
+        <div>
+            <% if (typeof msg != "undefined") { %>             
+                <span  ><%= msg %></span>
+            <% } %>
+        </div>
+        
+        <div class="col-md-6">
+            <label for="nome" class="form-label">Nome<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite o nome do animal" maxlength="200">
+        </div>
+        <div class="col-md-4">
+            <label for="sexo" class="form-label">Sexo<span class="text-danger">*</span></label>
+            <select id="sexo" class="form-select" name="sexo">
+                <option value="" selected>Selecione...</option>
+                <option value="Macho">Macho</option>
+                <option value="Femea">Fêmea</option>
+                <option value="Indefinido">Indefinido</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="ester" class="form-label">Esterilização<span class="text-danger">*</span></label>
+            <select id="ester" class="form-select" name="ester">
+                <option value="" selected>Selecione...</option>
+                <option value="Fertil">Fertil</option>
+                <option value="Castrado">Castrado</option>
+                <option value="Vasectomia">Vasectomia</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="nome" class="form-label">Data de Nascimento<span class="text-danger">*</span></label>
+            <input type="date" class="form-control" id="campoData" name="campoData" placeholder="aaaa-mm-dd" maxlength="200">
+        </div>
+        <div class="col-md-4">
+            <label for="especie" class="form-label">Espécie<span class="text-danger">*</span></label>
+            <select id="especie" class="form-select" name="especie">
+                <option value="" selected>Selecione...</option>
+                <option value="Canino">Canino</option>
+                <option value="Felino">Felino</option>
+                <option value="Outros">Outros</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="estado" class="form-label">Estado<span class="text-danger">*</span></label>
+            <select id="estado" class="form-select" name="estado">
+                <option value="" selected>Selecione...</option>
+                <option value="Habitando na ONG">Habitando na ONG</option>
+                <option value="Solto">Solto</option>
+                <option value="Adotado">Adotado</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="raca" class="form-label">Raça<span class="text-danger">*</span></label>
+            <select id="raca" class="form-select" name="raca">
+                <option style="color: gray;" disabled>=====Canino=====</option>
+                <option value="" selected>Selecione...</option>
+                <option value="Akita">Akita</option>
+                <option value="American Staffordshire Terrier">American Staffordshire Terrier</option>
+                <option value="Australian Shepherd">Australian Shepherd</option>
+                <option value="Basset Hound">Basset Hound</option>
+                <option value="Beagle">Beagle</option>
+                <option value="Bernese Mountain Dog">Bernese Mountain Dog</option>
+                <option value="Bichon Frise">Bichon Frise</option>
+                <option value="Bloodhound">Bloodhound</option>
+                <option value="Border Collie">Border Collie</option>
+                <option value="Boston Terrier">Boston Terrier</option>
+                <option value="Boxer">Boxer</option>
+                <option value="Bulldog">Bulldog</option>
+                <option value="Cavalier King Charles Spaniel">Cavalier King Charles Spaniel</option>
+                <option value="Chihuahua">Chihuahua</option>
+                <option value="Cocker Spaniel">Cocker Spaniel</option>
+                <option value="Dachshund">Dachshund</option>
+                <option value="Doberman Pinscher">Doberman Pinscher</option>
+                <option value="French Bulldog">French Bulldog</option>
+                <option value="German Shepherd">German Shepherd</option>
+                <option value="Golden Retriever">Golden Retriever</option>
+                <option value="Great Dane">Great Dane</option>
+                <option value="Havanese">Havanese</option>
+                <option value="Maltese">Maltese</option>
+                <option value="Mastiff">Mastiff</option>
+                <option value="Miniature Schnauzer">Miniature Schnauzer</option>
+                <option value="Pomeranian">Pomeranian</option>
+                <option value="Poodle">Poodle</option>
+                <option value="Portuguese Water Dog">Portuguese Water Dog</option>
+                <option value="Pug">Pug</option>
+                <option value="Rottweiler">Rottweiler</option>
+                <option value="Samoyed">Samoyed</option>
+                <option value="Shetland Sheepdog">Shetland Sheepdog</option>
+                <option value="Shiba Inu">Shiba Inu</option>
+                <option value="Shih Tzu">Shih Tzu</option>
+                <option value="Siberian Husky">Siberian Husky</option>
+                <option value="Weimaraner">Weimaraner</option>
+                <option value="Whippet">Whippet</option>
+                <option value="Yorkshire Terrier">Yorkshire Terrier</option>
+
+                <option style="color: gray;" disabled>=====Felino=====</option>
+                <option value="Abyssinian">Abyssinian</option>
+                <option value="American Curl">American Curl</option>
+                <option value="American Shorthair">American Shorthair</option>
+                <option value="Balinese">Balinese</option>
+                <option value="Bengal">Bengal</option>
+                <option value="Bombay">Bombay</option>
+                <option value="British Shorthair">British Shorthair</option>
+                <option value="Burmese">Burmese</option>
+                <option value="Burmilla">Burmilla</option>
+                <option value="Chartreux">Chartreux</option>
+                <option value="Cornish Rex">Cornish Rex</option>
+                <option value="Devon Rex">Devon Rex</option>
+                <option value="Egyptian Mau">Egyptian Mau</option>
+                <option value="Exotic Shorthair">Exotic Shorthair</option>
+                <option value="Havana Brown">Havana Brown</option>
+                <option value="Himalayan">Himalayan</option>
+                <option value="Japanese Bobtail">Japanese Bobtail</option>
+                <option value="Korat">Korat</option>
+                <option value="LaPerm">LaPerm</option>
+                <option value="Maine Coon">Maine Coon</option>
+                <option value="Manx">Manx</option>
+                <option value="Norwegian Forest Cat">Norwegian Forest Cat</option>
+                <option value="Ocicat">Ocicat</option>
+                <option value="Oriental Shorthair">Oriental Shorthair</option>
+                <option value="Persa">Persa</option>
+                <option value="Pixie-bob">Pixie-bob</option>
+                <option value="Ragamuffin">Ragamuffin</option>
+                <option value="Ragdoll">Ragdoll</option>
+                <option value="Russian Blue">Russian Blue</option>
+                <option value="Scottish Fold">Scottish Fold</option>
+                <option value="Siamese">Siamese</option>
+                <option value="Siberian">Siberian</option>
+                <option value="Siamês">Siamês</option>
+                <option value="Somali">Somali</option>
+                <option value="Sphynx">Sphynx</option>
+                <option value="Tonkinese">Tonkinese</option>
+                <option value="Turkish Angora">Turkish Angora</option>
+                <option value="Turkish Van">Turkish Van</option>
+
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="pelagem" class="form-label">Pelagem<span class="text-danger">*</span></label>
+            <select class="form-select" name="pelagem" id="pelagem">
+                <option value="">Selecione...</option>
+                <option value="Amarelo">Amarelo</option>
+                <option value="Preto c/ Branco">Preto c/ Branco</option>
+                <option value="Azul">Azul</option>
+                <option value="Branco">Branco</option>
+                <option value="Caramelo">Caramelo</option>
+                <option value="Preto c/ Branco">Preto c/ Branco</option>
+                <option value="Caramelo c/ Branco">Caramelo c/ Branco</option>
+                <option value="Cinza">Cinza</option>
+                <option value="Vermelho">Vermelho</option>
+                <option value="Marrom">Marrom</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="disp" class="form-label">Disponível para qualquer atividade?<span class="text-danger">*</span></label>
+            <select id="disp" class="form-select" name="disp">
+                <option value="" selected>Selecione...</option>
+                <option value="Sim">Sim</option>
+                <option value="Nao">Não</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="desc" class="form-label">Descrição<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="desc" name="desc" placeholder="Digite uma descrição" maxlength="200">
+        </div>
+        <br><br>
+        <div class="col-12">
+            <button type="button" class="btn btn-success px-4 py-3" id="btnCadastrar">Salvar</button>
+            <button type="button" class="btn btn-secondary px-3 py-3" id="cancelar">Cancelar</button>
+        </div>
+
+    </div> 
+
+</div>

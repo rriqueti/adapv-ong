@@ -1,0 +1,38 @@
+<script src="/js/cadastrar/adocao.js"></script>
+<div class="container">
+
+    <div class="container-fluid">
+        
+        <h1 class="h3 mb-4 text-gray-800">Registrar Adoção</h1>
+        <% if (typeof msg != "undefined") {%>
+            <span><%= msg %></span>
+        <% } %>
+
+        <div class="col-md-6">
+            <label for="idAdo" class="form-label">Nome do adotante<span class="text-danger">*</span></label>
+            <select name="idAdo" id="idAdo" class="form-select">
+                <option value="" selected disabled>Selecione...</option>
+                <% listaPessoa.forEach(function(pessoa) { %>
+                    <option value="<%= pessoa.pess_id %>"> <%= pessoa.pess_id %> - Nome: <%= pessoa.pess_nome %> - CPF: <%= pessoa.pess_cpf%></option>
+                <% }); %>
+            </select>
+        </div>
+
+        <div class="col-md-6">
+            <label for="idAni" class="form-label">Nome do animal<span class="text-danger">*</span></label>
+            <select name="idAni" id="idAni" class="form-select">
+                <option value="" selected disabled>Selecione...</option>
+                <% listaAnimal.forEach(function(animal) { %>
+                    <option value="<%= animal.ani_id %>"> <%= animal.ani_id %> - Nome: <%= animal.ani_nome %> - Raça: <%= animal.ani_raca%></option>
+                <% }); %>
+            </select>
+        </div>
+        <br><br>
+        <div class="col-12">
+            <button type="button" class="btn btn-success px-4 py-3" id="btnCadastrar">Salvar</button>
+            <button type="button" class="btn btn-secondary px-3 py-3" id="cancelar">Cancelar</button>
+        </div>
+
+    </div>
+
+</div>

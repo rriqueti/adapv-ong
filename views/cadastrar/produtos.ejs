@@ -1,0 +1,62 @@
+<script src="/js/cadastrar/produtos.js"></script>
+<div class="container">
+    <div class="container-fluid">
+
+        <h1 class="h3 mb-4 text-gray-800">Registrar Produto</h1>
+        <% if (typeof msg != "undefined") { %>
+            <span><%= msg %></span>
+        <% } %>
+
+        <div class="col-md-6">
+            <label for="prod_nome" class="form-label">Nome do Produto<span class="text-danger">*</span></label>
+            <input type="text" name="prod_nome" class="form-control" id="prod_nome" placeholder="Digite o nome do produto">
+        </div>
+
+        <div class="col-md-6">
+            <label for="prod_tipo" class="form-label">Tipo do Produto<span class="text-danger">*</span></label>
+            <select name="prod_tipo" id="prod_tipo" class="form-select">
+                <option value="" selected>Selecione...</option>
+                <option value="Alimento">Alimento</option>
+                <option value="Bebida">Bebida</option>
+                <option value="Medicamento">Medicamento</option>
+                <option value="Produto de higiene">Produto de higiene</option>
+                <option value="Produto de limpeza">Produto de limpeza</option>
+                <option value="Acessório">Acessório</option>
+                <option value="Ferramenta">Ferramenta</option>
+                <option value="Medicamento">Vestuário</option>
+                <option value="Outro">Outro</option>
+            </select>
+        </div>
+
+        <div class="col-md-6">
+            <label for="prod_desc" class="form-label">Descrição do Produto<span class="text-danger">*</span></label>
+            <input type="text" name="prod_desc" class="form-control" id="prod_desc" placeholder="Dê uma descrição para o produto">
+        </div>
+
+        <div class="col-md-6">
+            <label for="prod_qnt" class="form-label">Quantidade do Produto<span class="text-danger">*</span></label>
+            <input type="number" name="prod_qnt" class="form-control" id="prod_qnt" placeholder="Digite a quantidade do produto">
+        </div>
+
+        <div class="col-md-6">
+            <label for="prod_situa" class="form-label">Produto estará a venda?<span class="text-danger">*</span></label>
+            <select name="prod_situa" id="prod_situa" class="form-select">
+                <option value="" selected>Selecione...</option>
+                <option value="Venda">Venda</option>
+                <option value="Armazenar">Armazenar</option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label for="prod_valor" class="form-label">Valor do produto(Venda)</label>
+            <input type="number" name="prod_valor" class="form-control" id="prod_valor" placeholder="Digite o valor do produto caso esteja a venda">
+        </div>
+        <br>
+        <br>
+
+        <div class="col-12">
+            <button type="button" class="btn btn-success px-4 py-3" id="btnCadastrar">Salvar</button>
+            <button type="button" class="btn btn-secondary px-3 py-3" id="cancelar">Cancelar</button>
+        </div>
+
+    </div>
+</div>

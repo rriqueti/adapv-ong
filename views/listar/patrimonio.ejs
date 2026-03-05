@@ -1,0 +1,60 @@
+<link rel="stylesheet" type="text/css"  media="print" href="/css/print.css">
+<script src="/js/listar/patrimonio.js"></script>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+
+<h1>Registro de patrimônio</h1>
+<div style="display:flex; flex-direction: row; justify-content: space-between;align-items: center; width: 100%;">
+    <a id="novoReg" class="btn btn-secondary" style="max-width: 200px;" href="/patrimonio/cadastrar">Novo Registro</a>
+    <div style="flex-direction: row; display: flex;">
+        <button id="btnExportarExcel" class="btn btn-info" >Exportar para Excel</button>
+        <button id="btnExportarPdf"  onclick="window.print()" class="btn btn-info">Exportar para PDF</button>
+        <div style="background-color: #5C636A; border-radius: 8px; width: 150px; height: 50px; align-items: center; justify-content: center; display: flex;" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Top popover">
+            <span style="font-size: large; color: white;" ><span style="font-weight: 500; display: flex; justify-content: center; flex-direction: column;">Patrimônio: <span style="font-weight: 600; display: flex; justify-content: center;">$<%= saldo ? saldo.toFixed(2).replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") : "0" %></span></span></span>
+        </div>
+    </div>
+</div>
+<hr>
+<div>
+    <table id="tabelaPatrimonio" class="table table-striped">
+        <thead>
+            <th>Id</th>
+            <th>Valor adicionado/retirado</th>
+            <th>Registro de Saldo</th>
+            <th>Doador</th>
+            <th>Registro criado</th>
+            <th>Registro atualizado</th>
+        </thead>
+        <tbody>
+            <% for (let i = 0; i < listaPatrim.length; i++) { %>
+                <%
+                for (let j = 0; j < listaDoa.length; j++) {
+                    if (listaPatrim[i].doa_id === listaDoa[j].doa_id) {
+                        if(listaDoa[j].pess_id !== null){
+                            for(let k = 0; k < listaPessoa.length; k++){
+                                if(listaDoa[j].pess_id === listaPessoa[k].pess_id){
+                                    listaPatrim[i].doa_id = listaPessoa[k].pess_nome;
+                                }
+                            }
+                        }else{
+                            listaPatrim[i].doa_id = listaDoa[j].doa_doador;
+                        }
+                    }
+                }
+                %>
+                <tr>
+                    <td><%= listaPatrim[i].patrim_id %></td>
+                    <td><%= listaPatrim[i].patrim_valor %></td>
+                    <td><%= listaPatrim[i].patrim_saldo %></td>
+                    <td><%= listaPatrim[i].doa_id %></td>
+                    <td><%= listaPatrim[i].createdAt %></td>
+                    <td><%= listaPatrim[i].updatedAt %></td>
+
+                    <td>
+                        <a id="alterabtn" href="/patrimonio/alterar/<%= listaPatrim[i].patrim_id %>" class="btn btn-primary"><i class="fas fa-pen"></i></a>
+                        <button id="delbtn" data-codigoexclusao="<%= listaPatrim[i].patrim_id %>" class="btn btn-danger btnExclusao"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>
