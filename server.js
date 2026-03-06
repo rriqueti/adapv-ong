@@ -22,6 +22,7 @@ let loginRoute = require("./routes/loginRoutes");
 // let ONGADAPVRoute = require("./routes/ONGADAPVRoutes");
 const cookieParser = require('cookie-parser');
 const AuthMiddleware = require('./middleware/authMiddleware');
+const menuMiddleware = require('./middleware/menuMiddleware');
 
 const app = express();
 
@@ -42,6 +43,7 @@ app.use('/login', loginRoute)
 
 let auth = new AuthMiddleware();
 app.use(auth.auth);
+app.use(menuMiddleware);
 
 // Rotas ---
 app.use('/', HomeRoute)

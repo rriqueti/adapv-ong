@@ -14,6 +14,9 @@ class Database {
             database: process.env.DB,
             user: process.env.DB_USERNAME,
             password: process.env.DB_PASSWORD,
+            ssl: {
+                rejectUnauthorized: true
+            }
         });
     }
 
