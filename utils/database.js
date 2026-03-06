@@ -9,11 +9,11 @@ class Database {
     constructor() {
 
         this.#conexao = mysql.createPool({
-            host: 'localhost', //endereço do nosso banco de dados na nuvem
-            port: 3306,
-            database: 'adapv_db', //a database de cada um de vocês possui a nomenclatura DB_(RA)
-            user: 'root', // usuario e senha de cada um de vocês é o RA
-            password: '', // <-- COLOQUE A SENHA DO SEU BANCO DE DADOS AQUI
+            host: process.env.HOST,
+            port: process.env.PORT,
+            database: process.env.DB,
+            user: process.env.DB_USERNAME,
+            password: process.env.DB_PASSWORD,
         });
     }
 
