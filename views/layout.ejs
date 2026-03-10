@@ -25,190 +25,509 @@
   <!-- Custom styles for this template-->
   <link href="/css/sb-admin-2.min.css" rel="stylesheet">
 
+  <style>
+    :root {
+      --primary-purple: #8b5cf6;
+      /* Cor roxa principal (equivalente a purple-600) */
+      --primary-purple-darker: #7c3aed;
+      /* Tom mais escuro para hover (purple-700) */
+      --primary-purple-lighter: #f5f3ff;
+      /* Tom mais claro para hover de outline (purple-50) */
+      --text-gray: #374151;
+      /* cinza para texto (gray-700) */
+    }
+
+    .main-header.navbar {
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      border-bottom: 1px solid #e5e7eb;
+      height: 5rem;
+      /* 80px */
+      font-family: 'Nunito', sans-serif;
+    }
+
+    .navbar-brand-custom {
+      font-size: 1.875rem;
+      /* 3xl */
+      font-weight: 900;
+      /* font-black */
+      color: var(--primary-purple) !important;
+      letter-spacing: -0.05em;
+      /* tracking-tighter */
+      text-transform: lowercase;
+    }
+
+    .nav-link-custom {
+      color: var(--text-gray);
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-link-custom:hover,
+    .nav-link-custom.dropdown-toggle:hover {
+      color: var(--primary-purple) !important;
+    }
+
+    .nav-link-custom .nav-icon {
+      color: var(--primary-purple);
+      margin-right: 0.5rem;
+    }
+
+    .btn-purple {
+      background-color: var(--primary-purple);
+      color: white;
+      border-radius: 0.5rem;
+      font-weight: bold;
+      font-size: 0.875rem;
+      padding: 0.625rem 1.5rem;
+      transition: background-color 0.2s;
+    }
+
+    .btn-purple:hover {
+      background-color: var(--primary-purple-darker);
+      color: white;
+    }
+
+    .btn-outline-purple {
+      border: 2px solid var(--primary-purple);
+      color: var(--primary-purple);
+      border-radius: 0.5rem;
+      font-weight: bold;
+      font-size: 0.875rem;
+      padding: 0.625rem 1.5rem;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    .btn-outline-purple:hover {
+      background-color: var(--primary-purple-lighter);
+      color: var(--primary-purple);
+    }
+
+    /* Ajustes para o menu mobile */
+    .navbar-collapse .navbar-nav .nav-item {
+      margin-bottom: 0.5rem;
+    }
+
+    .navbar-collapse .btn {
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+
+    /* New styles for animal list page */
+    .page-header {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      border: 1px solid #e5e7eb;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .page-header {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    .page-header .page-title {
+      font-size: 1.5rem;
+      /* 2xl */
+      font-weight: 700;
+      color: #1f2937;
+      /* gray-800 */
+      letter-spacing: -0.025em;
+      /* tracking-tight */
+    }
+
+    .page-header .actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      border-radius: 0.5rem;
+      transition: background-color 0.2s;
+      border: 1px solid transparent;
+      text-decoration: none;
+    }
+
+    .btn-excel {
+      color: #15803d;
+      /* green-700 */
+      background-color: #f0fdf4;
+      /* green-50 */
+      border-color: #bbf7d0;
+      /* green-200 */
+    }
+
+    .btn-excel:hover {
+      background-color: #dcfce7;
+      /* green-100 */
+      color: #15803d;
+    }
+
+    .btn-pdf {
+      color: #374151;
+      /* gray-700 */
+      background-color: #f9fafb;
+      /* gray-50 */
+      border-color: #e5e7eb;
+      /* gray-200 */
+    }
+
+    .btn-pdf:hover {
+      background-color: #f3f4f6;
+      /* gray-100 */
+      color: #374151;
+    }
+
+    .btn-novo {
+      color: white;
+      background-color: #7c3aed;
+      /* purple-600 */
+      font-weight: 700;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    }
+
+    .btn-novo:hover {
+      background-color: #6d28d9;
+      /* purple-700 */
+      color: white;
+    }
+
+    .animal-card {
+      background-color: white;
+      border-radius: 0.75rem;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      border: 1px solid #e5e7eb;
+      /* gray-200 */
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.2s;
+      height: 100%;
+      /* For align-items-stretch to work */
+    }
+
+    .animal-card:hover {
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+      /* shadow-md */
+    }
+
+    .animal-card .img-container {
+      height: 12rem;
+      /* h-48 */
+      background-color: #f3f4f6;
+      /* gray-100 */
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .animal-card .img-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .animal-card .img-container .placeholder-icon {
+      width: 6rem;
+      height: 6rem;
+      color: #d1d5db;
+      /* gray-300 */
+    }
+
+    .status-badge {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      padding: 0.25rem 0.625rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      border-radius: 0.375rem;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      border: 1px solid transparent;
+    }
+
+    .status-badge.disponivel {
+      background-color: #dcfce7;
+      /* green-100 */
+      color: #166534;
+      /* green-700 */
+      border-color: #86efac;
+      /* green-200 */
+    }
+
+    .status-badge.adotado {
+      background-color: #fef9c3;
+      /* yellow-100 */
+      color: #854d0e;
+      /* yellow-800 */
+      border-color: #fde047;
+      /* yellow-200 */
+    }
+
+    .animal-card .info-body {
+      padding: 1.25rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .animal-card .info-body .animal-name {
+      font-size: 1.125rem;
+      /* text-lg */
+      font-weight: 700;
+      color: #111827;
+      /* gray-900 */
+      margin-bottom: 0.25rem;
+    }
+
+    .animal-card .info-body .animal-description {
+      font-size: 0.875rem;
+      /* text-sm */
+      color: #6b7280;
+      /* gray-500 */
+      margin-bottom: 1rem;
+      flex: 1;
+      /* line-clamp is already handled by inline style, which is fine */
+    }
+
+    .animal-card .info-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 0.875rem;
+      /* text-sm */
+      color: #4b5563;
+      /* gray-600 */
+    }
+
+    .animal-card .info-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .animal-card .info-list li .icon {
+      width: 1rem;
+      height: 1rem;
+      color: #9ca3af;
+      /* gray-400 */
+      text-align: center;
+    }
+
+    .animal-card .info-list li .label {
+      font-weight: 600;
+      color: #1f2937;
+      /* gray-800 */
+    }
+
+    .animal-card .info-list .gender-icon.macho {
+      color: #3b82f6;
+      /* blue-500 */
+      font-weight: bold;
+    }
+
+    .animal-card .info-list .gender-icon.femea {
+      color: #ec4899;
+      /* pink-500 */
+      font-weight: bold;
+    }
+
+    .animal-card .actions-footer {
+      padding: 1rem 1.25rem;
+      border-top: 1px solid #f3f4f6;
+      /* gray-100 */
+      background-color: #f9fafb;
+      /* gray-50 */
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .animal-card .actions-footer .btn-status-change {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #7c3aed;
+      /* purple-600 */
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .animal-card .actions-footer .btn-status-change:hover {
+      color: #5b21b6;
+      /* purple-800 */
+    }
+
+    .animal-card .actions-footer .icon-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .animal-card .actions-footer .btn-icon {
+      display: flex;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      transition: background-color 0.2s, border-color 0.2s;
+      border: 1px solid transparent;
+      text-decoration: none;
+    }
+
+    .animal-card .actions-footer .btn-icon:hover {
+      border: 1px solid;
+    }
+
+    .animal-card .actions-footer .btn-icon.edit {
+      color: #2563eb;
+      /* blue-600 */
+      background-color: #eff6ff;
+      /* blue-50 */
+    }
+
+    .animal-card .actions-footer .btn-icon.edit:hover {
+      background-color: #dbeafe;
+      /* blue-100 */
+      border-color: #bfdbfe;
+      /* blue-200 */
+    }
+
+    .animal-card .actions-footer .btn-icon.delete {
+      color: #dc2626;
+      /* red-600 */
+      background-color: #fef2f2;
+      /* red-50 */
+    }
+
+    .animal-card .actions-footer .btn-icon.delete:hover {
+      background-color: #fee2e2;
+      /* red-100 */
+      border-color: #fecaca;
+      /* red-200 */
+    }
+
+    .animal-card .actions-footer .btn-icon .icon {
+      width: 1rem;
+      height: 1rem;
+    }
+  </style>
+
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="hold-transition layout-top-nav">
   <div class="wrapper">
 
     <!-- Navbar -->
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-      <!-- Left navbar links -->
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-        </li>
-      </ul>
+    <nav class="main-header navbar navbar-expand-lg navbar-white navbar-light">
+      <div class="container-fluid mx-auto px-4 sm:px-6 lg:px-8">
+        <span>
+          <a href="/" class="navbar-brand">
+            <img src="/img/logo.png" alt="" style="height: 80px;">
+          </a>
+          <!-- Logo -->
+          <a href="/" class="navbar-brand navbar-brand-custom">
+            S.O.S caramelo
+          </a>
+        </span>
 
-      <!-- Right navbar links -->
+        <!-- Mobile Menu Toggler -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+          aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Desktop Navigation Links -->
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-center">
+            <!-- Links dinâmicos do banco de dados -->
+            <% if (locals.menuCategorias) { %>
+              <% Object.keys(menuCategorias).forEach(categoryName=> { %>
+                <% const items=menuCategorias[categoryName]; %>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link nav-link-custom dropdown-toggle" href="#"
+                      id="navbarDropdown<%= categoryName.replace(/\s/g, '') %>" role="button" data-bs-toggle="dropdown"
+                      aria-expanded="false">
+                      <%= categoryName %>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown<%= categoryName.replace(/\s/g, '') %>">
+                      <% items.forEach(item=> { %>
+                        <li><a class="dropdown-item" href="<%= item.menu_url %>">
+                            <%= item.menu_nome_tela %>
+                          </a></li>
+                        <% }); %>
+                    </ul>
+                  </li>
+                  <% }); %>
+                    <% } %>
+
+                      <!-- Links estáticos -->
+                      <li class="nav-item">
+                        <a href="/ajude" class="nav-link nav-link-custom">
+                          <i class="fas fa-hands-helping nav-icon"></i>Ajude
+                        </a>
+                      </li>
+                      <!-- <li class="nav-item">
+              <a href="/clube" class="nav-link nav-link-custom">
+                <i class="fas fa-shopping-cart nav-icon"></i>Clube de Descontos
+              </a>
+            </li> -->
+          </ul>
+
+          <!-- Botões de Ação (visíveis no mobile dentro do collapse) -->
+          <div class="d-lg-none mt-3">
+            <button class="btn btn-purple">Anunciar</button>
+            <button class="btn btn-outline-purple">Entrar</button>
+          </div>
+        </div>
+
+        <!-- Desktop Action Buttons -->
+        <div class="d-none d-lg-flex align-items-center ms-auto">
+          <button class="btn btn-purple me-2">Anunciar</button>
+          <button class="btn btn-outline-purple">Entrar</button>
+        </div>
+      </div>
     </nav>
     <!-- /.navbar -->
 
-    <style>
-      .google-sidebar {
-        background-color: #f8f9fa !important;
-        font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-        border-right: 1px solid #e0e0e0;
-      }
-
-      .google-sidebar .nav {
-        padding-right: 16px;
-      }
-
-      .google-nav-item {
-        margin-bottom: 2px;
-      }
-
-      .google-nav-link {
-        color: #3c4043;
-        border-radius: 0 50px 50px 0;
-        padding: 10px 24px;
-        font-weight: 500;
-        display: flex;
-        align-items: center;
-        transition: background-color 0.2s, color 0.2s;
-        text-decoration: none;
-        cursor: pointer;
-      }
-
-      .google-nav-link:hover {
-        background-color: #f1f3f4;
-        color: #202124;
-      }
-
-      .google-nav-link.active {
-        background-color: #e8f0fe;
-        color: #1a73e8;
-      }
-
-      .google-nav-link .nav-icon {
-        width: 24px;
-        margin-right: 16px;
-        font-size: 1.1rem;
-        color: #5f6368;
-        text-align: center;
-      }
-
-      .google-nav-link.active .nav-icon {
-        color: #1a73e8;
-      }
-
-      .google-nav-link .fa-chevron-down {
-        transition: transform 0.2s ease-in-out;
-        font-size: 0.8rem;
-        margin-left: auto;
-        color: #5f6368;
-      }
-
-      .google-nav-link[aria-expanded="true"] .fa-chevron-down {
-        transform: rotate(180deg);
-      }
-
-      .google-submenu {
-        padding-left: 56px;
-        list-style-type: none;
-        margin-bottom: 0;
-        padding-top: 4px;
-        padding-bottom: 4px;
-      }
-
-      .google-submenu-link {
-        color: #3c4043;
-        padding: 8px 16px;
-        display: block;
-        border-radius: 0 50px 50px 0;
-        text-decoration: none;
-        font-size: 0.9rem;
-        transition: background-color 0.2s;
-      }
-
-      .google-submenu-link:hover {
-        background-color: #f1f3f4;
-        color: #202124;
-      }
-    </style>
-
-    <!-- Main Sidebar Container -->
-    <aside class="main-sidebar google-sidebar elevation-2">
-      
-      <!-- Logo da Marca -->
-      <a href="/" class="brand-link" style="border-bottom: 1px solid #e0e0e0; color: #3c4043; text-decoration: none;">
-        <span class="brand-text font-weight-light" style="padding-left: 1rem; font-weight: 500!important;">Meu Painel</span>
-      </a>
-
-      <!-- Sidebar Wrapper -->
-      <div class="sidebar">
-        <nav class="mt-3">
-          <ul class="nav flex-column mb-0">
-
-            <!-- Home (permanece fixo) -->
-            <li class="google-nav-item">
-              <a href="/" class="google-nav-link active">
-                <i class="nav-icon fas fa-home"></i>
-                <span>Painel de controle</span>
-              </a>
-            </li>
-
-            <% 
-              // Mapeia categorias para ícones e define a ordem de exibição
-              const categoryConfig = {
-                'Cadastrar': { icon: 'fas fa-plus-circle', style: 'mt-2' },
-                'Listar': { icon: 'fas fa-list', style: '' },
-                'Admin': { icon: 'fas fa-shield-alt', style: 'mt-4 pt-2 border-top' }
-              };
-              const categoryOrder = ['Cadastrar', 'Listar', 'Admin'];
-            %>
-
-            <%# Itera sobre as categorias na ordem definida %>
-            <% categoryOrder.forEach(categoryName => { %>
-              <%# Verifica se existem itens para esta categoria %>
-              <% if (locals.menuCategorias && menuCategorias[categoryName]) { %>
-                <% const items = menuCategorias[categoryName]; %>
-                <% const config = categoryConfig[categoryName]; %>
-
-                <li class="google-nav-item <%= config.style %>">
-                  <a class="google-nav-link" data-bs-toggle="collapse" href="#collapse<%= categoryName %>" role="button"
-                    aria-expanded="false" aria-controls="collapse<%= categoryName %>">
-                    <i class="nav-icon <%= config.icon || 'fas fa-folder' %>"></i>
-                    <span><%= categoryName %></span>
-                    <i class="fas fa-chevron-down"></i>
-                  </a>
-                  <div class="collapse" id="collapse<%= categoryName %>">
-                    <ul class="google-submenu">
-                      <%# Itera sobre os itens de menu dentro da categoria %>
-                      <% items.forEach(item => { %>
-                        <li><a class="google-submenu-link" href="<%= item.menu_url %>"><%= item.menu_nome_tela %></a></li>
-                      <% }); %>
-                    </ul>
-                  </div>
-                </li>
-              <% } %>
-            <% }); %>
-
-          </ul>
-        </nav>
-      </div>
-    </aside>
+    <!-- O contêiner da barra lateral principal foi removido -->
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper" style="padding: 20px;min-height: 700px;">
-        <div class="card shadow" style="padding:20px;">
-          <%- body %>
-        </div>
+      <div class="card shadow" style="padding:20px;">
+        <%- body %>
       </div>
-      <!-- /.content-wrapper -->
-      <footer class="main-footer">
-        <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
-        All rights reserved.
-        <div class="float-right d-none d-sm-inline-block">
-          <b>Version</b> 3.2.0
-        </div>
-      </footer>
+    </div>
+    <!-- /.content-wrapper -->
+    <!-- <footer class="main-footer">
+      <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+      All rights reserved.
+      <div class="float-right d-none d-sm-inline-block">
+        <b>Version</b> 3.2.0
+      </div>
+    </footer> -->
 
-      <!-- Control Sidebar -->
-      <aside class="control-sidebar control-sidebar-dark">
-        <!-- Control sidebar content goes here -->
-      </aside>
-      <!-- /.control-sidebar -->
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+      <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
   </div>
   <!-- ./wrapper -->
 
