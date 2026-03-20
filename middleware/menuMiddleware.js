@@ -1,21 +1,38 @@
 const MenuModel = require('../models/menuModel');
+const UsuarioModel = require('../models/usuarioModel'); // Usar o novo model
+const jwt = require('jsonwebtoken');
 
 /**
- * Middleware para carregar os itens de menu do banco de dados
- * e disponibilizá-los para as views.
+ * Middleware para carregar dados globais (menu, usuário) para as views.
  */
-async function loadMenu(req, res, next) {
-    // Evita carregar o menu para a página de login ou para requisições AJAX
-    if (req.path.startsWith('/login') || req.xhr) {
+async function loadGlobalData(req, res, next) {
+    // O token JWT agora é validado pelo `isAuthenticated`.
+    // Este middleware agora foca em popular `res.locals` para as views.
+    
+    // Extrai o token do cookie (se o frontend o armazenar lá) ou do header
+    const token = req.cookies.token || (req.headers.authorization ? req.headers.authorization.substring(7) : null);
+
+    if (req.path.startsWith('/login') || !token) {
+        res.locals.usuarioLogado = null;
+        res.locals.menuCategorias = {};
         return next();
     }
 
     try {
-        const menuModel = new MenuModel();
-        const menus = await menuModel.listarMenus();
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const usuarioModel = new UsuarioModel();
+        // Busca os dados completos do usuário para a view (nome, etc.)
+        const usuario = await usuarioModel.obterPorId(decoded.usuarioId);
+        
+        res.locals.usuarioLogado = usuario; // Contém nome, email, perfil, etc.
+        res.locals.permissoes = decoded.permissoes; // Passa as permissões para as views
 
-        // Agrupa os menus por categoria para facilitar a renderização na view
-        const menuCategorias = menus.reduce((acc, item) => {
+        // Carrega os itens de menu com base no perfil do usuário
+        const menuModel = new MenuModel();
+        const menus = await menuModel.listarMenusPorPerfil(usuario.perfil_id);
+
+        // Agrupa os menus por categoria (lógica existente mantida)
+        res.locals.menuCategorias = menus.reduce((acc, item) => {
             const categoria = item.menu_categoria;
             if (!acc[categoria]) {
                 acc[categoria] = [];
@@ -24,15 +41,13 @@ async function loadMenu(req, res, next) {
             return acc;
         }, {});
 
-        // Disponibiliza os menus agrupados para todas as views através do res.locals
-        res.locals.menuCategorias = menuCategorias;
-        next();
     } catch (error) {
-        console.error("Erro ao carregar o menu da sidebar:", error);
-        // Em caso de erro, continua a requisição sem os dados do menu
+        console.error("Erro ao carregar dados para a view:", error);
+        res.locals.usuarioLogado = null;
         res.locals.menuCategorias = {};
-        next();
     }
+
+    next();
 }
 
-module.exports = loadMenu;
+module.exports = loadGlobalData;

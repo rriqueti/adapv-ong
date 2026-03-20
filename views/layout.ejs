@@ -35,6 +35,12 @@
       /* Tom mais claro para hover de outline (purple-50) */
       --text-gray: #374151;
       /* cinza para texto (gray-700) */
+      --bg-color: #f4f6f9; /* Cor de teste - altere para a cor final depois */
+    }
+
+    body,
+    .content-wrapper {
+      background-color: var(--bg-color) !important;
     }
 
     .main-header.navbar {
@@ -490,17 +496,38 @@
             </li> -->
           </ul>
 
-          <!-- Botões de Ação (visíveis no mobile dentro do collapse) -->
-          <div class="d-lg-none mt-3">
-            <button class="btn btn-purple">Anunciar</button>
-            <button class="btn btn-outline-purple">Entrar</button>
-          </div>
+          <!-- Botões de Ação (visíveis no mobile dentro do collapse) - Removido para unificar com a barra desktop -->
         </div>
 
-        <!-- Desktop Action Buttons -->
-        <div class="d-none d-lg-flex align-items-center ms-auto">
-          <button class="btn btn-purple me-2">Anunciar</button>
-          <button class="btn btn-outline-purple">Entrar</button>
+        <!-- Botões de Ação e Login/Usuário -->
+        <div class="d-flex align-items-center ms-auto">
+          <a href="/animais/cadastrar" class="btn btn-purple me-2 d-none d-lg-inline-flex">Anunciar</a>
+          
+          <% if (locals.usuarioLogado) { %>
+            <!-- User Dropdown -->
+            <div class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle d-flex align-items-center p-0" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <img class="img-profile rounded-circle" src="/img/undraw_profile.svg" style="height: 40px; width: 40px;">
+              </a>
+              <!-- Dropdown - User Information -->
+              <div class="dropdown-menu dropdown-menu-end shadow animated--grow-in mt-2" aria-labelledby="userDropdown">
+                <div class="px-3 py-2">
+                  <div class="fw-bold"><%= locals.usuarioLogado.adm_nome %></div>
+                  <div class="text-muted small"><%= locals.usuarioLogado.adm_email %></div>
+                </div>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/perfil">
+                  <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i> Perfil
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/login/logout">
+                  <i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i> Sair
+                </a>
+              </div>
+            </div>
+          <% } else { %>
+            <a href="/login" class="btn btn-outline-purple">Entrar</a>
+          <% } %>
         </div>
       </div>
     </nav>

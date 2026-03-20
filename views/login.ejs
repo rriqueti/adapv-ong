@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary-fixed-variant": "#680eac",
+              "surface-bright": "#fff7fe",
+              "on-secondary": "#ffffff",
+              "inverse-on-surface": "#f8edfa",
+              "secondary-fixed": "#ffdcc5",
+              "primary-fixed-dim": "#deb7ff",
+              "surface-tint": "#8234c6",
+              "tertiary-fixed": "#ffdf9b",
+              "on-primary-fixed": "#2d0050",
+              "primary-container": "#7b2cbf",
+              "on-tertiary-container": "#f6c95f",
+              "surface-variant": "#eadfec",
+              "on-error": "#ffffff",
+              "primary": "#6100a4",
+              "on-error-container": "#93000a",
+              "inverse-primary": "#deb7ff",
+              "tertiary-fixed-dim": "#edc157",
+              "on-tertiary": "#ffffff",
+              "on-surface-variant": "#4c4353",
+              "surface-dim": "#e1d7e3",
+              "surface-container-high": "#efe5f1",
+              "on-surface": "#1f1a22",
+              "surface-container-highest": "#eadfec",
+              "secondary-container": "#fc8f34",
+              "on-tertiary-fixed-variant": "#5b4300",
+              "on-primary-container": "#e4c2ff",
+              "error": "#ba1a1a",
+              "secondary-fixed-dim": "#ffb783",
+              "on-background": "#1f1a22",
+              "surface-container-low": "#fbf0fd",
+              "tertiary-container": "#705400",
+              "on-secondary-fixed-variant": "#713700",
+              "on-tertiary-fixed": "#251a00",
+              "inverse-surface": "#342e38",
+              "on-secondary-container": "#663100",
+              "outline": "#7e7384",
+              "primary-fixed": "#f1dbff",
+              "outline-variant": "#cfc2d5",
+              "on-secondary-fixed": "#301400",
+              "surface-container-lowest": "#ffffff",
+              "on-primary": "#ffffff",
+              "secondary": "#944a00",
+              "error-container": "#ffdad6",
+              "surface-container": "#f5eaf7",
+              "surface": "#fff7fe",
+              "tertiary": "#533e00",
+              "background": "#fff7fe"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body {
+        font-family: 'Manrope', sans-serif;
+      }
+      h1, h2, h3 {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center px-6 py-4 w-full backdrop-blur-md sticky top-0 z-50 bg-[#fff7fe] dark:bg-slate-950">
+<div class="flex items-center gap-2">
+
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-600 dark:text-slate-400 hover:bg-[#fbf0fd] dark:hover:bg-slate-900 transition-colors rounded-full">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+</div>
+</header>
+<main class="min-h-[calc(100vh-160px)] flex items-center justify-center px-4 py-12 bg-surface">
+<!-- Login Card -->
+<div class="w-full max-w-md bg-surface-container-lowest rounded-xl shadow-[0px_12px_32px_rgba(31,26,34,0.06)] overflow-hidden">
+<div class="p-8 md:p-10">
+<!-- Branding & Header -->
+<div class="text-center mb-8">
+<img alt="S.O.S Caramelo" class="h-40 w-auto mx-auto mb-6" data-alt="SOS Caramelo brand mascot and logo" src="/img/logo.png"/>
+<h1 class="text-2xl md:text-3xl font-extrabold text-on-surface tracking-tight mb-2 leading-tight">Entre na sua conta e ajude um pet hoje!</h1>
+<p class="text-on-surface-variant text-sm md:text-base font-medium">Acesse e aproveite uma experiência segura dentro da S.O.S Caramelo.</p>
+</div>
+
+<% if (locals.error) { %>
+  <div class="bg-error-container text-on-error-container p-4 rounded-lg mb-6 text-sm font-medium" role="alert">
+    <%= locals.error %>
+  </div>
+<% } %>
+
+<% if (locals.success) { %>
+  <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-lg mb-6 text-sm font-medium" role="alert">
+    <p><%= locals.success %></p>
+  </div>
+<% } %>
+
+<!-- Social Login -->
+<div class="grid grid-cols-2 gap-3 mb-8">
+<button class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-surface-container-low border border-outline-variant/15 hover:bg-surface-container transition-colors text-sm font-semibold text-on-surface">
+<svg class="w-5 h-5" viewbox="0 0 24 24">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 12-4.53z" fill="#EA4335"></path>
+</svg>
+                        Google
+                    </button>
+<button class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-surface-container-low border border-outline-variant/15 hover:bg-surface-container transition-colors text-sm font-semibold text-on-surface">
+<svg class="w-5 h-5" fill="#1877F2" viewbox="0 0 24 24">
+<path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path>
+</svg>
+                        Facebook
+                    </button>
+</div>
+<div class="relative mb-8 text-center">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-outline-variant/30"></div>
+</div>
+<span class="relative px-4 bg-surface-container-lowest text-on-surface-variant text-xs font-bold uppercase tracking-widest">ou use seu e-mail</span>
+</div>
+<!-- Form -->
+<form class="space-y-6" action="/login" method="POST">
+<div>
+<label class="block text-sm font-bold text-on-surface mb-2 ml-1">E-mail</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 pl-4 flex items-center text-outline">
+<span class="material-symbols-outlined text-xl">mail</span>
+</span>
+<input name="email" required class="w-full pl-11 pr-4 py-4 bg-surface-container-highest border-none rounded-xl focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all text-on-surface placeholder:text-outline/70 font-medium" placeholder="ana.clara@ong.com.br" type="email"/>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-2 ml-1">
+<label class="text-sm font-bold text-on-surface">Senha</label>
+<a class="text-sm font-bold text-primary hover:text-on-primary-fixed-variant transition-colors" href="#">Esqueceu a senha?</a>
+</div>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 pl-4 flex items-center text-outline">
+<span class="material-symbols-outlined text-xl">lock</span>
+</span>
+<input name="password" required class="w-full pl-11 pr-12 py-4 bg-surface-container-highest border-none rounded-xl focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all text-on-surface placeholder:text-outline/70 font-medium" placeholder="••••••••" type="password"/>
+<button class="absolute inset-y-0 right-0 pr-4 flex items-center text-outline hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-xl">visibility</span>
+</button>
+</div>
+</div>
+<button class="w-full py-4 bg-primary text-on-primary rounded-xl font-bold text-lg hover:bg-primary-container hover:scale-[0.98] transition-all duration-200 shadow-lg shadow-primary/20" type="submit">
+                        Acessar
+                    </button>
+</form>
+<div class="mt-8 text-center">
+<p class="text-on-surface-variant font-medium">
+                        Não tem uma conta? <a class="text-primary font-bold hover:underline" href="/cadastro">Cadastre-se</a>
+</p>
+</div>
+</div>
+<!-- Card Bottom Help Section -->
+<div class="bg-surface-container-low p-6 text-center">
+<a class="inline-flex items-center gap-1 text-primary font-bold text-sm hover:gap-2 transition-all" href="#">
+                    Preciso de ajuda <span class="material-symbols-outlined text-sm">chevron_right</span>
+</a>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="flex flex-col md:flex-row justify-between items-center px-8 w-full gap-4 full-width py-8 bg-[#fbf0fd] dark:bg-slate-900">
+<div class="flex items-center gap-2">
+<span class="text-lg font-bold text-[#6100a4]">S.O.S Caramelo</span>
+</div>
+<div class="text-sm font-medium text-slate-500 dark:text-slate-400 Manrope">
+            © 2024 S.O.S Caramelo. Todos os direitos reservados.
+        </div>
+<div class="flex gap-6">
+<a class="text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-[#6100a4] dark:hover:text-purple-300 transition-opacity opacity-80 hover:opacity-100" href="#">Termos de Uso</a>
+<a class="text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-[#6100a4] dark:hover:text-purple-300 transition-opacity opacity-80 hover:opacity-100" href="#">Política de Privacidade</a>
+</div>
+</footer>
+</body>
+</html>
