@@ -158,6 +158,11 @@
                         <p class="text-on-surface-variant font-medium">Junte-se à nossa comunidade de cuidado animal.
                         </p>
                     </div>
+                    <% if (locals.error) { %>
+                        <div class="bg-error-container text-on-error-container p-4 rounded-lg mb-6 text-sm font-medium" role="alert">
+                          <%= locals.error %>
+                        </div>
+                    <% } %>
                     <form class="space-y-5" action="/cadastro" method="POST">
                         <div class="space-y-2">
                             <label class="text-sm font-bold text-on-surface-variant ml-1" for="name">Nome
@@ -167,7 +172,7 @@
                                     class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">person</span>
                                 <input
                                     class="w-full pl-12 pr-4 py-4 bg-surface-container-highest border-none rounded-xl focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all duration-300 placeholder:text-outline/60 text-on-surface font-medium"
-                                    id="name" name="name" placeholder="Como quer ser chamado?" type="text" />
+                                    id="name" name="name" placeholder="Como quer ser chamado?" type="text" value="<%= locals.name || '' %>"/>
                             </div>
                         </div>
                         <div class="space-y-2">
@@ -177,7 +182,7 @@
                                     class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">mail</span>
                                 <input
                                     class="w-full pl-12 pr-4 py-4 bg-surface-container-highest border-none rounded-xl focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all duration-300 placeholder:text-outline/60 text-on-surface font-medium"
-                                    id="email" name="email" placeholder="seu@email.com" type="email" />
+                                    id="email" name="email" placeholder="seu@email.com" type="email" value="<%= locals.email || '' %>"/>
                             </div>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -185,14 +190,14 @@
                                 <label class="text-sm font-bold text-on-surface-variant ml-1" for="telefone">Telefone</label>
                                 <div class="relative">
                                     <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">call</span>
-                                    <input class="w-full pl-12 pr-4 py-4 bg-surface-container-highest border-none rounded-xl focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all duration-300 placeholder:text-outline/60 text-on-surface font-medium" id="telefone" name="telefone" placeholder="(00) 00000-0000" type="tel"/>
+                                    <input class="w-full pl-12 pr-4 py-4 bg-surface-container-highest border-none rounded-xl focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all duration-300 placeholder:text-outline/60 text-on-surface font-medium" id="telefone" name="telefone" placeholder="(00) 00000-0000" type="tel" value="<%= locals.telefone || '' %>"/>
                                 </div>
                             </div>
                             <div class="space-y-2">
                                 <label class="text-sm font-bold text-on-surface-variant ml-1" for="nascimento">Data de Nascimento</label>
                                 <div class="relative">
                                     <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">calendar_today</span>
-                                    <input class="w-full pl-12 pr-4 py-4 bg-surface-container-highest border-none rounded-xl focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all duration-300 placeholder:text-outline/60 text-on-surface font-medium" id="nascimento" name="nascimento" type="date"/>
+                                    <input class="w-full pl-12 pr-4 py-4 bg-surface-container-highest border-none rounded-xl focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all duration-300 placeholder:text-outline/60 text-on-surface font-medium" id="nascimento" name="nascimento" type="date" value="<%= locals.nascimento || '' %>"/>
                                 </div>
                             </div>
                         </div>

@@ -16,8 +16,15 @@ class LoginController {
                 res.clearCookie('token');
             }
         }
+
+        let successMessage = null;
+        if (req.query.cadastro === 'sucesso') {
+            successMessage = "Cadastro realizado com sucesso! Faça o login para continuar.";
+        }
+
         // Renderiza a nova página de login sem o layout principal
-        res.render('login', { layout: false, error: null });
+        // Passa a mensagem de sucesso (se houver) e zera qualquer erro.
+        res.render('login', { layout: false, error: null, success: successMessage });
     }
 
     async login(req, res) {
@@ -60,7 +67,8 @@ class LoginController {
         // Falha na autenticação
         return res.render('login', {
             layout: false,
-            error: "Usuário ou senha incorretos. Por favor, tente novamente."
+            error: "Usuário ou senha incorretos. Por favor, tente novamente.",
+            success: null
         });
     }
 

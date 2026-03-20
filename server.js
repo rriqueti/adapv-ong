@@ -20,6 +20,7 @@ let CtrlSaidaEventoRoutes = require("./routes/ctrlSaidaEventoRoutes")
 let AdminRoute = require("./routes/adminRoutes");
 let loginRoute = require("./routes/loginRoutes");
 let cadastroRoute = require("./routes/cadastroRoutes");
+let testeRoute = require("./routes/testeRoutes");
 // let ONGADAPVRoute = require("./routes/ONGADAPVRoutes");
 const cookieParser = require('cookie-parser');
 const AuthMiddleware = require('./middleware/authMiddleware');
@@ -42,6 +43,7 @@ app.use(cookieParser());
 
 app.use('/login', loginRoute)
 app.use('/cadastro', cadastroRoute);
+app.use('/teste', testeRoute);
 
 
 let auth = new AuthMiddleware();
