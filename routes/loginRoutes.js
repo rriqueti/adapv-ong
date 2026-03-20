@@ -5,6 +5,7 @@ let ctrl = new LoginController();
 let router = express.Router();
 
 router.get('/', ctrl.loginView);
-router.post('/validar', ctrl.login);
+router.post('/', ctrl.login);
+router.get('/logout', ctrl.logout);
 
 module.exports = router;

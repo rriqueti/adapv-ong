@@ -12,6 +12,7 @@ class AdminModel {
     #createdAt;
     #updatedAt;
     #adm_ativo;
+    adm_nome; // Propriedade pública para armazenar o nome do admin
 
     // Getters
 
@@ -117,7 +118,7 @@ class AdminModel {
     }
 
     async obterAdminId(id) {
-        let sql = "SELECT * FROM tb_adm WHERE adm_id = ?";
+        let sql = "SELECT adm.*, pess.pess_nome FROM tb_adm adm INNER JOIN tb_pessoa pess ON adm.pess_id = pess.pess_id WHERE adm.adm_id = ?";
         let val = [id];
 
         let rows = await banco.ExecutaComando(sql, val);
@@ -125,7 +126,7 @@ class AdminModel {
         if (rows.length > 0) {
             let row = rows[0];
 
-            return new AdminModel(
+            let admin = new AdminModel(
                 row["adm_id"],
                 row["pess_id"],
                 row["adm_email"],
@@ -134,11 +135,15 @@ class AdminModel {
                 row["updatedAt"],
                 row["adm_ativo"]
             );
+
+            admin.adm_nome = row["pess_nome"];
+            return admin;
         }
+        return null;
     }
 
     async obterPorEmailSenha(email, senha) {
-        let sql = "SELECT * FROM tb_adm WHERE adm_email = ? AND adm_senha = ?";
+        let sql = "SELECT adm.*, pess.pess_nome FROM tb_adm adm INNER JOIN tb_pessoa pess ON adm.pess_id = pess.pess_id WHERE adm.adm_email = ? AND adm.adm_senha = ?";
         let val = [email, senha];
 
         let rows = await banco.ExecutaComando(sql, val);
@@ -146,7 +151,7 @@ class AdminModel {
         if (rows.length > 0) {
             let row = rows[0];
 
-            return new AdminModel(
+            let admin = new AdminModel(
                 row["adm_id"],
                 row["pess_id"],
                 row["adm_email"],
@@ -155,7 +160,11 @@ class AdminModel {
                 row["updatedAt"],
                 row["adm_ativo"]
             );
+
+            admin.adm_nome = row["pess_nome"];
+            return admin;
         }
+        return null;
     }
 
 }
