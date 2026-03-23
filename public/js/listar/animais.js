@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     await Swal.fire({
                         icon: 'error',
                         title: 'Erro!',
-                        text: result.msg || 'Ocorreu um erro ao registrar a adoção.',
+                        text: result.msg || 'Ocorreu um erro ao solicitar a adoção.',
                     });
                 }
             } catch (error) {

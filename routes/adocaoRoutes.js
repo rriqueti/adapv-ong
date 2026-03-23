@@ -8,6 +8,7 @@ let router = express.Router();
 router.get('/listar', ctrl.listagemView) 
 router.get('/cadastrar', ctrl.listagemPessoaCadView, ctrl.cadastroView) 
 router.post('/cadastrar', ctrl.cadastrar) 
+router.post('/status', ctrl.atualizarStatus)
 router.get('/alterar/:id', ctrl.listagemAltView, ctrl.alterarView)
 router.post('/alterar', ctrl.alterar) 
 router.post('/excluir', ctrl.excluir) 

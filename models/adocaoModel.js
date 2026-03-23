@@ -9,6 +9,7 @@ class AdocaoModel {
     #ani_id;
     #createdAt;
     #updatedAt;
+    #status;
 
     // Getters
 
@@ -17,6 +18,7 @@ class AdocaoModel {
     get ani_id() { return this.#ani_id }
     get createdAt() { return this.#createdAt }
     get updatedAt() { return this.#updatedAt }
+    get status() { return this.#status }
 
     // Setters
 
@@ -25,60 +27,46 @@ class AdocaoModel {
     set ani_id(value) { this.#ani_id = value }
     set createdAt(value) { this.#createdAt = value }
     set updatedAt(value) { this.#updatedAt = value }
+    set status(value) { this.#status = value }
 
     // Constructor
 
-    constructor(ado_id, pess_id, ani_id, createdAt, updatedAt) {
+    constructor(ado_id, pess_id, ani_id, createdAt, updatedAt, status) {
 
         this.#ado_id = ado_id;
         this.#pess_id = pess_id;
         this.#ani_id = ani_id;
         this.#createdAt = createdAt;
         this.#updatedAt = updatedAt;
+        this.#status = status;
 
     }
 
     // Métodos
 
     async listarAdocao() {
-
-        let sql = "SELECT * FROM tb_adocao";
-
-        let rows = await banco.ExecutaComando(sql);
-        let lista = [];
-
-        for (let i = 0; i < rows.length; i++) {
-            lista.push(new AdocaoModel(
-                rows[i]["ado_id"],
-                rows[i]["pess_id"],
-                rows[i]["ani_id"],
-                rows[i]["createdAt"],
-                rows[i]["updatedAt"]
-            ));
-        }
-
-        return lista;
-
+        const sql = `
+            SELECT 
+                a.*,
+                p.pess_nome,
+                an.ani_nome
+            FROM tb_adocao a
+            INNER JOIN tb_pessoa p ON a.pess_id = p.pess_id
+            INNER JOIN tb_animais an ON a.ani_id = an.ani_id
+            ORDER BY a.createdAt DESC
+        `;
+        const adocoes = await banco.ExecutaComando(sql);
+        return adocoes;
     }
 
     async obterAdoId(id) {
-
         let sql = "SELECT * FROM tb_adocao WHERE ado_id = ?";
-
         let val = [id];
-
         let rows = await banco.ExecutaComando(sql, val);
 
         if (rows.length > 0) {
             let row = rows[0];
-
-            return new AdocaoModel(
-                row["ado_id"],
-                row["pess_id"],
-                row["ani_id"],
-                row["createdAt"],
-                row["updatedAt"]
-            );
+            return row;
         }
     }
 
@@ -92,22 +80,15 @@ class AdocaoModel {
     
             if (rows.length > 0) {
                 let row = rows[0];
-    
-                return new AdocaoModel(
-                    row["ado_id"],
-                    row["pess_id"],
-                    row["ani_id"],
-                    row["createdAt"],
-                    row["updatedAt"]
-                );
+                return row;
             }
     }
 
     async criarAdocao() {
         if (this.#ado_id == 0) {
-            let sql = "INSERT INTO tb_adocao (pess_id, ani_id, createdAt, updatedAt) VALUES (?,?,?,?)";
+            let sql = "INSERT INTO tb_adocao (pess_id, ani_id, createdAt, updatedAt, status) VALUES (?,?,?,?,?)";
 
-            let valores = [this.#pess_id, this.#ani_id, this.#createdAt, this.#updatedAt];
+            let valores = [this.#pess_id, this.#ani_id, this.#createdAt, this.#updatedAt, this.#status];
 
             let result = await banco.ExecutaComandoNonQuery(sql, valores);
 
@@ -115,10 +96,19 @@ class AdocaoModel {
         }
     }
 
-    async editarAdocao() {
-        let sql = "UPDATE tb_adocao SET pess_id = ?, ani_id = ?, createdAt = ?, updatedAt = ? WHERE ado_id = ?"
+    async atualizarStatus(id, status) {
+        const sql = "UPDATE tb_adocao SET status = ? WHERE ado_id = ?";
+        const valores = [status, id];
 
-        let valores = [this.#pess_id, this.#ani_id, this.#createdAt, this.#updatedAt, this.#ado_id];
+        let result = await banco.ExecutaComandoNonQuery(sql, valores);
+
+        return result;
+    }
+
+    async editarAdocao() {
+        let sql = "UPDATE tb_adocao SET pess_id = ?, ani_id = ?, createdAt = ?, updatedAt = ?, status = ? WHERE ado_id = ?"
+
+        let valores = [this.#pess_id, this.#ani_id, this.#createdAt, this.#updatedAt, this.#status, this.#ado_id];
 
         let result = await banco.ExecutaComandoNonQuery(sql, valores);
 

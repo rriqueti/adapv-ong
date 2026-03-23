@@ -1,54 +1,73 @@
-<link rel="stylesheet" type="text/css"  media="print" href="/css/print.css">
-<script src="/js/listar/adocao.js"></script>
-<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+<link rel="stylesheet" href="/css/listar-cards.css">
+<script src="/js/listar/adocao.js" defer></script>
 
-<h1>Adoções Registradas</h1>
-<div style="display: flex; justify-content: space-between;">
-    <a id="novoReg" class="btn btn-secondary" style="max-width: 200px;" href="/adocao/cadastrar">Nova Adoção</a>
-    <div>
-        <button id="btnExportarExcel" class="btn btn-info" >Exportar para Excel</button>
-        <button id="btnExportarPdf"  onclick="window.print()" class="btn btn-info">Exportar para PDF</button>
+<div class="page-header">
+    <h1 class="page-title">Gerenciamento de Adoções</h1>
+    <div class="actions">
+        <!-- Filtros -->
+        <div class="filter-buttons">
+            <button class="btn-filter active" data-filter="todos">Todos</button>
+            <button class="btn-filter" data-filter="Pendente">Pendentes</button>
+            <button class="btn-filter" data-filter="Aprovada">Aprovadas</button>
+            <button class="btn-filter" data-filter="Rejeitada">Rejeitadas</button>
+        </div>
     </div>
 </div>
 
-<hr>
-    <div>
-        <table id="tabelaAdocao" class="table table-striped">
-            <thead>
-                <th>Id</th>
-                <th>Adotante</th>
-                <th>Animal</th>
-                <th>Registro criado</th>
-                <th>Registro atualizado</th>
-            </thead>
-            <tbody>
-                <% for (let i = 0; i < listaAdocao.length; i++)  { %>
-                    <%
-                    valor = listaAdocao[i].pess_id
-                    for(let j = 0; j < listaPessoa.length; j++){
-                        if(listaPessoa[j].pess_id == valor){
-                            listaAdocao[i].pess_id = listaPessoa[j].pess_nome
-                        }
-                    }
-                    valor = listaAdocao[i].ani_id
-                    for(let j = 0; j < listaAnimal.length; j++){
-                        if(listaAnimal[j].ani_id == valor){
-                            listaAdocao[i].ani_id = listaAnimal[j].ani_nome
-                        }
-                    }
-                    %>
-                    <tr>
-                        <td><%= listaAdocao[i].ado_id %></td>
-                        <td><%= listaAdocao[i].pess_id %></td>
-                        <td><%= listaAdocao[i].ani_id %></td>
-                        <td><%= listaAdocao[i].createdAt %></td>
-                        <td><%= listaAdocao[i].updatedAt %></td>
-                        <td>
-                            <a id="alterabtn" href="/adocao/alterar/<%= listaAdocao[i].ado_id %>" class="btn btn-primary"><i class="fas fa-pen"></i></a>
-                            <button id="delbtn" data-codigoexclusao="<%= listaAdocao[i].ado_id %>" class="btn btn-danger btnExclusao"><i class="fas fa-trash"></i></button>
-                        </td>
-                    </tr>
+<div class="row">
+    <% if (listaAdocao.length === 0) { %>
+        <div class="col-12 text-center py-5 text-muted">
+            <i class="fas fa-file-alt fa-3x mb-3"></i>
+            <p>Nenhuma solicitação de adoção encontrada.</p>
+        </div>
+    <% } %>
+
+    <% listaAdocao.forEach(adocao => { %>
+        <div class="col-12 mb-4 d-flex align-items-stretch adocao-card-wrapper" data-status="<%= adocao.status %>">
+            <div class="adocao-card">
+                <% 
+                    let statusClass = '';
+                    if (adocao.status === 'Aprovada') statusClass = 'aprovada';
+                    else if (adocao.status === 'Rejeitada') statusClass = 'rejeitada';
+                    else statusClass = 'pendente';
+                %>
+                <span class="status-badge <%= statusClass %>"><%= adocao.status %></span>
+
+                <div class="card-body">
+                    <div class="info-item">
+                        <i class="fas fa-paw icon"></i>
+                        <div>
+                            <span class="label">Animal:</span>
+                            <span class="value"><span class="animal-nome"><%= adocao.ani_nome %></span> (ID: <%= adocao.ani_id %>)</span>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-user icon"></i>
+                        <div>
+                            <span class="label">Adotante:</span>
+                            <span class="value"><%= adocao.pess_nome %> (ID: <%= adocao.pess_id %>)</span>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-calendar-alt icon"></i>
+                        <div>
+                            <span class="label">Data da Solicitação:</span>
+                            <span class="value"><%= new Date(adocao.createdAt).toLocaleDateString('pt-BR', { timeZone: 'UTC' }) %></span>
+                        </div>
+                    </div>
+                </div>
+
+                <% if (adocao.status === 'Pendente' && locals.permissoes && locals.permissoes.includes('adocao.aprovar')) { %>
+                    <div class="card-footer">
+                        <button class="btn btn-sm btn-success btn-acao-adocao" data-id="<%= adocao.ado_id %>" data-acao="Aprovada">
+                            <i class="fas fa-check"></i> Aprovar
+                        </button>
+                        <button class="btn btn-sm btn-danger btn-acao-adocao" data-id="<%= adocao.ado_id %>" data-acao="Rejeitada">
+                            <i class="fas fa-times"></i> Rejeitar
+                        </button>
+                    </div>
                 <% } %>
-            </tbody>
-        </table>
-    </div>
+            </div>
+        </div>
+    <% }) %>
+</div>

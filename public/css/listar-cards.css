@@ -1,0 +1,103 @@
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.page-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 0.5rem;
+    background-color: #f0f2f5;
+    padding: 0.3rem;
+    border-radius: 8px;
+}
+
+.btn-filter {
+    border: none;
+    background-color: transparent;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    color: #555;
+}
+
+.btn-filter:hover {
+    background-color: #e4e6eb;
+}
+
+.btn-filter.active {
+    background-color: #fff;
+    color: #0d6efd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.adocao-card {
+    width: 100%;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.adocao-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.status-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 0.3rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-badge.pendente { background-color: #ffc107; }
+.status-badge.aprovada { background-color: #198754; }
+.status-badge.rejeitada { background-color: #dc3545; }
+
+.card-body {
+    padding: 1.5rem;
+    flex-grow: 1;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.info-item:last-child { margin-bottom: 0; }
+.info-item .icon { font-size: 1.1rem; color: #0d6efd; margin-right: 1rem; width: 20px; text-align: center; }
+.info-item .label { font-weight: 600; color: #555; display: block; font-size: 0.8rem; }
+.info-item .value { color: #212529; font-size: 0.95rem; }
+
+.card-footer {
+    background-color: #f8f9fa;
+    padding: 0.75rem 1.5rem;
+    border-top: 1px solid #e9ecef;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}

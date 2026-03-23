@@ -13,24 +13,22 @@ class AdocaoController {
         const dataHoje = DateTime.now();
 
         if (req.body.adotante != '0' && req.body.animal != '0') {
-            let adocao = new AdocaoModel(0, req.body.adotante, req.body.animal, dataHoje.toISODate(), dataHoje.toISODate());
-
-            let animal = new AnimalModel();
+            // O status é 'Pendente' por padrão ao criar uma nova solicitação.
+            // A classe AdocaoModel e o método criarAdocao() precisam ser ajustados para receber e salvar o status.
+            let adocao = new AdocaoModel(0, req.body.adotante, req.body.animal, dataHoje.toISODate(), dataHoje.toISODate(), 'Pendente');
 
             let result = await adocao.criarAdocao();
 
-            let resultAltEstado = await animal.marcarComoAdotado(req.body.animal);
-
-            if (result && resultAltEstado) {
+            if (result) {
                 res.send({
                     ok: true,
-                    msg: "Adoção registrada com sucesso!"
+                    msg: "Solicitação de adoção enviada para análise!"
                 });
             }
             else {
                 res.send({
                     ok: false,
-                    msg: "Erro ao registrar a adoção, tente novamente!"
+                    msg: "Erro ao enviar a solicitação, tente novamente!"
                 });
             }
         }
@@ -53,11 +51,10 @@ class AdocaoController {
     async listagemView(req, res) {
         let adocao = new AdocaoModel()
         let listaAdocao = await adocao.listarAdocao();
-        let pessoa = new PessoaModel();
-        let listaPessoa = await pessoa.listarPessoa();
-        let animal = new AnimalModel();
-        let listaAnimal = await animal.listarAnimais();
-        res.render('listar/adocao', { listaAdocao: listaAdocao, listaPessoa: listaPessoa, listaAnimal: listaAnimal});
+        res.render('listar/adocao', {
+            listaAdocao: listaAdocao,
+            permissoes: res.locals.permissoes // Passando permissões para a view
+        });
     }
 
     async alterarView(req, res) {
@@ -106,6 +103,43 @@ class AdocaoController {
                 ok: false,
                 msg: "Parâmetros preenchidos incorretamente!"
             });
+        }
+    }
+
+    async atualizarStatus(req, res) {
+        const { id, status } = req.body;
+
+        // Validação básica
+        if (!id || !status || !['Aprovada', 'Rejeitada'].includes(status)) {
+            return res.send({ ok: false, msg: "Dados inválidos para atualização." });
+        }
+
+        try {
+            const adocaoModel = new AdocaoModel();
+            // Busca a adoção para obter o ID do animal
+            const adocao = await adocaoModel.obterAdoId(id);
+
+            if (!adocao) {
+                return res.send({ ok: false, msg: "Solicitação de adoção não encontrada." });
+            }
+
+            // Atualiza o status da adoção no banco
+            const statusResult = await adocaoModel.atualizarStatus(id, status);
+
+            if (statusResult) {
+                // Se a adoção for aprovada, marca o animal como indisponível
+                if (status === 'Aprovada') {
+                    const animalModel = new AnimalModel();
+                    await animalModel.marcarComoAdotado(adocao.ani_id);
+                }
+                res.send({ ok: true, msg: `Adoção ${status.toLowerCase()} com sucesso!` });
+            } else {
+                res.send({ ok: false, msg: "Erro ao atualizar o status da adoção." });
+            }
+
+        } catch (error) {
+            console.error("Erro ao atualizar status da adoção:", error);
+            res.send({ ok: false, msg: "Ocorreu um erro no servidor. Tente novamente." });
         }
     }
 

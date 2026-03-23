@@ -39,7 +39,7 @@ class LoginController {
                     // Payload do token com informações essenciais
                     const payload = {
                         usuarioId: usuario.id,
-                        perfil: usuario.perfil.slug,
+                        perfilId: usuario.perfil.id,
                         permissoes: usuario.permissoes.map(p => p.slug) // Array de slugs de permissão
                     };
 

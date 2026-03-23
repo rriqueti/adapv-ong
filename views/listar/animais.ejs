@@ -151,11 +151,13 @@
 
                         <div class="actions-footer">
                             <% if (lista[i].ani_disponivel==='Sim' ) { %>
-                                <button class="btn-status-change btnAdotar" data-bs-toggle="modal"
-                                    data-bs-target="#adocaoModal" data-animal-id="<%= lista[i].ani_id %>"
-                                    data-animal-nome="<%= lista[i].ani_nome %>">
-                                    Registrar Adoção
-                                </button>
+                                <% if (locals.permissoes && locals.permissoes.includes('adocao.solicitar')) { %>
+                                    <button class="btn-status-change btnAdotar" data-bs-toggle="modal"
+                                        data-bs-target="#adocaoModal" data-animal-id="<%= lista[i].ani_id %>"
+                                        data-animal-nome="<%= lista[i].ani_nome %>">
+                                        Solicitar Adoção
+                                    </button>
+                                <% } %>
                                 <% } else { %>
                                     <span>&nbsp;</span>
                                     <% } %>
@@ -181,12 +183,12 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="adocaoModalLabel">Registrar Adoção</h5>
+                <h5 class="modal-title" id="adocaoModalLabel">Solicitar Adoção</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="formAdocao">
                 <div class="modal-body">
-                    <p>Você está prestes a registrar a adoção para o animal: <strong id="modalAnimalNome"></strong>.</p>
+                    <p>Você está prestes a solicitar a adoção para o animal: <strong id="modalAnimalNome"></strong>.</p>
                     <input type="hidden" id="modalAnimalId" name="animal">
 
                     <div class="mb-3">
@@ -210,8 +212,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-success" <%=(typeof listaPessoas==='undefined' ||
-                        listaPessoas.length===0) ? 'disabled' : '' %>>Confirmar Adoção</button>
+                    <button type="submit" class="btn btn-success" <%=(typeof listaPessoas === 'undefined' ||
+                        listaPessoas.length === 0) ? 'disabled' : '' %>>Confirmar Solicitação</button>
                 </div>
             </form>
         </div>
