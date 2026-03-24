@@ -40,6 +40,7 @@ class LoginController {
                     const payload = {
                         usuarioId: usuario.id,
                         perfilId: usuario.perfil.id,
+                        pess_id: usuario.pess_id,
                         permissoes: usuario.permissoes.map(p => p.slug) // Array de slugs de permissão
                     };
 

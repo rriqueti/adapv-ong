@@ -12,10 +12,26 @@ class AdocaoController {
     async cadastrar(req, res) {
         const dataHoje = DateTime.now();
 
-        if (req.body.adotante != '0' && req.body.animal != '0') {
-            // O status é 'Pendente' por padrão ao criar uma nova solicitação.
-            // A classe AdocaoModel e o método criarAdocao() precisam ser ajustados para receber e salvar o status.
-            let adocao = new AdocaoModel(0, req.body.adotante, req.body.animal, dataHoje.toISODate(), dataHoje.toISODate(), 'Pendente');
+        if (!res.locals.usuarioLogado || !res.locals.usuarioLogado.pess_id) {
+            return res.status(401).send({
+                ok: false,
+                msg: "Usuário não autenticado ou inválido para realizar a adoção."
+            });
+        }
+
+        const adotanteId = res.locals.usuarioLogado.pess_id; // O adotante é o usuário logado
+        const animalId = req.body.animal;
+
+        if (!animalId || animalId === '0' || animalId === '') {
+            return res.send({
+                ok: false,
+                msg: "Nenhum animal válido foi selecionado para adoção."
+            });
+        }
+
+        try {
+            // O status é 'pendente' por padrão ao criar uma nova solicitação.
+            let adocao = new AdocaoModel(0, adotanteId, animalId, dataHoje.toISODate(), dataHoje.toISODate(), 'pendente');
 
             let result = await adocao.criarAdocao();
 
@@ -24,18 +40,17 @@ class AdocaoController {
                     ok: true,
                     msg: "Solicitação de adoção enviada para análise!"
                 });
-            }
-            else {
+            } else {
                 res.send({
                     ok: false,
                     msg: "Erro ao enviar a solicitação, tente novamente!"
                 });
             }
-        }
-        else {
-            res.send({
+        } catch (error) {
+            console.error("Erro ao cadastrar adoção:", error);
+            res.status(500).send({
                 ok: false,
-                msg: "Parâmetros preenchidos incorretamente!"
+                msg: "Ocorreu um erro no servidor ao processar a solicitação."
             });
         }
     }
@@ -107,12 +122,14 @@ class AdocaoController {
     }
 
     async atualizarStatus(req, res) {
-        const { id, status } = req.body;
+        let { id, status } = req.body;
 
         // Validação básica
-        if (!id || !status || !['Aprovada', 'Rejeitada'].includes(status)) {
+        if (!id || !status || !['aprovada', 'rejeitada', 'Aprovada', 'Rejeitada'].includes(status)) {
             return res.send({ ok: false, msg: "Dados inválidos para atualização." });
         }
+
+        status = status.toLowerCase(); // Padroniza para minúsculo para evitar erro no banco
 
         try {
             const adocaoModel = new AdocaoModel();
@@ -128,7 +145,7 @@ class AdocaoController {
 
             if (statusResult) {
                 // Se a adoção for aprovada, marca o animal como indisponível
-                if (status === 'Aprovada') {
+                if (status === 'aprovada') {
                     const animalModel = new AnimalModel();
                     await animalModel.marcarComoAdotado(adocao.ani_id);
                 }

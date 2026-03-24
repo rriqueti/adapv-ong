@@ -22,6 +22,7 @@ let loginRoute = require("./routes/loginRoutes");
 let cadastroRoute = require("./routes/cadastroRoutes");
 let testeRoute = require("./routes/testeRoutes");
 // let ONGADAPVRoute = require("./routes/ONGADAPVRoutes");
+let permissaoRoute = require("./routes/permissaoRoute");
 const cookieParser = require('cookie-parser');
 const AuthMiddleware = require('./middleware/authMiddleware');
 const menuMiddleware = require('./middleware/menuMiddleware');
@@ -67,6 +68,7 @@ app.use('/produtos', ProdutosRoute)
 app.use('/estoque', EstoqueRoute)
 app.use('/ctrlSaidaEvento', CtrlSaidaEventoRoutes)
 app.use('/admin', AdminRoute)
+app.use('/permissoes', permissaoRoute)
 // app.use('/ONGADAPV', ONGADAPVRoute)
 
 
