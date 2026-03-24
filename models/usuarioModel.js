@@ -17,7 +17,7 @@ class UsuarioModel {
      */
     async obterPorEmail(email) {
         const usuarioRows = await db.ExecutaComando(
-            `SELECT u.usu_id as id, u.usu_email as email, u.usu_senha as senha, u.perfil_id
+            `SELECT u.usu_id as id, u.usu_email as email, u.usu_senha as senha, u.perfil_id, u.pess_id
              FROM tb_usuario u
              JOIN tb_perfil p ON u.perfil_id = p.perf_id
              WHERE u.usu_email = ?`,
@@ -42,6 +42,7 @@ class UsuarioModel {
             id: usuarioData.id,
             email: usuarioData.email,
             senha: usuarioData.senha,
+            pess_id: usuarioData.pess_id,
             perfil: {
                 id: usuarioData.perfil_id,
                 // A propriedade 'slug' foi removida pois a coluna não existe na tabela 'tb_perfil'.
@@ -55,7 +56,7 @@ class UsuarioModel {
      */
     async obterPorId(id) {
         const rows = await db.ExecutaComando(
-            `SELECT u.usu_id as id, u.usu_email as email, u.perfil_id,
+            `SELECT u.usu_id as id, u.usu_email as email, u.perfil_id, u.pess_id,
                     p.pess_nome as pessoa_nome,
                     perf.perf_nome as perfil_nome
              FROM tb_usuario u
@@ -67,7 +68,7 @@ class UsuarioModel {
 
         if (rows.length > 0) {
             const data = rows[0];
-            return { id: data.id, nome: data.pessoa_nome, email: data.email, perfil_id: data.perfil_id };
+            return { id: data.id, nome: data.pessoa_nome, email: data.email, perfil_id: data.perfil_id, pess_id: data.pess_id };
         }
         return null;
     }

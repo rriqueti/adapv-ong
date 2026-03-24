@@ -51,17 +51,18 @@ document.addEventListener("DOMContentLoaded", function () {
     if (adocaoModalEl) {
         const adocaoModal = new bootstrap.Modal(adocaoModalEl);
 
-        // Evento disparado quando o modal está prestes a ser exibido
-        adocaoModalEl.addEventListener('show.bs.modal', function (event) {
-            const button = event.relatedTarget;
-            const animalId = button.getAttribute('data-animal-id');
-            const animalNome = button.getAttribute('data-animal-nome');
+        // Adiciona listener de clique para cada botão de adoção para popular o modal
+        document.querySelectorAll('.btnAdotar').forEach(button => {
+            button.addEventListener('click', function () {
+                const animalId = this.getAttribute('data-animal-id');
+                const animalNome = this.getAttribute('data-animal-nome');
 
-            // Atualiza o conteúdo do modal com os dados do animal
-            const modalAnimalNome = adocaoModalEl.querySelector('#modalAnimalNome');
-            const modalAnimalIdInput = adocaoModalEl.querySelector('#modalAnimalId');
-            modalAnimalNome.textContent = animalNome;
-            modalAnimalIdInput.value = animalId;
+                // Atualiza o conteúdo do modal com os dados do animal
+                const modalAnimalNome = adocaoModalEl.querySelector('#modalAnimalNome');
+                const modalAnimalIdInput = adocaoModalEl.querySelector('#modalAnimalId');
+                modalAnimalNome.textContent = animalNome;
+                modalAnimalIdInput.value = animalId;
+            });
         });
 
         // Evento de envio do formulário de adoção
@@ -69,19 +70,9 @@ document.addEventListener("DOMContentLoaded", function () {
         formAdocao.addEventListener('submit', async function (event) {
             event.preventDefault();
 
-            const adotanteId = formAdocao.querySelector('#adotante').value;
             const animalId = formAdocao.querySelector('#modalAnimalId').value;
 
-            if (!adotanteId || adotanteId === '0') {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Atenção!',
-                    text: 'Por favor, selecione um adotante!',
-                });
-                return;
-            }
-
-            const payload = { animal: animalId, adotante: adotanteId };
+            const payload = { animal: animalId };
 
             try {
                 const response = await fetch('/adocao/cadastrar', {

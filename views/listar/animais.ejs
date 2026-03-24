@@ -25,7 +25,7 @@
 <table id="tabelaAnimais" class="d-none">
     <thead>
         <tr>
-            <th>Id</th>
+            <!-- <th>Id</th> -->
             <th>Nome</th>
             <th>Data Nasc.</th>
             <th>Raça</th>
@@ -167,10 +167,12 @@
                                                 title="Editar">
                                                 <i class="fas fa-pen icon"></i>
                                             </a>
-                                            <button data-codigoexclusao="<%= lista[i].ani_id %>"
-                                                class="btn-icon delete btnExclusao" title="Excluir">
-                                                <i class="fas fa-trash icon"></i>
-                                            </button>
+                                            <% if (locals.permissoes && locals.permissoes.includes('animal.excluir')) { %>
+                                                <button data-codigoexclusao="<%= lista[i].ani_id %>"
+                                                    class="btn-icon delete btnExclusao" title="Excluir">
+                                                    <i class="fas fa-trash icon"></i>
+                                                </button>
+                                            <% } %>
                                         </div>
                         </div>
                     </div>
@@ -188,32 +190,13 @@
             </div>
             <form id="formAdocao">
                 <div class="modal-body">
-                    <p>Você está prestes a solicitar a adoção para o animal: <strong id="modalAnimalNome"></strong>.</p>
+                    <p>Você está solicitando a adoção do animal: <strong id="modalAnimalNome"></strong>.</p>
+                    <p>A solicitação será registrada em seu nome. Deseja continuar?</p>
                     <input type="hidden" id="modalAnimalId" name="animal">
-
-                    <div class="mb-3">
-                        <label for="adotante" class="form-label">Selecione o Adotante</label>
-                        <% if (typeof listaPessoas !=='undefined' && listaPessoas.length> 0) { %>
-                            <select class="form-select" id="adotante" name="adotante" required>
-                                <option value="0" selected disabled>-- Escolha uma pessoa --</option>
-                                <% listaPessoas.forEach(pessoa=> { %>
-                                    <option value="<%= pessoa.pes_id %>">
-                                        <%= pessoa.pes_nome %>
-                                    </option>
-                                    <% }); %>
-                            </select>
-                            <% } else { %>
-                                <div class="alert alert-warning">
-                                    Nenhuma pessoa cadastrada para adoção. <a href="/pessoa/cadastrar">Cadastre uma
-                                        pessoa</a> primeiro.
-                                </div>
-                                <% } %>
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-success" <%=(typeof listaPessoas === 'undefined' ||
-                        listaPessoas.length === 0) ? 'disabled' : '' %>>Confirmar Solicitação</button>
+                    <button type="submit" class="btn btn-success">Confirmar Solicitação</button>
                 </div>
             </form>
         </div>

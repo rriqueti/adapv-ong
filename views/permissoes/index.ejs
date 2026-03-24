@@ -1,0 +1,264 @@
+<style>
+    /* Estilos customizados adaptados do modelo Tailwind para manter a estética */
+    .role-card {
+        padding: 1.25rem;
+        border-radius: 0.75rem;
+        background-color: #f9fafb;
+        color: var(--text-gray);
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+        border: 1px solid transparent;
+    }
+
+    .role-card:hover:not(.active) {
+        background-color: var(--primary-purple-lighter);
+        border-color: #e5e7eb;
+        color: var(--primary-purple-darker);
+    }
+
+    .role-card.active {
+        background-color: var(--primary-purple);
+        color: white;
+        box-shadow: 0 10px 15px -3px rgba(139, 92, 246, 0.3);
+    }
+
+    .role-card.active small {
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .matrix-card {
+        background-color: white;
+        border-radius: 1rem;
+        padding: 2rem;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        border: 1px solid #e5e7eb;
+    }
+
+    .bg-purple-light {
+        background-color: var(--primary-purple-lighter);
+    }
+
+    .text-purple {
+        color: var(--primary-purple);
+    }
+
+    .permission-item {
+        padding: 1.25rem;
+        background-color: #f9fafb;
+        border-radius: 0.75rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        border: 1px solid transparent;
+        margin-bottom: 0;
+    }
+
+    .permission-item:hover {
+        background-color: var(--primary-purple-lighter);
+        color: var(--primary-purple-darker);
+    }
+
+    .permission-checkbox {
+        width: 1.5rem;
+        height: 1.5rem;
+        cursor: pointer;
+        border-color: #d1d5db;
+    }
+
+    .permission-checkbox:checked {
+        background-color: var(--primary-purple);
+        border-color: var(--primary-purple);
+    }
+
+    .security-tip {
+        background-color: rgba(139, 92, 246, 0.05);
+        color: var(--text-gray);
+        border: 1px solid rgba(139, 92, 246, 0.1);
+        border-radius: 1rem;
+    }
+
+    .border-dashed {
+        border: 2px dashed #d1d5db;
+        border-radius: 1.5rem;
+        background-color: #f9fafb;
+        opacity: 0.8;
+    }
+
+    .nav-tabs-custom {
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .nav-tabs-custom .nav-link {
+        border: none;
+        border-bottom: 4px solid transparent;
+        color: #6b7280;
+        font-weight: 600;
+        padding: 1rem 1.5rem;
+        font-size: 1.1rem;
+    }
+
+    .nav-tabs-custom .nav-link.active {
+        color: var(--primary-purple) !important;
+        border-bottom-color: var(--primary-purple);
+        background: transparent;
+    }
+
+    .nav-tabs-custom .nav-link:hover:not(.active) {
+        color: var(--text-gray);
+        border-bottom-color: #d1d5db;
+    }
+</style>
+
+<% if (locals.permissoes && locals.permissoes.includes('permissoes.gerenciar')) { %>
+<div class="page-header mb-4">
+    <div>
+        <h1 class="page-title" style="font-size: 2.25rem; font-weight: 800;">Gerenciamento de Permissões</h1>
+        <p class="text-muted mt-2 mb-0" style="font-size: 1.1rem;">Defina níveis de acesso e controle o que cada membro da equipe pode visualizar ou editar na plataforma S.O.S Caramelo.</p>
+    </div>
+    <div class="actions mt-3 mt-md-0 d-flex gap-2">
+        <button class="btn btn-outline-purple px-4 py-2" style="border-radius: 0.75rem;">Novo Perfil</button>
+        <button class="btn btn-purple shadow-sm px-4 py-2" style="border-radius: 0.75rem;">Salvar Alterações</button>
+    </div>
+</div>
+
+<!-- Tabs Section -->
+<ul class="nav nav-tabs nav-tabs-custom mb-4" id="permissaoTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="perfil-tab" data-bs-toggle="tab" data-bs-target="#perfil" type="button" role="tab">Por Perfil</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="usuario-tab" data-bs-toggle="tab" data-bs-target="#usuario" type="button" role="tab">Por Usuário</button>
+    </li>
+</ul>
+
+<div class="tab-content" id="permissaoTabsContent">
+    <!-- ABA: POR PERFIL -->
+    <div class="tab-pane fade show active" id="perfil" role="tabpanel">
+        <div class="row g-4">
+            
+            <!-- Sidebar de Perfis -->
+            <div class="col-lg-3">
+                <div class="d-flex flex-column gap-3">
+                    <% if (typeof listaPerfis !== 'undefined' && listaPerfis.length > 0) { %>
+                        <% listaPerfis.forEach(function(perfil, index) { %>
+                            <div class="role-card <%= index === 0 ? 'active' : '' %>" data-perfil-id="<%= perfil.perf_id %>" data-perfil-nome="<%= perfil.perf_nome %>">
+                                <h5 class="fw-bold mb-1 d-flex align-items-center gap-2">
+                                    <% if (perfil.perf_nome.toLowerCase() === 'admin' || perfil.perf_nome.toLowerCase() === 'administrador') { %>
+                                        <i class="fas fa-shield-alt"></i>
+                                    <% } %>
+                                    <%= perfil.perf_nome %>
+                                </h5>
+                                <small><%= perfil.perf_descricao || 'Sem descrição cadastrada' %></small>
+                            </div>
+                        <% }); %>
+                    <% } else { %>
+                        <div class="alert alert-info">Nenhum perfil cadastrado.</div>
+                    <% } %>
+                </div>
+            </div>
+
+            <!-- Matriz de Permissões -->
+            <div class="col-lg-9">
+                <div class="matrix-card">
+                    <div class="d-flex justify-content-between align-items-center mb-5">
+                        <h3 class="fw-bold mb-0">Matriz de Permissões: <span class="text-purple" id="nome-perfil-matriz"></span></h3>
+                        <span class="badge bg-purple-light text-purple rounded-pill px-3 py-2 fw-bold" style="letter-spacing: 0.5px;">PERFIL DO SISTEMA</span>
+                    </div>
+
+                    <!-- Grupos Dinâmicos de Permissões -->
+                    <% if (typeof permissoesAgrupadas !== 'undefined') { %>
+                        <% Object.keys(permissoesAgrupadas).forEach(grupo => { %>
+                            <div class="mb-5">
+                                <h6 class="text-muted fw-bold text-uppercase mb-3 d-flex align-items-center gap-2" style="letter-spacing: 1px;">
+                                    <i class="fas fa-key fs-5"></i> <%= grupo.charAt(0).toUpperCase() + grupo.slice(1) %>
+                                </h6>
+                                <div class="row g-3">
+                                    <% permissoesAgrupadas[grupo].forEach(permissao => { %>
+                                        <div class="col-md-6">
+                                            <label class="permission-item d-flex justify-content-between align-items-center">
+                                                <span class="fw-bold"><%= permissao.perm_descricao || permissao.perm_slug %></span>
+                                                <input type="checkbox" class="form-check-input permission-checkbox" value="<%= permissao.perm_id %>">
+                                            </label>
+                                        </div>
+                                    <% }); %>
+                                </div>
+                            </div>
+                        <% }); %>
+                    <% } %>
+
+                    <!-- Dica de Segurança -->
+                    <div class="security-tip p-4 d-flex align-items-start gap-3 mt-4">
+                        <i class="fas fa-info-circle text-purple fs-3 mt-1"></i>
+                        <div>
+                            <h6 class="fw-bold mb-1">Dica de Segurança</h6>
+                            <p class="mb-0 small" style="line-height: 1.5;">Alterações de permissão afetam imediatamente todos os usuários vinculados a este perfil. Certifique-se de que a equipe foi notificada sobre mudanças críticas em seus níveis de acesso.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ABA: POR USUÁRIO -->
+    <div class="tab-pane fade" id="usuario" role="tabpanel">
+        <div class="text-center p-5 border-dashed mt-4">
+            <i class="fas fa-user-search fs-1 text-muted mb-4 opacity-50" style="font-size: 4rem !important;"></i>
+            <h3 class="fw-bold mb-3">Visualização 'Por Usuário'</h3>
+            <p class="text-muted mx-auto" style="max-width: 500px;">Selecione a aba acima para gerenciar permissões individuais. Use a barra de pesquisa para localizar colaboradores específicos.</p>
+            
+            <div class="input-group mt-5 mx-auto shadow-sm" style="max-width: 500px; border-radius: 1rem; overflow: hidden;">
+                <span class="input-group-text bg-white border-0 py-3 px-4"><i class="fas fa-search text-muted"></i></span>
+                <input type="text" class="form-control border-0 py-3 px-2 bg-white" placeholder="Pesquisar por nome ou e-mail..." disabled style="cursor: not-allowed;">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Recebe os dados de vinculo diretamente do backend
+        const perfilPermissoes = <%- typeof perfilPermissoesJSON !== 'undefined' ? perfilPermissoesJSON : '[]' %>;
+        const roleCards = document.querySelectorAll('.role-card');
+        const checkboxes = document.querySelectorAll('.permission-checkbox');
+        const tituloPerfil = document.getElementById('nome-perfil-matriz');
+
+        function carregarPermissoes(perfId, perfNome) {
+            if (tituloPerfil && perfNome) {
+                tituloPerfil.textContent = perfNome;
+            }
+
+            // Desmarca todas as caixas primeiro
+            checkboxes.forEach(cb => cb.checked = false);
+
+            // Filtra os IDs das permissões ativas para o perfil selecionado
+            const permissoesDoPerfil = perfilPermissoes
+                .filter(pp => pp.perf_id == perfId)
+                .map(pp => pp.perm_id);
+
+            // Marca apenas os checkboxes compatíveis
+            checkboxes.forEach(cb => {
+                if (permissoesDoPerfil.includes(parseInt(cb.value))) {
+                    cb.checked = true;
+                }
+            });
+        }
+
+        roleCards.forEach(card => {
+            card.addEventListener('click', function() {
+                roleCards.forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+                carregarPermissoes(this.getAttribute('data-perfil-id'), this.getAttribute('data-perfil-nome'));
+            });
+        });
+
+        // Inicializa carregando as permissões do primeiro perfil da lista
+        if (roleCards.length > 0) carregarPermissoes(roleCards[0].getAttribute('data-perfil-id'), roleCards[0].getAttribute('data-perfil-nome'));
+    });
+</script>
+<% } else { %>
+<div class="container text-center py-5 mt-5">
+    <i class="fas fa-lock text-danger mb-3" style="font-size: 4rem;"></i>
+    <h2 class="fw-bold text-dark">Acesso Negado</h2>
+    <p class="text-muted" style="font-size: 1.2rem;">Você não tem permissão para visualizar ou gerenciar os perfis de acesso do sistema.</p>
+    <a href="/" class="btn btn-purple mt-3 px-4 py-2" style="border-radius: 0.75rem;">Voltar para o Início</a>
+</div>
+<% } %>

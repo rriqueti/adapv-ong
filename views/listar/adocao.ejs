@@ -7,9 +7,9 @@
         <!-- Filtros -->
         <div class="filter-buttons">
             <button class="btn-filter active" data-filter="todos">Todos</button>
-            <button class="btn-filter" data-filter="Pendente">Pendentes</button>
-            <button class="btn-filter" data-filter="Aprovada">Aprovadas</button>
-            <button class="btn-filter" data-filter="Rejeitada">Rejeitadas</button>
+            <button class="btn-filter" data-filter="pendente">Pendentes</button>
+            <button class="btn-filter" data-filter="aprovada">Aprovadas</button>
+            <button class="btn-filter" data-filter="rejeitada">Rejeitadas</button>
         </div>
     </div>
 </div>
@@ -23,15 +23,15 @@
     <% } %>
 
     <% listaAdocao.forEach(adocao => { %>
-        <div class="col-12 mb-4 d-flex align-items-stretch adocao-card-wrapper" data-status="<%= adocao.status %>">
+        <div class="col-12 mb-4 d-flex align-items-stretch adocao-card-wrapper" data-status="<%= (adocao.status || '').toLowerCase() %>">
             <div class="adocao-card">
                 <% 
                     let statusClass = '';
-                    if (adocao.status === 'Aprovada') statusClass = 'aprovada';
-                    else if (adocao.status === 'Rejeitada') statusClass = 'rejeitada';
+                    if ((adocao.status || '').toLowerCase() === 'aprovada') statusClass = 'aprovada';
+                    else if ((adocao.status || '').toLowerCase() === 'rejeitada') statusClass = 'rejeitada';
                     else statusClass = 'pendente';
                 %>
-                <span class="status-badge <%= statusClass %>"><%= adocao.status %></span>
+                <span class="status-badge <%= statusClass %>"><%= adocao.status ? adocao.status.charAt(0).toUpperCase() + adocao.status.slice(1) : '' %></span>
 
                 <div class="card-body">
                     <div class="info-item">
@@ -57,12 +57,12 @@
                     </div>
                 </div>
 
-                <% if (adocao.status === 'Pendente' && locals.permissoes && locals.permissoes.includes('adocao.aprovar')) { %>
+                <% if ((adocao.status || '').toLowerCase() === 'pendente' && locals.permissoes && locals.permissoes.includes('adocao.aprovar')) { %>
                     <div class="card-footer">
-                        <button class="btn btn-sm btn-success btn-acao-adocao" data-id="<%= adocao.ado_id %>" data-acao="Aprovada">
+                        <button class="btn btn-sm btn-success btn-acao-adocao" data-id="<%= adocao.ado_id %>" data-acao="aprovada">
                             <i class="fas fa-check"></i> Aprovar
                         </button>
-                        <button class="btn btn-sm btn-danger btn-acao-adocao" data-id="<%= adocao.ado_id %>" data-acao="Rejeitada">
+                        <button class="btn btn-sm btn-danger btn-acao-adocao" data-id="<%= adocao.ado_id %>" data-acao="rejeitada">
                             <i class="fas fa-times"></i> Rejeitar
                         </button>
                     </div>

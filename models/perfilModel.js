@@ -1,11 +1,14 @@
 const Database = require('../utils/database');
 
-const db = new Database();
-
-// Classe de banco de dados para a consulta de teste.
 class PerfilModel {
-    async listarTodos() {
-        return await db.ExecutaComando("SELECT * FROM tb_perfil ORDER BY perf_nome");
+    
+    async listarPerfis() {
+        const db = new Database();
+        const sql = `SELECT perf_id, perf_nome, perf_descricao, createdAt, updatedAt 
+                     FROM tb_perfil 
+                     ORDER BY perf_id ASC`;
+        const perfis = await db.ExecutaComando(sql);
+        return perfis;
     }
 }
 
