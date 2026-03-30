@@ -1,38 +1,88 @@
-<link rel="stylesheet" type="text/css"  media="print" href="/css/print.css">
-<script src="/js/listar/voluntarios.js"></script>
-<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
-
-<h1>Voluntarios Registrados</h1>
-<div style="display: flex; justify-content: space-between;">
-    <a id="novoReg" class="btn btn-secondary" style="max-width: 200px;" href="/voluntarios/cadastrar">Novo Voluntário</a>
+<div class="page-header mb-4">
     <div>
-        <button id="btnExportarExcel" class="btn btn-info" >Exportar para Excel</button>
-        <button id="btnExportarPdf"  onclick="window.print()" class="btn btn-info">Exportar para PDF</button>
+        <h1 class="page-title fw-bold" style="font-size: 2.25rem; font-weight: 800;">Voluntários do SOS Caramelo</h1>
+        <p class="text-muted mt-2 mb-0" style="font-size: 1.1rem;">Gerencie a equipe que dedica seu tempo e carinho aos resgatados.</p>
+    </div>
+    <div class="actions mt-3 mt-md-0 d-flex gap-2">
+        <a href="/voluntarios/cadastrar" class="btn btn-purple shadow-sm px-4 py-2" style="border-radius: 0.75rem; background-color: #6100a4; color: white;">
+            <i class="fas fa-hand-holding-heart me-2"></i>Novo Voluntário
+        </a>
+        <button id="btnExportarExcel" class="btn btn-outline-purple px-4 py-2" style="border-radius: 0.75rem; border-color: #6100a4; color: #6100a4;">
+            <i class="fas fa-file-excel me-2"></i>Exportar Excel
+        </button>
     </div>
 </div>
 
-<hr>
-    <div>
-        <table id="tabelaVolunt" class="table table-striped">
-            <thead>
-                <th>Id</th>
-                <th>Pessoa</th>
-                <th>Data de Registro</th>
-                <th>Data de Atualização</th>
-            </thead>
-            <tbody>
-                <% for (let i = 0; i < listaVolun.length; i++)  { %>
+<div class="card shadow-sm border-0" style="border-radius: 1rem;">
+    <div class="card-body p-4">
+        <div class="table-responsive">
+            <table id="tabelaVoluntarios" class="table table-hover align-middle">
+                <thead class="table-light">
                     <tr>
-                        <td><%= listaVolun[i].vol_id %></td>
-                        <td><%= listaVolun[i].pess_nome %></td>
-                        <td><%= listaVolun[i].createdAt %></td> 
-                        <td><%= listaVolun[i].updatedAt %></td>
-                        <td>
-                            <a id="alterabtn" href="/voluntarios/alterar/<%= listaVolun[i].vol_id %>" class="btn btn-primary"><i class="fas fa-pen"></i></a>
-                            <button id="delbtn" data-codigoexclusao="<%= listaVolun[i].vol_id %>" class="btn btn-danger btnExclusao"><i class="fas fa-trash"></i></button>
-                        </td>
+                        <th class="border-0">Identificação</th>
+                        <th class="border-0">Data de Registro</th>
+                        <th class="border-0 text-center">Ações</th>
                     </tr>
-                <% } %>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <% if (listaVolun && listaVolun.length > 0) { %>
+                        <% for (let i = 0; i < listaVolun.length; i++) { %>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 45px; height: 45px; background-color: rgba(97, 0, 164, 0.1); color: #6100a4;">
+                                            <i class="fas fa-user-friends"></i>
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold text-dark"><%= listaVolun[i].pess_nome %></div>
+                                            <small class="text-muted">Cód: #<%= listaVolun[i].vol_id %></small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="text-dark">
+                                        <i class="far fa-calendar-alt me-1 opacity-50"></i>
+                                        <%= new Date(listaVolun[i].createdAt).toLocaleDateString('pt-BR') %>
+                                    </div>
+                                    <small class="text-muted">Atualizado em: <%= new Date(listaVolun[i].updatedAt).toLocaleDateString('pt-BR') %></small>
+                                </td>
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <a href="/voluntarios/alterar/<%= listaVolun[i].vol_id %>" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                            <i class="fas fa-edit me-1"></i>Editar
+                                        </a>
+                                        <button class="btn btn-sm btn-outline-danger rounded-pill px-3 btnExclusao" data-id="<%= listaVolun[i].vol_id %>">
+                                            <i class="fas fa-trash-alt me-1"></i>Excluir
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% } %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="3" class="text-center py-5 text-muted">
+                                <i class="fas fa-user-slash d-block fs-1 mb-3 opacity-25"></i>
+                                Nenhum voluntário registrado no sistema.
+                            </td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
     </div>
+</div>
+
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Exportar Excel
+    const btnExcel = document.getElementById('btnExportarExcel');
+    if (btnExcel) {
+        btnExcel.addEventListener('click', function() {
+            const table = document.getElementById("tabelaVoluntarios");
+            const wb = XLSX.utils.table_to_book(table);
+            XLSX.writeFile(wb, "voluntarios-sos-caramelo.xlsx");
+        });
+    }
+});
+</script>

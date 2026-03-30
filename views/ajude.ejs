@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>S.O.S Caramelo - Ajude</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Manrope:wght@400;500;600;700&amp;display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet" />
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-primary-fixed-variant": "#680eac",
+            "surface-bright": "#fff7fe",
+            "on-secondary": "#ffffff",
+            "inverse-on-surface": "#f8edfa",
+            "secondary-fixed": "#ffdcc5",
+            "primary-fixed-dim": "#deb7ff",
+            "surface-tint": "#8234c6",
+            "tertiary-fixed": "#ffdf9b",
+            "on-primary-fixed": "#2d0050",
+            "primary-container": "#7b2cbf",
+            "on-tertiary-container": "#f6c95f",
+            "surface-variant": "#eadfec",
+            "on-error": "#ffffff",
+            "primary": "#6100a4",
+            "on-error-container": "#93000a",
+            "inverse-primary": "#deb7ff",
+            "tertiary-fixed-dim": "#edc157",
+            "on-tertiary": "#ffffff",
+            "on-surface-variant": "#4c4353",
+            "surface-dim": "#e1d7e3",
+            "surface-container-high": "#efe5f1",
+            "on-surface": "#1f1a22",
+            "surface-container-highest": "#eadfec",
+            "secondary-container": "#fc8f34",
+            "on-tertiary-fixed-variant": "#5b4300",
+            "on-primary-container": "#e4c2ff",
+            "error": "#ba1a1a",
+            "secondary-fixed-dim": "#ffb783",
+            "on-background": "#1f1a22",
+            "surface-container-low": "#fbf0fd",
+            "tertiary-container": "#705400",
+            "on-secondary-fixed-variant": "#713700",
+            "on-tertiary-fixed": "#251a00",
+            "inverse-surface": "#342e38",
+            "on-secondary-container": "#663100",
+            "outline": "#7e7384",
+            "primary-fixed": "#f1dbff",
+            "outline-variant": "#cfc2d5",
+            "on-secondary-fixed": "#301400",
+            "surface-container-lowest": "#ffffff",
+            "on-primary": "#ffffff",
+            "secondary": "#944a00",
+            "error-container": "#ffdad6",
+            "surface-container": "#f5eaf7",
+            "surface": "#fff7fe",
+            "tertiary": "#533e00",
+            "background": "#fff7fe"
+          },
+          fontFamily: {
+            "headline": ["Plus Jakarta Sans"],
+            "body": ["Manrope"],
+            "label": ["Manrope"]
+          },
+          borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+        },
+      },
+    }
+  </script>
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .glass-toggle {
+      background: #fbf0fd;
+      border-radius: 99px;
+      padding: 4px;
+      display: inline-flex;
+      gap: 4px;
+    }
+
+    .glass-toggle-btn {
+      padding: 8px 16px;
+      border-radius: 99px;
+      font-weight: bold;
+      transition: all 0.2s;
+    }
+
+    .glass-toggle-btn.active {
+      background: white;
+      color: #6100a4;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .value-card {
+      border: 2px solid transparent;
+      background: white;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .value-card.active {
+      border-color: #6100a4;
+      background: #fbf0fd;
+    }
+
+    .payment-card {
+      border: 2px solid transparent;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .payment-card.active {
+      border-color: #6100a4;
+      background: #fbf0fd;
+    }
+  </style>
+</head>
+
+<body class="bg-surface text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
+
+  <!-- TopAppBar -->
+  <header
+    class="flex justify-between items-center px-6 py-4 w-full backdrop-blur-md sticky top-0 z-50 bg-[#fff7fe]/80 dark:bg-slate-950/80">
+    <div class="flex items-center gap-2">
+      <img src="/img/logo.png" alt="S.O.S Caramelo Logo" class="h-10 w-auto" />
+      <span class="text-xl font-bold text-primary">S.O.S Caramelo</span>
+    </div>
+    <div class="flex items-center gap-4">
+      <a href="/login" class="text-sm font-bold text-primary hover:underline">Entrar</a>
+      <button
+        class="p-2 text-slate-600 dark:text-slate-400 hover:bg-[#fbf0fd] dark:hover:bg-slate-900 transition-colors rounded-full">
+        <span class="material-symbols-outlined">help_outline</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="min-h-screen flex flex-col items-center px-4 py-8 lg:py-16 bg-surface max-w-7xl mx-auto">
+
+    <div class="w-full flex flex-col lg:flex-row gap-12 items-start justify-center">
+
+      <!-- Left Side: Donation Form -->
+      <div class="w-full max-w-xl">
+        <!-- Guest Notice -->
+        <div class="bg-[#fbf0fd] p-4 rounded-2xl flex items-center justify-between mb-8">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-primary">
+              <span class="material-symbols-outlined">person</span>
+            </div>
+            <span class="font-bold text-on-primary-fixed-variant">Doando como convidado</span>
+          </div>
+          <a href="/login" class="text-sm font-bold text-primary hover:underline">Entre para salvar recibos</a>
+        </div>
+
+        <!-- Main Card -->
+        <div class="bg-surface-container-lowest rounded-3xl shadow-[0px_24px_64px_rgba(31,26,34,0.08)] p-8 md:p-10">
+
+          <!-- Frequency Toggle -->
+          <div class="flex justify-center mb-10">
+            <div class="glass-toggle">
+              <button id="btn-unica" class="glass-toggle-btn active" onclick="setFrequency('unica')">Única</button>
+              <button id="btn-mensal" class="glass-toggle-btn" onclick="setFrequency('mensal')">Mensal</button>
+            </div>
+          </div>
+
+          <!-- Value Selection -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+            <div class="value-card active rounded-2xl p-4 text-center flex flex-col justify-center gap-1"
+              onclick="setValue(20, this)">
+              <span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Pequeno
+                Presente</span>
+              <span class="text-xl font-extrabold text-on-surface">$20</span>
+            </div>
+            <div class="value-card rounded-2xl p-4 text-center flex flex-col justify-center gap-1"
+              onclick="setValue(50, this)">
+              <span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Pacote de
+                Refeição</span>
+              <span class="text-xl font-extrabold text-on-surface">$50</span>
+            </div>
+            <div class="value-card rounded-2xl p-4 text-center flex flex-col justify-center gap-1"
+              onclick="setValue(100, this)">
+              <span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Kit de Saúde</span>
+              <span class="text-xl font-extrabold text-on-surface">$100</span>
+            </div>
+            <div class="value-card rounded-2xl p-4 text-center flex flex-col justify-center gap-1"
+              onclick="setValue(250, this)">
+              <span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Herói do
+                Resgate</span>
+              <span class="text-xl font-extrabold text-on-surface">$250</span>
+            </div>
+          </div>
+
+          <!-- Custom Value Input -->
+          <div class="relative mb-10">
+            <span class="absolute inset-y-0 left-0 pl-6 flex items-center text-outline text-2xl">
+              $
+            </span>
+            <input id="custom-value"
+              class="w-full pl-12 pr-6 py-5 bg-surface-container-highest border-none rounded-2xl focus:ring-2 focus:ring-primary/20 transition-all text-xl font-bold placeholder:text-outline/50"
+              placeholder="Digite um valor personalizado" type="number" />
+          </div>
+
+          <!-- Payment Methods -->
+          <h3 class="text-sm font-bold text-on-surface-variant mb-4 uppercase tracking-widest px-1">Método de pagamento
+            seguro</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-10">
+            <!-- PIX Option -->
+            <div
+              class="payment-card active rounded-2xl p-6 flex flex-col justify-center items-center gap-4 text-center relative overflow-hidden"
+              onclick="setPayment('pix', this)">
+              <div class="bg-primary/5 p-4 rounded-xl">
+                <span class="material-symbols-outlined text-3xl text-primary">qr_code_2</span>
+              </div>
+              <div class="flex flex-col gap-1">
+                <span class="text-sm font-bold text-on-surface">PIX</span>
+                <span class="text-[10px] leading-tight text-on-surface-variant font-medium">Liberação imediata para a
+                  causa</span>
+              </div>
+            </div>
+            <!-- Credit Card Option -->
+            <div
+              class="payment-card rounded-2xl p-6 flex flex-col justify-center items-center gap-4 text-center bg-surface-container-low/50"
+              onclick="setPayment('card', this)">
+              <div class="bg-primary/5 p-4 rounded-xl">
+                <span class="material-symbols-outlined text-3xl text-primary">credit_card</span>
+              </div>
+              <div class="flex flex-col gap-1">
+                <span class="text-sm font-bold text-on-surface">Cartão de Crédito</span>
+                <span class="text-[10px] leading-tight text-on-surface-variant font-medium">Parcele sua ajuda
+                  humanitária</span>
+              </div>
+            </div>
+            <!-- Boleto Option -->
+            <div
+              class="payment-card rounded-2xl p-6 flex flex-col justify-center items-center gap-4 text-center bg-surface-container-low/50"
+              onclick="setPayment('boleto', this)">
+              <div class="bg-primary/5 p-4 rounded-xl">
+                <span class="material-symbols-outlined text-3xl text-primary">description</span>
+              </div>
+              <div class="flex flex-col gap-1">
+                <span class="text-sm font-bold text-on-surface">Boleto</span>
+                <span class="text-[10px] leading-tight text-on-surface-variant font-medium">Pagamento simples em
+                  qualquer banco</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button onclick="startDonation()"
+            class="w-full py-5 bg-primary text-on-primary rounded-3xl font-bold text-xl hover:bg-primary-container hover:scale-[0.98] active:scale-95 transition-all duration-300 shadow-2xl shadow-primary/30"
+            type="button">
+            Finalizar Doação
+          </button>
+
+          <!-- Trust Badges -->
+          <div class="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-4">
+            <div class="flex items-center gap-1.5 text-xs font-bold text-emerald-600">
+              <span class="material-symbols-outlined text-lg">verified_user</span>
+              ONG VERIFICADA
+            </div>
+            <div class="flex items-center gap-1.5 text-xs font-bold text-primary">
+              <span class="material-symbols-outlined text-lg">stars</span>
+              TRANSPARÊNCIA TOTAL
+            </div>
+            <div class="flex items-center gap-1.5 text-xs font-bold text-amber-600">
+              <span class="material-symbols-outlined text-lg">lock</span>
+              CRIPTOGRAFIA SSL
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Side: How we use your gift -->
+      <div class="w-full max-w-sm sticky top-28">
+        <div class="bg-surface-container-high/40 rounded-3xl p-8 border border-outline-variant/20 backdrop-blur-sm">
+          <div class="flex items-center gap-3 mb-8">
+            <div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
+              <span class="material-symbols-outlined">analytics</span>
+            </div>
+            <h2 class="text-xl font-extrabold text-on-surface tracking-tight">Como usamos seu presente</h2>
+          </div>
+
+          <ul class="space-y-8">
+            <li class="flex items-start gap-4">
+              <div
+                class="w-12 h-12 shrink-0 bg-white rounded-full shadow-sm flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined">restaurant</span>
+              </div>
+              <div>
+                <p class="text-on-surface font-bold text-sm leading-tight mb-1">Nutrição premium</p>
+                <p class="text-on-surface-variant text-xs font-medium leading-relaxed">Garantimos ração de alta
+                  qualidade para mais de 50 resgatados semanalmente.</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-4">
+              <div
+                class="w-12 h-12 shrink-0 bg-white rounded-full shadow-sm flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined">medical_services</span>
+              </div>
+              <div>
+                <p class="text-on-surface font-bold text-sm leading-tight mb-1">Saúde & Bem-estar</p>
+                <p class="text-on-surface-variant text-xs font-medium leading-relaxed">Vacinas, cirurgias de emergência
+                  e cuidados para doenças crônicas.</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-4">
+              <div
+                class="w-12 h-12 shrink-0 bg-white rounded-full shadow-sm flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined">home</span>
+              </div>
+              <div>
+                <p class="text-on-surface font-bold text-sm leading-tight mb-1">Abrigo seguro</p>
+                <p class="text-on-surface-variant text-xs font-medium leading-relaxed">Manutenção e expansão do nosso
+                  abrigo para acolher novos animais.</p>
+              </div>
+            </li>
+          </ul>
+
+          <div class="mt-10 p-6 bg-primary rounded-2xl text-on-primary">
+            <p class="text-[10px] font-bold uppercase tracking-[0.2em] mb-2 opacity-80">Impacto Mensal</p>
+            <p class="text-2xl font-extrabold mb-4 leading-tight">Sua doação mensal salva até 12 animais por ano.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer
+    class="flex flex-col md:flex-row justify-between items-center px-8 w-full gap-4 full-width py-12 bg-[#fbf0fd] dark:bg-slate-900 mt-12">
+    <div class="flex items-center gap-2">
+      <span class="text-lg font-bold text-[#6100a4]">S.O.S Caramelo</span>
+    </div>
+    <div class="text-sm font-medium text-slate-500 dark:text-slate-400 Manrope">
+      © 2024 S.O.S Caramelo. Todos os direitos reservados.
+    </div>
+    <div class="flex gap-6">
+      <a class="text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-[#6100a4] dark:hover:text-purple-300 transition-opacity opacity-80"
+        href="#">Termos de Uso</a>
+      <a class="text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-[#6100a4] dark:hover:text-purple-300 transition-opacity opacity-80"
+        href="#">Política de Privacidade</a>
+      <a class="text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-[#6100a4] dark:hover:text-purple-300 transition-opacity opacity-80"
+        href="#">Transparência</a>
+    </div>
+  </footer>
+
+  <script>
+    let selectedValue = 20;
+    let frequency = 'unica';
+    let paymentMethod = 'pix';
+    // Verifica se o usuário está logado usando variavel passada pelo controller (res.locals.usuarioLogado)
+    const isLogged = <%= !!locals.usuarioLogado %>;
+
+    function setFrequency(type) {
+      frequency = type;
+      document.getElementById('btn-unica').classList.toggle('active', type === 'unica');
+      document.getElementById('btn-mensal').classList.toggle('active', type === 'mensal');
+    }
+
+    function setValue(val, el) {
+      selectedValue = val;
+      document.querySelectorAll('.value-card').forEach(card => card.classList.remove('active'));
+      el.classList.add('active');
+      document.getElementById('custom-value').value = '';
+    }
+
+    function setPayment(method, el) {
+      paymentMethod = method;
+      document.querySelectorAll('.payment-card').forEach(card => {
+        card.classList.remove('active');
+        card.classList.add('bg-surface-container-low/50');
+      });
+      el.classList.add('active');
+      el.classList.remove('bg-surface-container-low/50');
+    }
+
+    document.getElementById('custom-value').addEventListener('input', function (e) {
+      if (e.target.value) {
+        document.querySelectorAll('.value-card').forEach(card => card.classList.remove('active'));
+        selectedValue = e.target.value;
+      }
+    });
+
+    // --- Fluxo de Modais ---
+
+    function startDonation() {
+      if (!isLogged) {
+        openModal('modal-dados');
+      } else {
+        showConfirmation();
+      }
+    }
+
+    function openModal(id) {
+      document.getElementById(id).classList.remove('hidden');
+      document.getElementById(id).classList.add('flex');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.add('hidden');
+      document.getElementById(id).classList.remove('flex');
+    }
+
+    function nextStep() {
+      // Validação básica dos campos de dados
+      const nome = document.getElementById('donor-name').value;
+      const email = document.getElementById('donor-email').value;
+      const cpf = document.getElementById('donor-cpf').value;
+      const tel = document.getElementById('donor-tel').value;
+
+      if (!nome || !email || !cpf || !tel) {
+        alert('Por favor, preencha todos os campos para prosseguir.');
+        return;
+      }
+
+      closeModal('modal-dados');
+      showConfirmation();
+    }
+
+    function showConfirmation() {
+      document.getElementById('conf-value').innerText = `$${selectedValue}`;
+      document.getElementById('conf-freq').innerText = frequency === 'unica' ? 'Doação Única' : 'Doação Mensal';
+      document.getElementById('conf-method').innerText = paymentMethod.toUpperCase();
+      openModal('modal-confirma');
+    }
+
+    async function finalConfirm() {
+      // Aqui faríamos o POST para o servidor
+      closeModal('modal-confirma');
+      
+      const data = {
+        valor: selectedValue,
+        frequencia: frequency,
+        metodo: paymentMethod,
+        nome: document.getElementById('donor-name')?.value || null,
+        email: document.getElementById('donor-email')?.value || null,
+        cpf: document.getElementById('donor-cpf')?.value || null,
+        tel: document.getElementById('donor-tel')?.value || null
+      };
+
+      try {
+        const response = await fetch('/ajude/doar', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+          openModal('modal-sucesso');
+        } else {
+          alert('Houve um erro ao processar sua doação. Tente novamente.');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Erro de conexão.');
+      }
+    }
+  </script>
+
+  <!-- Modal Dados Pessoais (Para não logados) -->
+  <div id="modal-dados" class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+    <div class="bg-white w-full max-w-md rounded-3xl p-8 shadow-2xl animate-in fade-in zoom-in duration-300">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-on-surface">Dados do Doador</h2>
+        <button onclick="closeModal('modal-dados')" class="text-outline hover:text-primary"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <p class="text-on-surface-variant text-sm mb-6 font-medium">Precisamos de algumas informações para identificar sua doação e gerar seu comprovante.</p>
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-on-surface-variant mb-1 ml-1 uppercase">Nome Completo</label>
+          <input id="donor-name" class="w-full px-4 py-3.5 bg-surface-container-highest border-none rounded-xl focus:ring-2 focus:ring-primary/20 transition-all font-medium" placeholder="Como quer ser chamado?" type="text"/>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-on-surface-variant mb-1 ml-1 uppercase">E-mail</label>
+          <input id="donor-email" class="w-full px-4 py-3.5 bg-surface-container-highest border-none rounded-xl focus:ring-2 focus:ring-primary/20 transition-all font-medium" placeholder="seu@email.com" type="email"/>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-on-surface-variant mb-1 ml-1 uppercase">CPF</label>
+            <input id="donor-cpf" class="w-full px-4 py-3.5 bg-surface-container-highest border-none rounded-xl focus:ring-2 focus:ring-primary/20 transition-all font-medium" placeholder="000.000.000-00" type="text"/>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-on-surface-variant mb-1 ml-1 uppercase">Telefone</label>
+            <input id="donor-tel" class="w-full px-4 py-3.5 bg-surface-container-highest border-none rounded-xl focus:ring-2 focus:ring-primary/20 transition-all font-medium" placeholder="(00) 00000-0000" type="tel"/>
+          </div>
+        </div>
+      </div>
+      <button onclick="nextStep()" class="w-full mt-8 py-4 bg-primary text-on-primary rounded-xl font-bold hover:bg-primary-container transition-all shadow-lg">Continuar</button>
+    </div>
+  </div>
+
+  <!-- Modal Confirmação -->
+  <div id="modal-confirma" class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+    <div class="bg-white w-full max-w-sm rounded-[2.5rem] p-10 shadow-2xl animate-in fade-in zoom-in duration-300 text-center">
+      <div class="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center text-primary mx-auto mb-6">
+        <span class="material-symbols-outlined text-4xl">favorite</span>
+      </div>
+      <h2 class="text-2xl font-black text-on-surface mb-2">Quase lá!</h2>
+      <p class="text-on-surface-variant font-medium mb-8">Confirme os detalhes da sua doação para continuarmos.</p>
+      
+      <div class="bg-surface-container-low rounded-2xl p-6 mb-8 text-left space-y-3">
+        <div class="flex justify-between">
+          <span class="text-sm font-bold text-on-surface-variant">Valor:</span>
+          <span id="conf-value" class="text-sm font-black text-primary">$20</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm font-bold text-on-surface-variant">Frequência:</span>
+          <span id="conf-freq" class="text-sm font-bold text-on-surface">Única</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm font-bold text-on-surface-variant">Pagamento:</span>
+          <span id="conf-method" class="text-sm font-bold text-on-surface">PIX</span>
+        </div>
+      </div>
+
+      <div class="space-y-3">
+        <button onclick="finalConfirm()" class="w-full py-4 bg-primary text-on-primary rounded-2xl font-bold text-lg hover:bg-primary-container transition-all shadow-xl shadow-primary/20">Confirmar e Doar</button>
+        <button onclick="closeModal('modal-confirma')" class="w-full py-3 text-on-surface-variant font-bold text-sm hover:text-primary transition-colors">Voltar e ajustar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Sucesso -->
+  <div id="modal-sucesso" class="fixed inset-0 z-[70] hidden items-center justify-center bg-primary/95 backdrop-blur-md p-4">
+    <div class="max-w-md w-full text-center text-on-primary p-8 animate-in slide-in-from-bottom-12 duration-500">
+      <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center text-primary mx-auto mb-8 shadow-2xl">
+        <span class="material-symbols-outlined text-5xl font-black">celebration</span>
+      </div>
+      <h2 class="text-4xl font-extrabold mb-4 tracking-tight leading-tight">Doação realizada com sucesso!</h2>
+      <p class="text-xl font-medium opacity-90 mb-12">Seu presente chegou ao abrigo e já está fazendo a diferença na vida de um caramelo. Muito obrigado pelo carinho! ❤️</p>
+      <button onclick="window.location.href='/'" class="px-10 py-5 bg-white text-primary rounded-full font-black text-lg hover:scale-105 transition-all shadow-2xl">Voltar para Home</button>
+    </div>
+  </div>
+
+</body>
+
+</html>

@@ -19,6 +19,8 @@ let EstoqueRoute = require("./routes/estoqueRoutes")
 let CtrlSaidaEventoRoutes = require("./routes/ctrlSaidaEventoRoutes")
 let AdminRoute = require("./routes/adminRoutes");
 let UsuarioRoute = require("./routes/usuarioRoutes");
+let ajudeRoute = require("./routes/ajudeRoutes");
+let financeiroRoute = require("./routes/financeiroRoutes");
 let loginRoute = require("./routes/loginRoutes");
 let cadastroRoute = require("./routes/cadastroRoutes");
 let testeRoute = require("./routes/testeRoutes");
@@ -43,6 +45,7 @@ app.use(cookieParser());
 
 // ---
 
+app.use('/ajude', ajudeRoute);
 app.use('/login', loginRoute)
 app.use('/cadastro', cadastroRoute);
 app.use('/teste', testeRoute);
@@ -71,6 +74,7 @@ app.use('/ctrlSaidaEvento', CtrlSaidaEventoRoutes)
 app.use('/admin', AdminRoute)
 app.use('/usuarios', UsuarioRoute)
 app.use('/permissoes', permissaoRoute)
+app.use('/financeiro', financeiroRoute)
 // app.use('/ONGADAPV', ONGADAPVRoute)
 
 

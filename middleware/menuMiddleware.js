@@ -69,6 +69,30 @@ async function loadGlobalData(req, res, next) {
             });
         }
 
+        // Injeta a categoria "Doações" para o Financeiro
+        const temPermissaoFinanceiro = permissoesUsuario.some(p => 
+            ['financeiro.cadastrar', 'financeiro.listar', 'financeiro.editar', 'financeiro.excluir'].includes(p)
+        );
+
+        if (temPermissaoFinanceiro) {
+            if (!res.locals.menuCategorias["Doações"]) {
+                res.locals.menuCategorias["Doações"] = [];
+            }
+            
+            const linksDoacoes = [
+                { nome: "Financeiro", url: "/financeiro/listar" }
+            ];
+
+            linksDoacoes.forEach(link => {
+                if (!res.locals.menuCategorias["Doações"].some(item => item.menu_url === link.url)) {
+                    res.locals.menuCategorias["Doações"].push({
+                        menu_nome_tela: link.nome,
+                        menu_url: link.url
+                    });
+                }
+            });
+        }
+
     } catch (error) {
         console.error("Erro ao carregar dados para a view:", error);
         res.locals.usuarioLogado = null;

@@ -1,0 +1,94 @@
+<div class="page-header mb-4">
+    <div>
+        <h1 class="page-title fw-bold" style="font-size: 2.25rem; font-weight: 800;">Gerenciamento Financeiro</h1>
+        <p class="text-muted mt-2 mb-0" style="font-size: 1.1rem;">Acompanhe todas as entradas financeiras provenientes do site ou de registros manuais.</p>
+    </div>
+    <div class="actions mt-3 mt-md-0 d-flex gap-2">
+        <a href="/financeiro/cadastrar" class="btn btn-purple shadow-sm px-4 py-2" style="border-radius: 0.75rem; background-color: #6100a4; color: white;">
+            <i class="fas fa-plus me-2"></i>Nova Entrada
+        </a>
+        <button id="btnExportarExcel" class="btn btn-outline-purple px-4 py-2" style="border-radius: 0.75rem; border-color: #6100a4; color: #6100a4;">
+            <i class="fas fa-file-excel me-2"></i>Exportar Excel
+        </button>
+    </div>
+</div>
+
+<div class="card shadow-sm border-0" style="border-radius: 1rem;">
+    <div class="card-body p-4">
+        <div class="table-responsive">
+            <table id="tabelaFinanceiro" class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th class="border-0">Doador</th>
+                        <th class="border-0">Data</th>
+                        <th class="border-0">Valor</th>
+                        <th class="border-0">Método/Frequência</th>
+                        <th class="border-0">Registro</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (doacoes && doacoes.length > 0) { %>
+                        <% for (let i = 0; i < doacoes.length; i++) { %>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px; background-color: rgba(97, 0, 164, 0.1); color: #6100a4;">
+                                            <i class="fas fa-hand-holding-usd"></i>
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold text-dark"><%= doacoes[i].dfin_nome || doacoes[i].nome_pessoa || 'Doador Anônimo' %></div>
+                                            <small class="text-muted"><%= doacoes[i].dfin_email || 'E-mail não informado' %></small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="text-dark"><%= new Date(doacoes[i].dfin_data).toLocaleDateString('pt-BR') %></div>
+                                    <small class="text-muted"><%= new Date(doacoes[i].dfin_data).toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'}) %></small>
+                                </td>
+                                <td>
+                                    <span class="fw-bold text-success" style="font-size: 1.1rem;">
+                                        R$ <%= parseFloat(doacoes[i].dfin_valor).toLocaleString('pt-BR', {minimumFractionDigits: 2}) %>
+                                    </span>
+                                </td>
+                                <td>
+                                    <div><span class="badge rounded-pill bg-light text-dark border px-3"><%= doacoes[i].dfin_metodo.toUpperCase() %></span></div>
+                                    <small class="text-muted text-uppercase fw-bold" style="font-size: 0.7rem;"><%= doacoes[i].dfin_recorrencia %></small>
+                                </td>
+                                <td>
+                                    <% if (doacoes[i].cadastrado_por) { %>
+                                        <div class="small fw-bold text-primary"><i class="fas fa-user-check me-1"></i><%= doacoes[i].cadastrado_por %></div>
+                                        <small class="text-muted">Inclusão Manual</small>
+                                    <% } else { %>
+                                        <div class="small text-muted"><i class="fas fa-globe me-1"></i>Site / Público</div>
+                                    <% } %>
+                                </td>
+                            </tr>
+                        <% } %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="5" class="text-center py-5 text-muted">
+                                <i class="fas fa-comment-dollar d-block fs-1 mb-3 opacity-25"></i>
+                                Nenhuma doação financeira registrada ainda.
+                            </td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Exportar Excel
+    const btnExcel = document.getElementById('btnExportarExcel');
+    if (btnExcel) {
+        btnExcel.addEventListener('click', function() {
+            const table = document.getElementById("tabelaFinanceiro");
+            const wb = XLSX.utils.table_to_book(table);
+            XLSX.writeFile(wb, "relatorio-financeiro-sos-caramelo.xlsx");
+        });
+    }
+});
+</script>
