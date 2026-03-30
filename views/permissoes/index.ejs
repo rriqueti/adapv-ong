@@ -115,8 +115,8 @@
         <p class="text-muted mt-2 mb-0" style="font-size: 1.1rem;">Defina níveis de acesso e controle o que cada membro da equipe pode visualizar ou editar na plataforma S.O.S Caramelo.</p>
     </div>
     <div class="actions mt-3 mt-md-0 d-flex gap-2">
-        <button class="btn btn-outline-purple px-4 py-2" style="border-radius: 0.75rem;">Novo Perfil</button>
-        <button class="btn btn-purple shadow-sm px-4 py-2" style="border-radius: 0.75rem;">Salvar Alterações</button>
+        <a href="/permissoes/perfil/cadastrar" class="btn btn-outline-purple px-4 py-2" style="border-radius: 0.75rem;">Novo Perfil</a>
+        <button id="btnSalvarPermissoes" class="btn btn-purple shadow-sm px-4 py-2" style="border-radius: 0.75rem;">Salvar Alterações</button>
     </div>
 </div>
 
@@ -252,6 +252,71 @@
 
         // Inicializa carregando as permissões do primeiro perfil da lista
         if (roleCards.length > 0) carregarPermissoes(roleCards[0].getAttribute('data-perfil-id'), roleCards[0].getAttribute('data-perfil-nome'));
+
+        // Lógica de Salvar Alterações
+        const btnSalvar = document.getElementById('btnSalvarPermissoes');
+        
+        if (btnSalvar) {
+            console.log("Botão de salvar permissões encontrado.");
+            btnSalvar.addEventListener('click', function() {
+                console.log("Botão de salvar clicado.");
+                const activeCard = document.querySelector('.role-card.active');
+                if (!activeCard) {
+                    console.warn("Nenhum perfil ativo selecionado.");
+                    return Swal.fire('Atenção', 'Selecione um perfil antes de salvar.', 'info');
+                }
+
+                const perfilId = activeCard.getAttribute('data-perfil-id');
+                const permissoesMarcadas = Array.from(checkboxes)
+                    .filter(cb => cb.checked)
+                    .map(cb => parseInt(cb.value));
+
+                console.log("Perfil ID:", perfilId);
+                console.log("Permissões coletadas:", permissoesMarcadas);
+
+                Swal.fire({
+                    title: 'Salvar Alterações?',
+                    text: `Você está prestes a atualizar o acesso do perfil "${activeCard.getAttribute('data-perfil-nome')}".`,
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#7c3aed',
+                    confirmButtonText: 'Confirmar e Salvar',
+                    cancelButtonText: 'Revisar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        console.log("Usuário confirmou salvamento. Enviando fetch...");
+                        fetch('/permissoes/salvar', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ perfilId, permissoesIds: permissoesMarcadas })
+                        })
+                        .then(res => res.json())
+                        .then(r => {
+                            console.log("Resposta do servidor:", r);
+                            if (r.ok) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Sucesso!',
+                                    text: r.msg,
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                }).then(() => {
+                                    window.location.reload();
+                                });
+                            } else {
+                                Swal.fire('Erro!', r.msg, 'error');
+                            }
+                        })
+                        .catch(err => {
+                            console.error("Erro no fetch:", err);
+                            Swal.fire('Erro!', 'Falha de comunicação com o servidor.', 'error');
+                        });
+                    }
+                });
+            });
+        } else {
+            console.error("ERRO: Botão '#btnSalvarPermissoes' não foi encontrado no DOM.");
+        }
     });
 </script>
 <% } else { %>

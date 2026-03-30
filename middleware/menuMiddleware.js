@@ -41,6 +41,34 @@ async function loadGlobalData(req, res, next) {
             return acc;
         }, {});
 
+        // Injeta manualmente a categoria "Acessos" e seus links se não existirem
+        // SOMENTE se o usuário tiver as permissões necessárias
+        const permissoesUsuario = res.locals.permissoes || [];
+        const temPermissaoAcesso = permissoesUsuario.some(p => 
+            ['usuario.cadastrar', 'usuario.alterar', 'usuario.deletar'].includes(p)
+        );
+
+        if (temPermissaoAcesso) {
+            if (!res.locals.menuCategorias["Acessos"]) {
+                res.locals.menuCategorias["Acessos"] = [];
+            }
+            
+            const linksAcessos = [
+                { nome: "Usuários", url: "/usuarios/listar" },
+                { nome: "Voluntários", url: "/voluntarios/listar" },
+                { nome: "Empresas", url: "/empresas/listar" }
+            ];
+
+            linksAcessos.forEach(link => {
+                if (!res.locals.menuCategorias["Acessos"].some(item => item.menu_url === link.url)) {
+                    res.locals.menuCategorias["Acessos"].push({
+                        menu_nome_tela: link.nome,
+                        menu_url: link.url
+                    });
+                }
+            });
+        }
+
     } catch (error) {
         console.error("Erro ao carregar dados para a view:", error);
         res.locals.usuarioLogado = null;

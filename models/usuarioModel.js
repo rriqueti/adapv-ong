@@ -74,9 +74,53 @@ class UsuarioModel {
     }
 
     /**
+     * Lista todos os usuários cadastrados.
+     */
+    async listar() {
+        const sql = `SELECT u.usu_id as id, u.usu_email as email, u.perfil_id, u.pess_id,
+                            p.pess_nome as pessoa_nome,
+                            perf.perf_nome as perfil_nome
+                     FROM tb_usuario u
+                     LEFT JOIN tb_pessoa p ON u.pess_id = p.pess_id
+                     INNER JOIN tb_perfil perf ON u.perfil_id = perf.perf_id
+                     ORDER BY p.pess_nome ASC`;
+        const rows = await db.ExecutaComando(sql);
+        return rows;
+    }
+
+    /**
+     * Atualiza os dados de um usuário.
+     */
+    async atualizar(id, email, perfil_id, senha = null) {
+        let sql;
+        let params;
+
+        if (senha) {
+            const senhaHash = await bcrypt.hash(senha, 10);
+            sql = `UPDATE tb_usuario SET usu_email = ?, perfil_id = ?, usu_senha = ? WHERE usu_id = ?`;
+            params = [email, perfil_id, senhaHash, id];
+        } else {
+            sql = `UPDATE tb_usuario SET usu_email = ?, perfil_id = ? WHERE usu_id = ?`;
+            params = [email, perfil_id, id];
+        }
+
+        const result = await db.ExecutaComandoNonQuery(sql, params);
+        return result;
+    }
+
+    /**
+     * Exclui um usuário pelo ID.
+     */
+    async excluir(id) {
+        const sql = `DELETE FROM tb_usuario WHERE usu_id = ?`;
+        const result = await db.ExecutaComandoNonQuery(sql, [id]);
+        return result;
+    }
+
+    /**
      * Cria um novo usuário e a pessoa associada em uma transação.
      */
-    async criar(nome, email, senha, telefone, nascimento) {
+    async criar(nome, email, senha, telefone, nascimento, perfil_id = 3) {
         // Obtém uma conexão promise-based do pool para controlar a transação
         const connection = await db.conexao.promise().getConnection();
         try {
@@ -100,10 +144,10 @@ class UsuarioModel {
             // 2. Hash da senha
             const senhaHash = await bcrypt.hash(senha, 10);
 
-            // 3. Inserir na tb_usuario com perfil 3 e ativo
+            // 3. Inserir na tb_usuario com perfil especificado (default 3) e ativo
             const [usuarioResult] = await connection.execute(
                 'INSERT INTO tb_usuario (pess_id, perfil_id, usu_email, usu_senha, usu_ativo) VALUES (?, ?, ?, ?, ?)',
-                [pessoaId, 3, email, senhaHash, 1] // Assumindo perfil 3 para novos usuários
+                [pessoaId, perfil_id, email, senhaHash, 1] 
             );
 
             await connection.commit();

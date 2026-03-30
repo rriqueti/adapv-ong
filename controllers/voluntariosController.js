@@ -52,9 +52,7 @@ class VoluntariosController {
     async listagemView(req, res) {
         let voluntario = new VoluntariosModel()
         let listaVolun = await voluntario.listarVoluntarios();
-        let pessoa = new PessoaModel();
-        let listaPessoas = await pessoa.listarPessoa()
-        res.render('listar/voluntarios', { listaVolun: listaVolun, listaPessoa: listaPessoas});
+        res.render('listar/voluntarios', { listaVolun: listaVolun });
     }
 
     async alterarView(req, res) {

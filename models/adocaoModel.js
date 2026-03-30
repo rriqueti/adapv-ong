@@ -127,6 +127,18 @@ class AdocaoModel {
 
     }
 
+    async contarAdotados() {
+        let sql = "SELECT COUNT(*) as total FROM tb_adocao WHERE status = 'Aprovado'";
+        let rows = await banco.ExecutaComando(sql);
+        return rows[0].total;
+    }
+
+    async contarPendentes() {
+        let sql = "SELECT COUNT(*) as total FROM tb_adocao WHERE status = 'Pendente'";
+        let rows = await banco.ExecutaComando(sql);
+        return rows[0].total;
+    }
+
 }
 
 module.exports = AdocaoModel;

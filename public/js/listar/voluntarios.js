@@ -11,35 +11,36 @@ document.addEventListener("DOMContentLoaded", function () {
         let id = this.dataset.codigoexclusao;
 
         if (id != null) {
-            if (confirm("Tem certeza que deseja excluir esse voluntario?")) {
-                let obj = {
-                    id: id
-                }
+            Swal.fire({
+                title: 'Tem certeza?',
+                text: "Você não poderá reverter isso!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim, excluir!',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let obj = { id: id };
 
-                fetch('/voluntarios/excluir', {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(obj)
-                })
-                    .then(r => {
-                        return r.json()
+                    fetch('/voluntarios/excluir', {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(obj)
                     })
+                    .then(r => r.json())
                     .then(r => {
                         if (r.ok) {
-                            window.location.reload();
+                            Swal.fire('Excluído!', 'O voluntário foi removido com sucesso.', 'success').then(() => {
+                                window.location.reload();
+                            });
+                        } else {
+                            Swal.fire('Erro!', r.msg || 'Erro ao excluir.', 'error');
                         }
-                        else {
-                            alert(r.msg);
-                        }
-
-                    })
-
-            }
-        }
-        else {
-            alert("Nenhum ID encontrado para exclusão");
+                    });
+                }
+            });
         }
     }
 

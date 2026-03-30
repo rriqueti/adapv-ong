@@ -208,6 +208,12 @@ class AnimaisModel {
         return result;
     }
 
+    async contarDisponiveis() {
+        let sql = "SELECT COUNT(*) as total FROM tb_animais WHERE ani_disponivel = 'Sim' AND ani_estado = 'Habitando na ONG'";
+        let rows = await banco.ExecutaComando(sql);
+        return rows[0].total;
+    }
+
 }
 
 module.exports = AnimaisModel;

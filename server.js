@@ -18,6 +18,7 @@ let ProdutosRoute = require("./routes/produtosRoutes")
 let EstoqueRoute = require("./routes/estoqueRoutes")
 let CtrlSaidaEventoRoutes = require("./routes/ctrlSaidaEventoRoutes")
 let AdminRoute = require("./routes/adminRoutes");
+let UsuarioRoute = require("./routes/usuarioRoutes");
 let loginRoute = require("./routes/loginRoutes");
 let cadastroRoute = require("./routes/cadastroRoutes");
 let testeRoute = require("./routes/testeRoutes");
@@ -68,6 +69,7 @@ app.use('/produtos', ProdutosRoute)
 app.use('/estoque', EstoqueRoute)
 app.use('/ctrlSaidaEvento', CtrlSaidaEventoRoutes)
 app.use('/admin', AdminRoute)
+app.use('/usuarios', UsuarioRoute)
 app.use('/permissoes', permissaoRoute)
 // app.use('/ONGADAPV', ONGADAPVRoute)
 

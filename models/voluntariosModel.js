@@ -9,6 +9,7 @@ class VoluntariosModel {
     #pess_id;
     #createdAt;
     #updatedAt;
+    pess_nome; // Propriedade pública para armazenar o nome da pessoa associada
 
     // Getters
 
@@ -36,18 +37,22 @@ class VoluntariosModel {
     // Métodos
 
     async listarVoluntarios() {
-        let sql = "SELECT * FROM tb_voluntarios";
+        let sql = `SELECT v.*, p.pess_nome 
+                   FROM tb_voluntarios v
+                   INNER JOIN tb_pessoa p ON v.pess_id = p.pess_id`;
 
         let rows = await banco.ExecutaComando(sql);
         let lista = [];
 
         for (let i = 0; i < rows.length; i++) {
-            lista.push(new VoluntariosModel(
+            let voluntario = new VoluntariosModel(
                 rows[i]["vol_id"],
                 rows[i]["pess_id"],
                 rows[i]["createdAt"],
                 rows[i]["updatedAt"]
-            ));
+            );
+            voluntario.pess_nome = rows[i]["pess_nome"];
+            lista.push(voluntario);
         }
 
         return lista;
@@ -79,7 +84,10 @@ class VoluntariosModel {
     }
     
     async obterVolId(id) {
-        let sql = "SELECT * FROM tb_voluntarios WHERE vol_id = ?";
+        let sql = `SELECT v.*, p.pess_nome 
+                   FROM tb_voluntarios v
+                   INNER JOIN tb_pessoa p ON v.pess_id = p.pess_id
+                   WHERE v.vol_id = ?`;
         let val = [id];
 
         let rows = await banco.ExecutaComando(sql, val);
@@ -87,13 +95,16 @@ class VoluntariosModel {
         if (rows.length > 0) {
             let row = rows[0];
 
-            return new VoluntariosModel(
+            let voluntario = new VoluntariosModel(
                 row["vol_id"],
                 row["pess_id"],
                 row["createdAt"],
                 row["updatedAt"]
             );
+            voluntario.pess_nome = row["pess_nome"];
+            return voluntario;
         }
+        return null;
     }
 
     async cadastrarVoluntario() {

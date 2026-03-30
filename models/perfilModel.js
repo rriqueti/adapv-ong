@@ -10,6 +10,20 @@ class PerfilModel {
         const perfis = await db.ExecutaComando(sql);
         return perfis;
     }
+
+    async cadastrar(nome, descricao) {
+        const db = new Database();
+        const sql = `INSERT INTO tb_perfil (perf_nome, perf_descricao, createdAt, updatedAt) VALUES (?, ?, NOW(), NOW())`;
+        const result = await db.ExecutaComandoNonQuery(sql, [nome, descricao]);
+        return result;
+    }
+
+    async obterPorId(id) {
+        const db = new Database();
+        const sql = `SELECT * FROM tb_perfil WHERE perf_id = ?`;
+        const rows = await db.ExecutaComando(sql, [id]);
+        return rows[0];
+    }
 }
 
 module.exports = PerfilModel;
