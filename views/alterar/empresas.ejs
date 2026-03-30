@@ -1,101 +1,177 @@
-<script src="/js/alterar/empresas.js"></script>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h1 class="h3 mb-4 text-gray-800 fw-bold">Alterar Dados da Empresa</h1>
 
-<script>
-    function formatCnpj(cnpj) {
-        var v = cnpj.value;
+            <div class="card shadow-sm border-0" style="border-radius: 1rem;">
+                <div class="card-body p-4 p-md-5">
+                    <form id="formEmpresa">
+                        <input type="hidden" id="emp_id" value="<%= empresa.emp_id %>">
+                        <input type="hidden" id="createdAt" value="<%= empresa.createdAt %>">
 
-        if (v.length == 3 || v.length == 7) {
-            cnpj.value = v.replace(/[^0-9./-]/g, "").slice(0, -1) + ".";
-        } else if (v.length == 11) {
-            cnpj.value = v.replace(/[^0-9./-]/g, "").slice(0, -1) + "/";
-        } else if (v.length == 16) {
-            cnpj.value = v.replace(/[^0-9./-]/g, "").slice(0, -1) + "-";
-        } else if (v.length == 18){
-            cnpj.value = v.replace(/[^0-9./-]/g, "")
-        }
-    }
+                        <!-- Dados da Empresa -->
+                        <div class="row g-3 mb-4">
+                            <h5 class="fw-bold mb-0">Informações Institucionais</h5>
+                            <div class="col-md-9">
+                                <label for="emp_nome" class="form-label">Nome da Empresa<span class="text-danger">*</span></label>
+                                <input type="text" id="emp_nome" class="form-control" value="<%= empresa.emp_nome %>" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="emp_cnpj" class="form-label">CNPJ<span class="text-danger">*</span></label>
+                                <input type="text" id="emp_cnpj" class="form-control" value="<%= empresa.emp_cnpj %>" maxlength="18" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="emp_telefone" class="form-label">Telefone de Contato<span class="text-danger">*</span></label>
+                                <input type="text" id="emp_telefone" class="form-control" value="<%= empresa.emp_telefone %>" maxlength="15" required>
+                            </div>
+                        </div>
 
-    function formatCep(cep) {
-        var v = cep.value;
+                        <hr class="my-4 opacity-10">
 
-        if (v.length == 6) {
-            cep.value = v.replace(/[^0-9-]/g, "").slice(0, -1) + "-";
-        } else if (v.length == 10) {
-            cep.value = v.replace(/[^0-9-]/g, "").slice(0, -1);
-        }
-    }
+                        <!-- Endereço -->
+                        <div class="row g-3 mb-4">
+                            <h5 class="fw-bold mb-0">Endereço Corporativo</h5>
+                            <div class="col-md-3">
+                                <label for="emp_cep" class="form-label">CEP<span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <input type="text" id="emp_cep" class="form-control" value="<%= empresa.emp_cep %>" maxlength="9" required>
+                                    <button type="button" id="btnBuscarCep" class="btn btn-outline-purple">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <label for="emp_rua" class="form-label">Rua/Avenida<span class="text-danger">*</span></label>
+                                <input type="text" id="emp_rua" class="form-control" value="<%= empresa.emp_rua %>" required>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="emp_num" class="form-label">Número<span class="text-danger">*</span></label>
+                                <input type="text" id="emp_num" class="form-control" value="<%= empresa.emp_num %>" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="emp_bairro" class="form-label">Bairro<span class="text-danger">*</span></label>
+                                <input type="text" id="emp_bairro" class="form-control" value="<%= empresa.emp_bairro %>" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="emp_cidade" class="form-label">Cidade<span class="text-danger">*</span></label>
+                                <input type="text" id="emp_cidade" class="form-control" value="<%= empresa.emp_cidade %>" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="emp_estado" class="form-label">Estado (UF)<span class="text-danger">*</span></label>
+                                <select id="emp_estado" class="form-select" required>
+                                    <option value="AC" <%= empresa.emp_estado == 'AC' ? 'selected' : '' %>>Acre</option>
+                                    <option value="AL" <%= empresa.emp_estado == 'AL' ? 'selected' : '' %>>Alagoas</option>
+                                    <option value="AP" <%= empresa.emp_estado == 'AP' ? 'selected' : '' %>>Amapá</option>
+                                    <option value="AM" <%= empresa.emp_estado == 'AM' ? 'selected' : '' %>>Amazonas</option>
+                                    <option value="BA" <%= empresa.emp_estado == 'BA' ? 'selected' : '' %>>Bahia</option>
+                                    <option value="CE" <%= empresa.emp_estado == 'CE' ? 'selected' : '' %>>Ceará</option>
+                                    <option value="DF" <%= empresa.emp_estado == 'DF' ? 'selected' : '' %>>Distrito Federal</option>
+                                    <option value="ES" <%= empresa.emp_estado == 'ES' ? 'selected' : '' %>>Espírito Santo</option>
+                                    <option value="GO" <%= empresa.emp_estado == 'GO' ? 'selected' : '' %>>Goiás</option>
+                                    <option value="MA" <%= empresa.emp_estado == 'MA' ? 'selected' : '' %>>Maranhão</option>
+                                    <option value="MT" <%= empresa.emp_estado == 'MT' ? 'selected' : '' %>>Mato Grosso</option>
+                                    <option value="MS" <%= empresa.emp_estado == 'MS' ? 'selected' : '' %>>Mato Grosso do Sul</option>
+                                    <option value="MG" <%= empresa.emp_estado == 'MG' ? 'selected' : '' %>>Minas Gerais</option>
+                                    <option value="PA" <%= empresa.emp_estado == 'PA' ? 'selected' : '' %>>Pará</option>
+                                    <option value="PB" <%= empresa.emp_estado == 'PB' ? 'selected' : '' %>>Paraíba</option>
+                                    <option value="PR" <%= empresa.emp_estado == 'PR' ? 'selected' : '' %>>Paraná</option>
+                                    <option value="PE" <%= empresa.emp_estado == 'PE' ? 'selected' : '' %>>Pernambuco</option>
+                                    <option value="PI" <%= empresa.emp_estado == 'PI' ? 'selected' : '' %>>Piauí</option>
+                                    <option value="RJ" <%= empresa.emp_estado == 'RJ' ? 'selected' : '' %>>Rio de Janeiro</option>
+                                    <option value="RN" <%= empresa.emp_estado == 'RN' ? 'selected' : '' %>>Rio Grande do Norte</option>
+                                    <option value="RS" <%= empresa.emp_estado == 'RS' ? 'selected' : '' %>>Rio Grande do Sul</option>
+                                    <option value="RO" <%= empresa.emp_estado == 'RO' ? 'selected' : '' %>>Rondônia</option>
+                                    <option value="RR" <%= empresa.emp_estado == 'RR' ? 'selected' : '' %>>Roraima</option>
+                                    <option value="SC" <%= empresa.emp_estado == 'SC' ? 'selected' : '' %>>Santa Catarina</option>
+                                    <option value="SP" <%= empresa.emp_estado == 'SP' ? 'selected' : '' %>>São Paulo</option>
+                                    <option value="SE" <%= empresa.emp_estado == 'SE' ? 'selected' : '' %>>Sergipe</option>
+                                    <option value="TO" <%= empresa.emp_estado == 'TO' ? 'selected' : '' %>>Tocantins</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label for="emp_complemento" class="form-label">Complemento</label>
+                                <input type="text" id="emp_complemento" class="form-control" value="<%= empresa.emp_complemento %>">
+                            </div>
+                        </div>
 
-    function formatCelular(celular) {
-        var v = celular.value;
-
-        if (v.length == 2) {
-            celular.value = "(" + v.replace(/[^0-9-()]/g, "").slice(0, -1);
-        } else if (v.length == 4) {
-            celular.value = v.replace(/[^0-9-()]/g, "").slice(0, -1) + ")";
-        } else if (v.length == 10) {
-            celular.value = v.replace(/[^0-9-()]/g, "").slice(0, -1) + "-";
-        } else if (v.length == 14) {
-            celular.value = v.replace(/[^0-9-()]/g, "");
-        }
-    }
-</script>
-
-<div class="container">
-    <div class="container-fluid">
-
-     <h1 class="h3 mb-4 text-gray-800">Alterar Empresa</h1>
-        <div>
-            <% if (typeof msg != "undefined") { %>             
-                <span  ><%= msg %></span>
-            <% } %>
-        </div>   
-        <input id="id" hidden value="<%= empresa.emp_id %>">
-        <input id="createdAt" hidden value="<%= empresa.createdAt %>">
-        <div class="col-md-4">
-            <label for="emp_nome" class="form-label">Nome da empresa<span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="emp_nome" name="emp_nome" placeholder="Digite o nome da empresa" maxlength="200" value="<%= empresa.emp_nome%>">
-        </div>
-        <div class="col-md-4">
-            <label for="emp_cnpj" class="form-label">CNPJ<span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="emp_cnpj" name="emp_cnpj" placeholder="Digite o CNPJ" value="<%= empresa.emp_cnpj%>" maxlength="18" oninput="formatCnpj(this)">
-        </div>
-        <div class="col-md-4">
-            <label for="emp_cep" class="form-label">CEP<span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="emp_cep" name="emp_cep" placeholder="Digite o CEP" value="<%= empresa.emp_cep%>" maxlength="9" oninput="formatCep(this)">
-        </div>
-        <div class="col-md-4">
-            <label for="emp_num" class="form-label">Número<span class="text-danger">*</span></label>
-            <input type="number" class="form-control" id="emp_num" name="emp_num" placeholder="Digite o número" value="<%= empresa.emp_num%>" maxlength="200">
-        </div>
-        <div class="col-md-4">
-            <label for="emp_cidade" class="form-label">Cidade<span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="emp_cidade" name="emp_cidade" placeholder="Digite a cidade" value="<%= empresa.emp_cidade%>" maxlength="200">
-        </div>
-        <div class="col-md-4">
-            <label for="emp_estado" class="form-label">Estado<span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="emp_estado" name="emp_estado" placeholder="Digite o estado" value="<%= empresa.emp_estado%>" maxlength="200">
-        </div>
-        <div class="col-md-4">
-            <label for="emp_rua" class="form-label">Rua<span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="emp_rua" name="emp_rua" placeholder="Digite a rua" value="<%= empresa.emp_rua%>" maxlength="200">
-        </div>
-        <div class="col-md-4">
-            <label for="emp_bairro" class="form-label">Bairro<span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="emp_bairro" name="emp_bairro" placeholder="Digite o bairro" value="<%= empresa.emp_bairro%>" maxlength="200">
-        </div>
-        <div class="col-md-4">
-            <label for="emp_complemento" class="form-label">Complemento</label>
-            <input type="text" class="form-control" id="emp_complemento" name="emp_complemento" placeholder="Digite o complemento" value="<%= empresa.emp_complemento%>" maxlength="200">
-        </div>
-        <div class="col-md-4">
-            <label for="emp_telefone" class="form-label">Telefone<span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="emp_telefone" name="emp_telefone" placeholder="Digite o telefone" value="<%= empresa.emp_telefone%>" maxlength="14" oninput="formatCelular(this)">
-        </div>
-
-        <br><br>
-        <div class="col-12">
-            <button type="button" class="btn btn-success px-4 py-3" id="btnAlterar">Salvar</button>
-            <button type="button" class="btn btn-secondary px-3 py-3" id="cancelar">Cancelar</button>
+                        <div class="mt-5 d-flex gap-2">
+                            <button type="submit" class="btn btn-primary px-5 py-2 fw-bold" id="btnSalvar">Salvar Alterações</button>
+                            <a href="/empresas/listar" class="btn btn-outline-secondary px-5 py-2">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/imask"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Máscaras (IMask)
+    IMask(document.getElementById('emp_cnpj'), { mask: '00.000.000/0000-00' });
+    IMask(document.getElementById('emp_cep'), { mask: '00000-000' });
+    IMask(document.getElementById('emp_telefone'), { 
+        mask: [
+            { mask: '(00) 0000-0000' },
+            { mask: '(00) 00000-0000' }
+        ] 
+    });
+
+    // Busca de CEP (ViaCEP)
+    async function buscarCep() {
+        const cep = document.getElementById('emp_cep').value.replace(/\D/g, '');
+        if (cep.length !== 8) return;
+
+        try {
+            const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+            const data = await res.json();
+            if (!data.erro) {
+                document.getElementById('emp_rua').value = data.logradouro;
+                document.getElementById('emp_bairro').value = data.bairro;
+                document.getElementById('emp_cidade').value = data.localidade;
+                document.getElementById('emp_estado').value = data.uf;
+                document.getElementById('emp_num').focus();
+            }
+        } catch (err) { console.error(err); }
+    }
+
+    document.getElementById('emp_cep').addEventListener('blur', buscarCep);
+    document.getElementById('btnBuscarCep').addEventListener('click', buscarCep);
+
+    // Envio do formulário
+    document.getElementById('formEmpresa').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const data = {
+            id: document.getElementById('emp_id').value,
+            createdAt: document.getElementById('createdAt').value,
+            nome: document.getElementById('emp_nome').value,
+            cnpj: document.getElementById('emp_cnpj').value,
+            cep: document.getElementById('emp_cep').value,
+            numero: document.getElementById('emp_num').value,
+            cidade: document.getElementById('emp_cidade').value,
+            estado: document.getElementById('emp_estado').value,
+            rua: document.getElementById('emp_rua').value,
+            bairro: document.getElementById('emp_bairro').value,
+            complemento: document.getElementById('emp_complemento').value,
+            telefone: document.getElementById('emp_telefone').value
+        };
+
+        fetch('/empresas/alterar', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .then(r => {
+            if (r.ok) {
+                Swal.fire('Sucesso!', 'Dados atualizados com sucesso.', 'success')
+                .then(() => window.location.href = '/empresas/listar');
+            } else {
+                Swal.fire('Erro!', r.msg, 'error');
+            }
+        });
+    });
+});
+</script>

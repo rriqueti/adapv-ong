@@ -24,6 +24,26 @@ class AuthMiddleware {
             return res.redirect("/login");
         }
     }
+
+    /**
+     * Middleware de autorização baseada em permissões (slugs).
+     * @param {Array} requiredPermissions Lista de permissões necessárias (OR logic).
+     */
+    authorize(requiredPermissions) {
+        return (req, res, next) => {
+            const userPermissions = req.usuario.permissoes || [];
+            
+            const hasPermission = requiredPermissions.some(p => userPermissions.includes(p));
+            
+            if (hasPermission) {
+                return next();
+            } else {
+                return res.status(403).render('error', { 
+                    message: "Você não tem permissão para acessar esta área." 
+                });
+            }
+        };
+    }
 }
 
 module.exports = AuthMiddleware;

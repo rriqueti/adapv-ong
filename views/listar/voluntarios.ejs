@@ -22,16 +22,9 @@
             </thead>
             <tbody>
                 <% for (let i = 0; i < listaVolun.length; i++)  { %>
-                    <%
-                    for (let j = 0; j < listaPessoa.length; j++) {
-                        if (listaVolun[i].pess_id == listaPessoa[j].pess_id) {
-                            listaVolun[i].pess_id = listaPessoa[j].pess_nome;
-                        }
-                    }
-                    %>
                     <tr>
                         <td><%= listaVolun[i].vol_id %></td>
-                        <td><%= listaVolun[i].pess_id %></td>
+                        <td><%= listaVolun[i].pess_nome %></td>
                         <td><%= listaVolun[i].createdAt %></td> 
                         <td><%= listaVolun[i].updatedAt %></td>
                         <td>

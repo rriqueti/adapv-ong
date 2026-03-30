@@ -6,13 +6,79 @@
         <!-- Se precisar do botão de relatório no futuro, implemente de verdade. Não deixe código morto na view. -->
     </div>
 
-    <!-- Linha dos Cards de Resumo -->
+    <!-- Linha dos Cards de Resumo de Animais e Adoções -->
+    <div class="row">
+
+        <!-- Card: Animais Disponíveis -->
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card border-left-warning shadow-sm h-100 py-2 border-0" style="border-radius: 1rem; border-left: 5px solid #f6c23e !important;">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1" style="color: #f6c23e !important;">
+                                Animais Disponíveis
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                <%= locals.totalDisponiveis || 0 %>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-paw fa-2x text-warning opacity-50"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card: Total Adotados -->
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card border-left-success shadow-sm h-100 py-2 border-0" style="border-radius: 1rem; border-left: 5px solid #1cc88a !important;">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Total de Adotados
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                <%= locals.totalAdotados || 0 %>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-heart fa-2x text-success opacity-50"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card: Adoções Pendentes -->
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card border-left-danger shadow-sm h-100 py-2 border-0" style="border-radius: 1rem; border-left: 5px solid #e74a3b !important;">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                Adoções Pendentes
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                <%= locals.totalPendentes || 0 %>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-clock fa-2x text-danger opacity-50"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Linha dos Cards de Resumo Financeiro -->
     <div class="row">
 
         <!-- Card: Doação (Mês atual) -->
-        <!-- Alterado de col-xl-3 para col-xl-4 para preencher a linha uniformemente com 3 cards -->
         <div class="col-xl-4 col-md-6 mb-4">
-            <div class="card border-left-primary shadow-sm h-100 py-2">
+            <div class="card border-left-primary shadow-sm h-100 py-2 border-0" style="border-radius: 1rem; border-left: 5px solid #4e73df !important;">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
@@ -20,11 +86,11 @@
                                 Doação em dinheiro (Mês atual)
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                R$<%= saldoMesAtual ? saldoMesAtual.toFixed(2).replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") : "0" %>
+                                R$<%= (saldoMesAtual || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) %>
                             </div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-calendar fa-2x text-primary opacity-50"></i>
+                            <i class="fas fa-calendar-alt fa-2x text-primary opacity-50"></i>
                         </div>
                     </div>
                 </div>
@@ -33,19 +99,19 @@
 
         <!-- Card: Doação (Anual) -->
         <div class="col-xl-4 col-md-6 mb-4">
-            <div class="card border-left-success shadow-sm h-100 py-2">
+            <div class="card border-left-primary shadow-sm h-100 py-2 border-0" style="border-radius: 1rem; border-left: 5px solid #36b9cc !important;">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1" style="color: #36b9cc !important;">
                                 Doação em dinheiro (Anual)
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                R$<%= saldoAnoAtual ? saldoAnoAtual.toFixed(2).replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") : "0" %>
+                                R$<%= (saldoAnoAtual || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) %>
                             </div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-dollar-sign fa-2x text-success opacity-50"></i>
+                            <i class="fas fa-dollar-sign fa-2x text-info opacity-50"></i>
                         </div>
                     </div>
                 </div>
@@ -54,87 +120,35 @@
 
         <!-- Card: Controle de Eventos -->
         <div class="col-xl-4 col-md-6 mb-4">
-            <div class="card border-left-info shadow-sm h-100 py-2">
+            <div class="card border-left-info shadow-sm h-100 py-2 border-0" style="border-radius: 1rem; border-left: 5px solid #858796 !important;">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                Controle de eventos em aberto: <span class="text-gray-800 ml-1"><%= qntEmAberto %></span>
+                            <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">
+                                Inventário/Eventos em aberto
                             </div>
                             <div class="row no-gutters align-items-center mt-2">
                                 <div class="col-auto">
-                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><%= qntEmAbertoPorcen %>%</div>
+                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><%= qntEmAberto || 0 %></div>
                                 </div>
                                 <div class="col">
-                                    <div class="progress progress-sm mr-2">
+                                    <div class="progress progress-sm mr-2" style="height: 8px; border-radius: 4px;">
                                         <div class="progress-bar bg-info" role="progressbar"
-                                            style="width: <%= qntEmAbertoPorcen ? String(Number(qntEmAbertoPorcen)) + '%' : '0%' %>" 
-                                            aria-valuenow="<%= qntEmAbertoPorcen %>" 
+                                            style="width: <%= qntEmAbertoPorcen || 0 %>%" 
+                                            aria-valuenow="<%= qntEmAbertoPorcen || 0 %>" 
                                             aria-valuemin="0"
                                             aria-valuemax="100">
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-auto">
+                                    <small class="text-muted"><%= qntEmAbertoPorcen || 0 %>%</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-clipboard-list fa-2x text-info opacity-50"></i>
+                            <i class="fas fa-tasks fa-2x text-gray-400 opacity-50"></i>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- Linha de Conteúdo Secundário (Gráficos e Projetos) -->
-    <div class="row">
-
-        <!-- Coluna dos Projetos -->
-        <div class="col-lg-6 mb-4">
-            <div class="card shadow-sm mb-4 h-100">
-                <div class="card-header py-3 bg-white border-bottom">
-                    <h6 class="m-0 font-weight-bold text-primary">Status dos Projetos</h6>
-                </div>
-                <div class="card-body">
-                    <h4 class="small font-weight-bold">Projeto de Expansão de Abrigo <span class="float-right text-danger">67%</span></h4>
-                    <div class="progress mb-4">
-                        <div class="progress-bar bg-danger" role="progressbar" style="width: 67%" aria-valuenow="67" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    
-                    <h4 class="small font-weight-bold">Vacinação de Animais de Rua <span class="float-right text-warning">33%</span></h4>
-                    <div class="progress mb-4">
-                        <div class="progress-bar bg-warning" role="progressbar" style="width: 33%" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    
-                    <h4 class="small font-weight-bold">Iniciativa de Sustentabilidade <span class="float-right text-primary">12%</span></h4>
-                    <div class="progress mb-4">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 12%" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    
-                    <h4 class="small font-weight-bold">Campanha de Adoção <span class="float-right text-info">80%</span></h4>
-                    <div class="progress mb-4">
-                        <div class="progress-bar bg-info" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    
-                    <h4 class="small font-weight-bold">Gastos Mensais <span class="float-right text-success">Concluído!</span></h4>
-                    <div class="progress">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Coluna do Gráfico -->
-        <div class="col-lg-6 mb-4">
-            <div class="card shadow-sm mb-4 h-100">
-                <div class="card-header py-3 bg-white border-bottom">
-                    <h6 class="m-0 font-weight-bold text-primary">Visão Geral</h6>
-                </div>
-                <div class="card-body d-flex align-items-center justify-content-center">
-                    <!-- O Chart.js ajusta o tamanho automaticamente se o contêiner for responsivo. Não use 'width' fixo ou inline styles no canvas. -->
-                    <div class="chart-container w-100 position-relative" style="min-height: 300px;">
-                        <canvas id="myChart"></canvas>
                     </div>
                 </div>
             </div>

@@ -1,0 +1,128 @@
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h1 class="h3 mb-4 text-gray-800 fw-bold">Registrar Novo Usuário</h1>
+
+            <div class="card shadow-sm border-0" style="border-radius: 1rem;">
+                <div class="card-body p-4 p-md-5">
+                    <form id="formUsuario">
+                        <div class="row g-3 mb-4">
+                            <h5 class="fw-bold mb-0">Informações Pessoais</h5>
+                            <div class="col-md-12">
+                                <label for="nome" class="form-label">Nome Completo<span class="text-danger">*</span></label>
+                                <input type="text" id="nome" class="form-control" placeholder="Digite o nome completo" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="telefone" class="form-label">Telefone/Celular<span class="text-danger">*</span></label>
+                                <input type="text" id="telefone" class="form-control" placeholder="(00) 00000-0000" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="nascimento" class="form-label">Data de Nascimento<span class="text-danger">*</span></label>
+                                <input type="date" id="nascimento" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <hr class="my-4 opacity-10">
+
+                        <div class="row g-3 mb-4">
+                            <h5 class="fw-bold mb-0">Credenciais de Acesso</h5>
+                            <div class="col-md-6">
+                                <label for="email" class="form-label">E-mail (Login)<span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="fas fa-envelope text-muted"></i></span>
+                                    <input type="email" id="email" class="form-control border-start-0" placeholder="usuario@exemplo.com" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="senha" class="form-label">Senha de Acesso<span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="fas fa-lock text-muted"></i></span>
+                                    <input type="password" id="senha" class="form-control border-start-0" placeholder="Mínimo 6 caracteres" required>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="perfil_id" class="form-label">Perfil de Permissão<span class="text-danger">*</span></label>
+                                <select id="perfil_id" class="form-select" required>
+                                    <option value="" disabled selected>Selecione o nível de acesso...</option>
+                                    <% for (let i = 0; i < perfis.length; i++) { %>
+                                        <option value="<%= perfis[i].perf_id %>"><%= perfis[i].perf_nome %></option>
+                                    <% } %>
+                                </select>
+                                <div class="form-text mt-2">O perfil define quais menus e ações este usuário poderá acessar.</div>
+                            </div>
+                        </div>
+
+                        <div class="mt-5 d-flex gap-2">
+                            <button type="submit" class="btn btn-success px-5 py-2 fw-bold" id="btnSalvar">Salvar Usuário</button>
+                            <a href="/usuarios/listar" class="btn btn-outline-secondary px-5 py-2">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/imask"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Máscara de Telefone
+    IMask(document.getElementById('telefone'), {
+        mask: [
+            { mask: '(00) 0000-0000' },
+            { mask: '(00) 00000-0000' }
+        ]
+    });
+
+    document.getElementById('formUsuario').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const data = {
+            nome: document.getElementById('nome').value,
+            email: document.getElementById('email').value,
+            senha: document.getElementById('senha').value,
+            telefone: document.getElementById('telefone').value,
+            nascimento: document.getElementById('nascimento').value,
+            perfil_id: document.getElementById('perfil_id').value
+        };
+
+        Swal.fire({
+            title: 'Confirmar Cadastro?',
+            text: `O usuário "${data.nome}" terá acesso ao sistema conforme o perfil selecionado.`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#10b981',
+            confirmButtonText: 'Sim, cadastrar',
+            cancelButtonText: 'Revisar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch('/usuarios/cadastrar', {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    headers: { 'Content-Type': 'application/json' }
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.ok) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Sucesso!',
+                            text: res.msg,
+                            timer: 2000,
+                            showConfirmButton: false
+                        }).then(() => {
+                            window.location.href = '/usuarios/listar';
+                        });
+                    } else {
+                        Swal.fire('Erro!', res.msg, 'error');
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    Swal.fire('Erro!', 'Falha de comunicação com o servidor.', 'error');
+                });
+            }
+        });
+    });
+});
+</script>

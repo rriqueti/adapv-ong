@@ -1,0 +1,110 @@
+<div class="page-header mb-4">
+    <div>
+        <h1 class="page-title" style="font-size: 2.25rem; font-weight: 800;">Gestão de Usuários</h1>
+        <p class="text-muted mt-2 mb-0" style="font-size: 1.1rem;">Controle quem pode acessar o sistema e quais são seus níveis de permissão.</p>
+    </div>
+    <div class="actions mt-3 mt-md-0 d-flex gap-2">
+        <a href="/usuarios/cadastrar" class="btn btn-purple shadow-sm px-4 py-2" style="border-radius: 0.75rem;">
+            <i class="fas fa-user-plus me-2"></i>Novo Usuário
+        </a>
+    </div>
+</div>
+
+<div class="card shadow-sm border-0" style="border-radius: 1rem;">
+    <div class="card-body p-4">
+        <div class="table-responsive">
+            <table id="tabelaUsuarios" class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th class="border-0">Usuário</th>
+                        <th class="border-0">E-mail</th>
+                        <th class="border-0">Perfil</th>
+                        <th class="border-0 text-center">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (usuarios && usuarios.length > 0) { %>
+                        <% for (let i = 0; i < usuarios.length; i++) { %>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-purple-light text-purple rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px; background-color: rgba(124, 58, 237, 0.1); color: #7c3aed;">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold text-dark"><%= usuarios[i].pessoa_nome %></div>
+                                            <small class="text-muted">ID: #<%= usuarios[i].id %></small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-muted"><%= usuarios[i].email %></td>
+                                <td>
+                                    <span class="badge rounded-pill px-3 py-2 fw-bold" style="background-color: rgba(124, 58, 237, 0.1); color: #7c3aed;">
+                                        <%= usuarios[i].perfil_nome %>
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <a href="/usuarios/alterar/<%= usuarios[i].id %>" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                            <i class="fas fa-user-edit me-1"></i>Editar
+                                        </a>
+                                        <button class="btn btn-sm btn-outline-danger rounded-pill px-3 btnExclusao" data-id="<%= usuarios[i].id %>">
+                                            <i class="fas fa-trash-alt me-1"></i>Excluir
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% } %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="4" class="text-center py-5 text-muted">
+                                <i class="fas fa-users d-block fs-1 mb-3 opacity-25"></i>
+                                Nenhum usuário encontrado.
+                            </td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Exclusão com SweetAlert2
+    const botoesExclusao = document.querySelectorAll('.btnExclusao');
+    botoesExclusao.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            
+            Swal.fire({
+                title: 'Remover Usuário?',
+                text: "O acesso deste usuário será cancelado imediatamente.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Sim, remover',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch('/usuarios/excluir', {
+                        method: 'POST',
+                        body: JSON.stringify({ id: id }),
+                        headers: { 'Content-Type': 'application/json' }
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.ok) {
+                            Swal.fire('Removido!', data.msg || 'Acesso revogado.', 'success')
+                            .then(() => window.location.reload());
+                        } else {
+                            Swal.fire('Erro!', data.msg || 'Falha ao remover.', 'error');
+                        }
+                    });
+                }
+            });
+        });
+    });
+});
+</script>
