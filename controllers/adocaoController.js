@@ -2,6 +2,7 @@ const { DateTime } = require("luxon");
 const PessoaModel = require("../models/pessoaModel");
 const AnimalModel = require("../models/animaisModel");
 const AdocaoModel = require("../models/adocaoModel");
+const VoluntariosModel = require("../models/voluntariosModel");
 
 class AdocaoController {
 
@@ -64,8 +65,31 @@ class AdocaoController {
     }
 
     async listagemView(req, res) {
-        let adocao = new AdocaoModel()
-        let listaAdocao = await adocao.listarAdocao();
+        let adocao = new AdocaoModel();
+        let listaAdocao = [];
+        const usuarioLogado = res.locals.usuarioLogado || req.usuario;
+
+        if (usuarioLogado) {
+            const voluntarioModel = new VoluntariosModel();
+            const isVoluntario = await voluntarioModel.isVoluntario(usuarioLogado.pess_id);
+            
+            const perfilNome = (usuarioLogado.perfil_nome || '').toLowerCase().trim();
+            const perfilId = usuarioLogado.perfil_id || usuarioLogado.perfilId;
+
+            // Admin e Voluntários veem tudo
+            if (perfilNome === 'admin' || perfilNome === 'administrador' || perfilId === 1 || isVoluntario) {
+                listaAdocao = await adocao.listarAdocao();
+            } else if (perfilNome === 'usuario_adocao' || perfilId === 3) {
+                // usuario_adocao vê apenas suas próprias adoções
+                listaAdocao = await adocao.listarAdocao(usuarioLogado.pess_id);
+            } else {
+                // Para outros perfis, mantém a listagem padrão (ajuste conforme necessário)
+                listaAdocao = await adocao.listarAdocao();
+            }
+        } else {
+            listaAdocao = await adocao.listarAdocao();
+        }
+
         res.render('listar/adocao', {
             listaAdocao: listaAdocao,
             permissoes: res.locals.permissoes // Passando permissões para a view

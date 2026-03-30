@@ -148,6 +148,12 @@ class VoluntariosModel {
         return result;
     }
 
+    async isVoluntario(pess_id) {
+        let sql = "SELECT vol_id FROM tb_voluntarios WHERE pess_id = ?";
+        let rows = await banco.ExecutaComando(sql, [pess_id]);
+        return rows.length > 0;
+    }
+
 }
 
 module.exports = VoluntariosModel;

@@ -14,10 +14,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 const filter = button.dataset.filter;
 
                 adocaoCards.forEach(card => {
-                    if (filter === 'todos' || card.dataset.status === filter) {
-                        card.style.display = 'flex';
+                    const cardStatus = card.dataset.status;
+                    if (filter === 'todos' || cardStatus === filter) {
+                        card.style.removeProperty('display');
+                        card.classList.remove('d-none');
                     } else {
-                        card.style.display = 'none';
+                        card.classList.add('d-none');
+                        card.style.setProperty('display', 'none', 'important');
                     }
                 });
             });
@@ -37,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     text: `Você tem certeza que deseja "${acao}" a solicitação de adoção para ${animalNome}?`,
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: acao === 'Aprovada' ? '#198754' : '#dc3545',
+                    confirmButtonColor: acao.toLowerCase() === 'aprovada' ? '#198754' : '#dc3545',
                     cancelButtonColor: '#6c757d',
                     confirmButtonText: `Sim, ${acao}!`,
                     cancelButtonText: 'Cancelar'
