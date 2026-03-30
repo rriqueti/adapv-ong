@@ -44,8 +44,8 @@ class AdocaoModel {
 
     // Métodos
 
-    async listarAdocao() {
-        const sql = `
+    async listarAdocao(pess_id = null) {
+        let sql = `
             SELECT 
                 a.*,
                 p.pess_nome,
@@ -53,9 +53,17 @@ class AdocaoModel {
             FROM tb_adocao a
             INNER JOIN tb_pessoa p ON a.pess_id = p.pess_id
             INNER JOIN tb_animais an ON a.ani_id = an.ani_id
-            ORDER BY a.createdAt DESC
         `;
-        const adocoes = await banco.ExecutaComando(sql);
+
+        let args = [];
+        if (pess_id) {
+            sql += " WHERE a.pess_id = ?";
+            args.push(pess_id);
+        }
+
+        sql += " ORDER BY a.createdAt DESC";
+
+        const adocoes = await banco.ExecutaComando(sql, args);
         return adocoes;
     }
 

@@ -6,10 +6,10 @@
     <div class="actions">
         <!-- Filtros -->
         <div class="filter-buttons">
-            <button class="btn-filter active" data-filter="todos">Todos</button>
-            <button class="btn-filter" data-filter="pendente">Pendentes</button>
-            <button class="btn-filter" data-filter="aprovada">Aprovadas</button>
-            <button class="btn-filter" data-filter="rejeitada">Rejeitadas</button>
+            <button type="button" class="btn-filter active" data-filter="todos">Todos</button>
+            <button type="button" class="btn-filter" data-filter="pendente">Pendentes</button>
+            <button type="button" class="btn-filter" data-filter="aprovada">Aprovadas</button>
+            <button type="button" class="btn-filter" data-filter="rejeitada">Rejeitadas</button>
         </div>
     </div>
 </div>
@@ -23,15 +23,19 @@
     <% } %>
 
     <% listaAdocao.forEach(adocao => { %>
-        <div class="col-12 mb-4 d-flex align-items-stretch adocao-card-wrapper" data-status="<%= (adocao.status || '').toLowerCase() %>">
+        <% 
+            let statusComp = (adocao.status || 'pendente').toLowerCase().trim();
+            if (statusComp === 'aprovado') statusComp = 'aprovada';
+            if (statusComp === 'rejeitado') statusComp = 'rejeitada';
+
+            let statusClass = '';
+            if (statusComp === 'aprovada') statusClass = 'aprovada';
+            else if (statusComp === 'rejeitada') statusClass = 'rejeitada';
+            else statusClass = 'pendente';
+        %>
+        <div class="col-12 mb-4 d-flex align-items-stretch adocao-card-wrapper" data-status="<%= statusComp %>">
             <div class="adocao-card">
-                <% 
-                    let statusClass = '';
-                    if ((adocao.status || '').toLowerCase() === 'aprovada') statusClass = 'aprovada';
-                    else if ((adocao.status || '').toLowerCase() === 'rejeitada') statusClass = 'rejeitada';
-                    else statusClass = 'pendente';
-                %>
-                <span class="status-badge <%= statusClass %>"><%= adocao.status ? adocao.status.charAt(0).toUpperCase() + adocao.status.slice(1) : '' %></span>
+                <span class="status-badge <%= statusClass %>"><%= adocao.status ? adocao.status.charAt(0).toUpperCase() + adocao.status.slice(1) : 'Pendente' %></span>
 
                 <div class="card-body">
                     <div class="info-item">

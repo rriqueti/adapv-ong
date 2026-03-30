@@ -68,7 +68,7 @@ class UsuarioModel {
 
         if (rows.length > 0) {
             const data = rows[0];
-            return { id: data.id, nome: data.pessoa_nome, email: data.email, perfil_id: data.perfil_id, pess_id: data.pess_id };
+            return { id: data.id, nome: data.pessoa_nome, email: data.email, perfil_id: data.perfil_id, pess_id: data.pess_id, perfil_nome: data.perfil_nome };
         }
         return null;
     }
