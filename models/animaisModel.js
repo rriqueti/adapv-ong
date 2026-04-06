@@ -149,22 +149,20 @@ class AnimaisModel {
 
     async cadastrar() {
         if (this.#ani_id == 0) {
-            let sql = "insert into tb_animais (ani_nome, ani_nascimento, ani_raca, ani_sexo, ani_especie, ani_pelagem, ani_ester, ani_estado, ani_disponivel, ani_descricao, createdAt, updatedAt) values (?,?,?,?,?,?,?,?,?,?,?,?)";
-
-            let valores = [this.#ani_nome, this.#ani_nascimento, this.#ani_raca, this.#ani_sexo, this.#ani_especie, this.#ani_pelagem, this.#ani_ester, this.#ani_estado, this.#ani_disponivel, this.#ani_descricao, this.#createdAt, this.#updatedAt];
-
-            let result = await banco.ExecutaComandoNonQuery(sql, valores);
-
-            return result;
+            let sql = "insert into tb_animais (ani_nome, ani_nascimento, ani_raca, ani_sexo, ani_especie, ani_pelagem, ani_ester, ani_estado, ani_disponivel, ani_descricao, createdAt, updatedAt, ani_localidade) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            let valores = [this.#ani_nome, this.#ani_nascimento, this.#ani_raca, this.#ani_sexo, this.#ani_especie, this.#ani_pelagem, this.#ani_ester, this.#ani_estado, this.#ani_disponivel, this.#ani_descricao, this.#createdAt, this.#updatedAt, this.#ani_localidade];
+            return await banco.ExecutaComandoNonQuery(sql, valores);
+        } else {
+            let sql = "update tb_animais set ani_nome = ?, ani_nascimento = ?, ani_raca = ?, ani_sexo = ?, ani_especie = ?, ani_pelagem = ?, ani_ester = ?, ani_estado = ?, ani_disponivel = ?, ani_descricao = ?, createdAt = ?, updatedAt = ?, ani_localidade = ? where ani_id = ?";
+            let valores = [this.#ani_nome, this.#ani_nascimento, this.#ani_raca, this.#ani_sexo, this.#ani_especie, this.#ani_pelagem, this.#ani_ester, this.#ani_estado, this.#ani_disponivel, this.#ani_descricao, this.#createdAt, this.#updatedAt, this.#ani_localidade, this.#ani_id];
+            return await banco.ExecutaComandoNonQuery(sql, valores);
         }
-        else {
-            let sql = "update tb_animais set ani_nome = ?, ani_nascimento = ?, ani_raca = ?, ani_sexo = ?, ani_especie = ?, ani_pelagem = ?, ani_ester = ?, ani_estado = ?, ani_disponivel = ?, ani_descricao = ?, createdAt = ?, updatedAt = ? where ani_id = ?";
+    }
 
-            let valores = [this.#ani_nome, this.#ani_nascimento, this.#ani_raca, this.#ani_sexo, this.#ani_especie, this.#ani_pelagem, this.#ani_ester, this.#ani_estado, this.#ani_disponivel, this.#ani_descricao, this.#createdAt, this.#updatedAt, this.#ani_id];
-
-            let result = await banco.ExecutaComandoNonQuery(sql, valores);
-            return result;
-        }
+    async cadastrarRetornandoId() {
+        let sql = "insert into tb_animais (ani_nome, ani_nascimento, ani_raca, ani_sexo, ani_especie, ani_pelagem, ani_ester, ani_estado, ani_disponivel, ani_descricao, createdAt, updatedAt, ani_localidade) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        let valores = [this.#ani_nome, this.#ani_nascimento, this.#ani_raca, this.#ani_sexo, this.#ani_especie, this.#ani_pelagem, this.#ani_ester, this.#ani_estado, this.#ani_disponivel, this.#ani_descricao, this.#createdAt, this.#updatedAt, this.#ani_localidade];
+        return await banco.ExecutaComandoLastInserted(sql, valores);
     }
 
     // CRIEI UMA OUTRA FUNÇÃO ALTERAR PARA CASO EXISTA UMA IMPLEMETAÇÃO QUE O FÚLVIO QUEIRA FAZER ESTÁ SEPARADO E FICA MAIS FÁCIL DE ENTENDER. MAS INICIALMENTE AS DUAS TEM A MESMA FUNÇÃO

@@ -1,191 +1,570 @@
 <link rel="stylesheet" type="text/css" media="print" href="/css/print.css">
-<!-- Se esse script ler uma tabela HTML, ele vai quebrar. Você precisará exportar passando os dados JSON puros para o SheetJS -->
 <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
-<script src="/js/listar/animais.js"></script>
 
+<!-- ========== PÁGINA HEADER ========== -->
 <div class="page-header">
-    <h1 class="page-title">Pets para Adoção</h1>
+    <h1 class="page-title">
+        <i class="fas fa-paw me-2" style="color: var(--primary-purple);"></i>
+        Animais Cadastrados
+    </h1>
     <div class="actions">
-        <button id="btnExportarExcel" class="btn-action btn-excel">
+        <button id="btnExportarExcel" class="btn-action btn-excel" title="Exportar Excel">
             <i class="fas fa-file-excel"></i>
             <span>Excel</span>
         </button>
-        <button id="btnExportarPdf" onclick="window.print()" class="btn-action btn-pdf">
-            <i class="fas fa-file-pdf"></i>
+        <button id="btnExportarPdf" onclick="window.print()" class="btn-action btn-pdf" title="Imprimir / PDF">
+            <i class="fas fa-print"></i>
             <span>PDF</span>
         </button>
         <a href="/animais/cadastrar" class="btn-action btn-novo">
-            <i class="fas fa-plus" style="stroke-width: 3;"></i>
+            <i class="fas fa-plus"></i>
             <span>Novo Animal</span>
         </a>
     </div>
 </div>
 
-<!-- Tabela Oculta para Exportação (Gambiara aceitável temporária, o ideal é o JS gerar via JSON) -->
+<!-- ========== FILTROS ========== -->
+<div class="filters-bar">
+    <!-- Busca por nome -->
+    <div class="search-wrapper">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" id="buscaNome" class="search-input" placeholder="Buscar por nome...">
+    </div>
+
+    <!-- Filtro status -->
+    <div class="filter-group">
+        <button class="filter-chip active" data-filter="disponivel" data-value="todos">Todos</button>
+        <button class="filter-chip" data-filter="disponivel" data-value="Sim">
+            <span class="dot disponivel"></span> Disponíveis
+        </button>
+        <button class="filter-chip" data-filter="disponivel" data-value="Nao">
+            <span class="dot adotado"></span> Adotados
+        </button>
+    </div>
+
+    <!-- Filtro localidade -->
+    <select id="filtroLocalidade" class="filter-select">
+        <option value="">📍 Todas as localidades</option>
+        <option value="ONG">Habitando na ONG</option>
+        <option value="Lar provisório">Lar provisório</option>
+        <option value="Abandonado">Abandonado</option>
+    </select>
+
+    <!-- Contador -->
+    <div class="results-count">
+        <span id="countAnimais"><%= lista.length %></span> animal(is)
+    </div>
+</div>
+
+<!-- Tabela oculta para exportação Excel -->
 <table id="tabelaAnimais" class="d-none">
     <thead>
         <tr>
-            <!-- <th>Id</th> -->
-            <th>Nome</th>
-            <th>Data Nasc.</th>
-            <th>Raça</th>
-            <th>Sexo</th>
-            <th>Espécie</th>
-            <th>Disponível</th>
+            <th>ID</th><th>Nome</th><th>Espécie</th><th>Raça</th>
+            <th>Sexo</th><th>Nascimento</th><th>Localidade</th><th>Disponível</th>
         </tr>
     </thead>
     <tbody>
-        <% for (let i=0; i < lista.length; i++) { %>
-            <tr>
-                <% if (lista[i].ani_disponivel==='Sim' ) { %>
-                    <td>
-                        <%= lista[i].ani_id %>
-                    </td>
-                    <td>
-                        <%= lista[i].ani_nome %>
-                    </td>
-                    <td>
-                        <%= new Date(lista[i].ani_nascimento).toLocaleDateString('pt-BR', { timeZone: 'UTC' }) %>
-                    </td>
-                    <td>
-                        <%= lista[i].ani_raca %>
-                    </td>
-                    <td>
-                        <%= lista[i].ani_sexo %>
-                    </td>
-                    <td>
-                        <%= lista[i].ani_especie %>
-                    </td>
-                    <td>
-                        <%= lista[i].ani_disponivel %>
-                    </td>
-                    <% } %>
-            </tr>
-            <% } %>
+        <% lista.forEach(function(a) { %>
+        <tr>
+            <td><%= a.ani_id %></td>
+            <td><%= a.ani_nome %></td>
+            <td><%= a.ani_especie %></td>
+            <td><%= a.ani_raca %></td>
+            <td><%= a.ani_sexo %></td>
+            <td><%= a.ani_nascimento ? new Date(a.ani_nascimento).toLocaleDateString('pt-BR', { timeZone: 'UTC' }) : 'Desconhecida' %></td>
+            <td><%= a.ani_localidade || '-' %></td>
+            <td><%= a.ani_disponivel %></td>
+        </tr>
+        <% }); %>
     </tbody>
 </table>
 
-<!-- Grid de Cards -->
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4">
-        <% if (lista.length===0) { %>
-            <div class="col-12 text-center py-5 text-muted">
-                <i class="fas fa-paw fa-3x mb-3"></i>
-                <p>Nenhum animal cadastrado no momento.</p>
-            </div>
-        <% } %>
-        <% for (let i=0; i < lista.length; i++) { %>
-            <div class="col d-flex align-items-stretch">
-                <div class="animal-card">
-                        <div class="img-container">
-                            <% if (lista[i].ani_foto) { %>
-                                <img src="<%= lista[i].ani_foto %>" alt="Foto de <%= lista[i].ani_nome %>">
-                                <% } else { %>
-                                    <svg class="placeholder-icon" fill="currentColor" viewBox="0 0 24 24">
-                                        <path
-                                            d="M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zm-5.5 0c-1.381 0-2.5 1.119-2.5 2.5s1.119 2.5 2.5 2.5 2.5-1.119 2.5-2.5-1.119-2.5-2.5-2.5zm11 0c-1.381 0-2.5 1.119-2.5 2.5s1.119 2.5 2.5 2.5 2.5-1.119 2.5-2.5-1.119-2.5-2.5-2.5zM12 16.5c-3.314 0-6 2.686-6 6h12c0-3.314-2.686-6-6-6z" />
-                                    </svg>
-                                    <% } %>
+<!-- ========== GRID DE CARDS ========== -->
+<div class="animals-grid" id="animaisGrid">
+    <% if (lista.length === 0) { %>
+    <div class="empty-state">
+        <div class="empty-icon"><i class="fas fa-paw"></i></div>
+        <h3>Nenhum animal cadastrado</h3>
+        <p>Comece cadastrando o primeiro animal da ONG.</p>
+        <a href="/animais/cadastrar" class="btn btn-novo btn-action">
+            <i class="fas fa-plus"></i> Cadastrar Animal
+        </a>
+    </div>
+    <% } %>
 
-                                        <% let statusClass=lista[i].ani_disponivel==='Sim' ? 'disponivel' : 'adotado' ;
-                                            %>
-                                            <% let statusText=lista[i].ani_disponivel==='Sim' ? 'Disponível' : 'Adotado'
-                                                ; %>
-                                                <span class="status-badge <%= statusClass %>">
-                                                    <%= statusText %>
-                                                </span>
-                        </div>
+    <% lista.forEach(function(animal) {
+        const sexo = (animal.ani_sexo || '').toLowerCase();
+        const sexoIcon = sexo === 'macho' ? '♂' : sexo === 'femea' ? '♀' : '—';
+        const sexoClass = sexo === 'macho' ? 'macho' : sexo === 'femea' ? 'femea' : '';
+        const disponivel = animal.ani_disponivel === 'Sim';
+        const nascimento = animal.ani_nascimento
+            ? new Date(animal.ani_nascimento).toLocaleDateString('pt-BR', { timeZone: 'UTC' })
+            : null;
 
-                        <div class="info-body">
-                            <h3 class="animal-name">
-                                <%= lista[i].ani_nome %>
-                            </h3>
-                            <p class="animal-description"
-                                style="display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
-                                <%= lista[i].ani_descricao || 'Sem descrição cadastrada.' %>
-                            </p>
+        let localIcon = '🏠';
+        if (animal.ani_localidade === 'Lar provisório') localIcon = '🏘️';
+        else if (animal.ani_localidade === 'Abandonado') localIcon = '🌍';
+    %>
+    <div class="animal-card-new"
+         data-nome="<%= (animal.ani_nome || '').toLowerCase() %>"
+         data-disponivel="<%= animal.ani_disponivel %>"
+         data-localidade="<%= animal.ani_localidade || '' %>">
 
-                            <ul class="info-list">
-                                <li>
-                                    <span class="label">ID</span>
-                                    <span>#<%= lista[i].ani_id %></span>
-                                </li>
-                                <li>
-                                    <span class="label">Raça</span>
-                                    <span><%= lista[i].ani_raca %></span>
-                                </li>
-                                <li>
-                                    <span class="label">Sexo</span>
-                                    <span class="gender-badge <%= (lista[i].ani_sexo || '').toLowerCase() %>">
-                                        <%= (lista[i].ani_sexo || '').toLowerCase() === 'macho' ? '♂' : '♀' %> <%= lista[i].ani_sexo %>
-                                    </span>
-                                </li>
-                                <li>
-                                    <span class="label">Espécie</span>
-                                    <span><%= lista[i].ani_especie %></span>
-                                </li>
-                                <li>
-                                    <span class="label">Nascimento</span>
-                                    <span>
-                                        <%= new Date(lista[i].ani_nascimento).toLocaleDateString('pt-BR', { timeZone: 'UTC' }) %>
-                                    </span>
-                                </li>
-                                <li>
-                                    <span class="label">Esterilizado</span>
-                                    <span><%= lista[i].ani_ester %></span>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="actions-footer">
-                            <% if (lista[i].ani_disponivel==='Sim' ) { %>
-                                <% if (locals.permissoes && locals.permissoes.includes('adocao.solicitar')) { %>
-                                    <button class="btn-status-change btnAdotar" data-bs-toggle="modal"
-                                        data-bs-target="#adocaoModal" data-animal-id="<%= lista[i].ani_id %>"
-                                        data-animal-nome="<%= lista[i].ani_nome %>">
-                                        Solicitar Adoção
-                                    </button>
-                                <% } %>
-                                <% } else { %>
-                                    <span>&nbsp;</span>
-                                    <% } %>
-
-                                        <div class="icon-actions">
-                                            <a href="/animais/alterar/<%= lista[i].ani_id %>" class="btn-icon edit"
-                                                title="Editar">
-                                                <i class="fas fa-pen icon"></i>
-                                            </a>
-                                            <% if (locals.permissoes && locals.permissoes.includes('animal.excluir')) { %>
-                                                <button data-codigoexclusao="<%= lista[i].ani_id %>"
-                                                    class="btn-icon delete btnExclusao" title="Excluir">
-                                                    <i class="fas fa-trash icon"></i>
-                                                </button>
-                                            <% } %>
-                                        </div>
-                        </div>
-                    </div>
+        <!-- Imagem -->
+        <div class="card-img-wrap">
+            <% if (animal.fotoPerfil) { %>
+                <img src="<%= animal.fotoPerfil %>" alt="<%= animal.ani_nome %>" class="card-img" loading="lazy">
+            <% } else { %>
+                <div class="card-img-placeholder">
+                    <i class="fas fa-paw"></i>
                 </div>
+            <% } %>
+
+            <!-- Badge disponibilidade (canto superior esquerdo) -->
+            <span class="badge-disponivel <%= disponivel ? 'disp-sim' : 'disp-nao' %>">
+                <%= disponivel ? '✓ Disponível' : '✗ Adotado' %>
+            </span>
+
+            <!-- Sexo (canto superior direito) -->
+            <span class="badge-sexo <%= sexoClass %>"><%= sexoIcon %> <%= animal.ani_sexo %></span>
+        </div>
+
+        <!-- Corpo -->
+        <div class="card-body-new">
+            <div class="card-title-row">
+                <h3 class="card-animal-name"><%= animal.ani_nome %></h3>
+                <span class="card-especie-tag"><%= animal.ani_especie %></span>
+            </div>
+
+            <p class="card-raca">
+                <i class="fas fa-dna me-1 opacity-50" style="font-size:0.7rem;"></i>
+                <%= animal.ani_raca || 'Sem raça definida' %>
+            </p>
+
+            <% if (animal.ani_descricao) { %>
+            <p class="card-desc"><%= animal.ani_descricao %></p>
+            <% } %>
+
+            <!-- Infos rápidas -->
+            <div class="card-chips">
+                <span class="info-chip">
+                    <i class="fas fa-calendar-alt"></i>
+                    <%= nascimento ? nascimento : 'Nasc. desconhecido' %>
+                </span>
+                <span class="info-chip">
+                    <%= localIcon %> <%= animal.ani_localidade || 'Localidade não informada' %>
+                </span>
+                <% if (animal.ani_ester && animal.ani_ester !== 'Indefinido') { %>
+                <span class="info-chip">
+                    <i class="fas fa-shield-alt"></i>
+                    <%= animal.ani_ester %>
+                </span>
                 <% } %>
+            </div>
+        </div>
+
+        <!-- Rodapé com ações -->
+        <div class="card-footer-new">
+            <% if (disponivel && locals.permissoes && locals.permissoes.includes('adocao.solicitar')) { %>
+            <button class="btn-adotar btnAdotar"
+                data-bs-toggle="modal" data-bs-target="#adocaoModal"
+                data-animal-id="<%= animal.ani_id %>"
+                data-animal-nome="<%= animal.ani_nome %>">
+                <i class="fas fa-heart me-1"></i> Adotar
+            </button>
+            <% } else { %>
+            <span></span>
+            <% } %>
+
+            <div class="card-icon-actions">
+                <a href="/animais/alterar/<%= animal.ani_id %>" class="icon-btn edit" title="Editar">
+                    <i class="fas fa-pen"></i>
+                </a>
+                <% if (locals.permissoes && locals.permissoes.includes('animal.excluir')) { %>
+                <button class="icon-btn delete btnExclusao" data-codigoexclusao="<%= animal.ani_id %>" title="Excluir">
+                    <i class="fas fa-trash"></i>
+                </button>
+                <% } %>
+            </div>
+        </div>
+    </div>
+    <% }); %>
 </div>
 
-<!-- Modal de Adoção -->
+<!-- Mensagem de nenhum resultado nos filtros -->
+<div id="semResultados" class="empty-state d-none">
+    <div class="empty-icon"><i class="fas fa-search"></i></div>
+    <h3>Nenhum resultado encontrado</h3>
+    <p>Tente ajustar os filtros de busca.</p>
+</div>
+
+<!-- ========== MODAL DE ADOÇÃO ========== -->
 <div class="modal fade" id="adocaoModal" tabindex="-1" aria-labelledby="adocaoModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="adocaoModalLabel">Solicitar Adoção</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 1rem; overflow: hidden; border: none;">
+            <div class="modal-header border-0 pb-0" style="background: linear-gradient(135deg, #7c3aed, #a855f7); color: white;">
+                <div>
+                    <h5 class="modal-title fw-bold" id="adocaoModalLabel">
+                        <i class="fas fa-heart me-2"></i>Solicitar Adoção
+                    </h5>
+                    <p class="mb-0 opacity-75 small">Preencha sua solicitação abaixo</p>
+                </div>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="formAdocao">
-                <div class="modal-body">
-                    <p>Você está solicitando a adoção do animal: <strong id="modalAnimalNome"></strong>.</p>
-                    <p>A solicitação será registrada em seu nome. Deseja continuar?</p>
+                <div class="modal-body p-4">
+                    <div class="d-flex align-items-center gap-3 p-3 rounded-3 mb-3" style="background: #f5f3ff;">
+                        <div style="width:44px;height:44px;background:#7c3aed;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+                            <i class="fas fa-paw text-white"></i>
+                        </div>
+                        <div>
+                            <div class="text-muted small">Animal selecionado</div>
+                            <div class="fw-bold" id="modalAnimalNome" style="color:#7c3aed;"></div>
+                        </div>
+                    </div>
+                    <p class="text-muted small mb-0">A solicitação será registrada em seu nome e ficará pendente até análise da equipe.</p>
                     <input type="hidden" id="modalAnimalId" name="animal">
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-success">Confirmar Solicitação</button>
+                <div class="modal-footer border-0 pt-0 gap-2">
+                    <button type="button" class="btn btn-light px-4" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn px-4 fw-bold" style="background:#7c3aed;color:white;">
+                        <i class="fas fa-heart me-2"></i>Confirmar Solicitação
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+<style>
+/* ========== FILTROS BAR ========== */
+.filters-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem 1.25rem;
+    background: white;
+    border-radius: 0.875rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+}
+
+.search-wrapper {
+    position: relative;
+    flex: 1;
+    min-width: 180px;
+    max-width: 280px;
+}
+.search-icon {
+    position: absolute;
+    left: 0.875rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    font-size: 0.8rem;
+}
+.search-input {
+    width: 100%;
+    padding: 0.5rem 1rem 0.5rem 2.25rem;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 2rem;
+    font-size: 0.875rem;
+    outline: none;
+    transition: border-color 0.2s;
+    background: #f9fafb;
+}
+.search-input:focus {
+    border-color: #7c3aed;
+    background: white;
+}
+
+.filter-group {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
+.filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.875rem;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 2rem;
+    background: white;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.filter-chip:hover { border-color: #7c3aed; color: #7c3aed; }
+.filter-chip.active { background: #7c3aed; border-color: #7c3aed; color: white; }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.dot.disponivel { background: #22c55e; }
+.dot.adotado { background: #f59e0b; }
+
+.filter-select {
+    padding: 0.4rem 0.875rem;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 2rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #374151;
+    background: white;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+.filter-select:focus { border-color: #7c3aed; }
+
+.results-count {
+    margin-left: auto;
+    font-size: 0.8rem;
+    color: #9ca3af;
+    font-weight: 500;
+    white-space: nowrap;
+}
+.results-count span { font-weight: 800; color: #7c3aed; font-size: 1rem; }
+
+/* ========== GRID ========== */
+.animals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+/* ========== CARD ========== */
+.animal-card-new {
+    background: white;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    border: 1px solid #f3f4f6;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.25s cubic-bezier(0.4,0,0.2,1), box-shadow 0.25s;
+}
+.animal-card-new:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 28px rgba(124, 58, 237, 0.15);
+}
+.animal-card-new.hidden { display: none; }
+
+/* -- Imagem -- */
+.card-img-wrap {
+    position: relative;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f3f4f6
+, #e5e7eb);
+}
+.card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+.animal-card-new:hover .card-img { transform: scale(1.06); }
+
+.card-img-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    color: #d1d5db;
+    background: linear-gradient(135deg, #f9fafb, #f3f4f6);
+}
+
+.badge-disponivel {
+    position: absolute;
+    top: 0.625rem;
+    left: 0.625rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 2rem;
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    backdrop-filter: blur(8px);
+}
+.disp-sim {
+    background: rgba(220,252,231,0.92);
+    color: #15803d;
+    border: 1px solid #86efac;
+}
+.disp-nao {
+    background: rgba(254,249,195,0.92);
+    color: #92400e;
+    border: 1px solid #fde68a;
+}
+
+.badge-sexo {
+    position: absolute;
+    top: 0.625rem;
+    right: 0.625rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 2rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    backdrop-filter: blur(8px);
+    background: rgba(255,255,255,0.88);
+    letter-spacing: 0.02em;
+}
+.badge-sexo.macho { color: #2563eb; border: 1px solid #bfdbfe; }
+.badge-sexo.femea { color: #db2777; border: 1px solid #fbcfe8; }
+.badge-sexo:not(.macho):not(.femea) { color: #6b7280; border: 1px solid #e5e7eb; }
+
+/* -- Corpo -- */
+.card-body-new {
+    padding: 1.125rem 1.25rem 0.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-title-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.2rem;
+}
+.card-animal-name {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #111827;
+    line-height: 1.2;
+    margin: 0;
+}
+.card-especie-tag {
+    flex-shrink: 0;
+    font-size: 0.65rem;
+    font-weight: 700;
+    background: #f5f3ff;
+    color: #7c3aed;
+    border: 1px solid #ddd6fe;
+    padding: 0.2rem 0.5rem;
+    border-radius: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+}
+
+.card-raca {
+    font-size: 0.78rem;
+    color: #9ca3af;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+}
+.card-desc {
+    font-size: 0.82rem;
+    color: #6b7280;
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex-grow: 1;
+}
+
+.card-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: auto;
+    padding-top: 0.75rem;
+    border-top: 1px dashed #f3f4f6;
+}
+.info-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #6b7280;
+    background: #f9fafb;
+    border: 1px solid #f3f4f6;
+    padding: 0.2rem 0.55rem;
+    border-radius: 1rem;
+}
+.info-chip i { color: #9ca3af; font-size: 0.7rem; }
+
+/* -- Rodapé -- */
+.card-footer-new {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.875rem 1.25rem;
+    border-top: 1px solid #f9fafb;
+    background: #fcfcfd;
+}
+
+.btn-adotar {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.4rem 1rem;
+    background: linear-gradient(135deg, #7c3aed, #9333ea);
+    color: white;
+    border: none;
+    border-radius: 2rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba(124,58,237,0.3);
+}
+.btn-adotar:hover {
+    transform: scale(1.04);
+    box-shadow: 0 4px 14px rgba(124,58,237,0.45);
+}
+
+.card-icon-actions {
+    display: flex;
+    gap: 0.4rem;
+}
+.icon-btn {
+    width: 32px; height: 32px;
+    border-radius: 0.5rem;
+    border: 1.5px solid #f3f4f6;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.18s;
+}
+.icon-btn.edit { color: #2563eb; }
+.icon-btn.edit:hover { background: #dbeafe; border-color: #93c5fd; transform: scale(1.12); }
+.icon-btn.delete { color: #dc2626; }
+.icon-btn.delete:hover { background: #fee2e2; border-color: #fca5a5; transform: scale(1.12); }
+
+/* ========== EMPTY STATE ========== */
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #6b7280;
+}
+.empty-icon {
+    font-size: 4rem;
+    color: #e5e7eb;
+    margin-bottom: 1rem;
+}
+.empty-state h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+.empty-state p { margin-bottom: 1.5rem; }
+</style>
+
+<script src="/js/listar/animais.js" defer></script>

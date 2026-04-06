@@ -1,24 +1,24 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
-        <div class="col-lg-8">
+        <div class="col-lg-9">
             <h1 class="h3 mb-4 text-gray-800 fw-bold">Alterar Animal</h1>
 
-            <div class="card shadow-sm border-0" style="border-radius: 1rem;">
-                <div class="card-body p-4 p-md-5">
-                    <form id="formAnimal">
-                        <input type="hidden" id="id" value="<%= animais.ani_id %>">
-                        <input type="hidden" id="createdAt" value="<%= animais.createdAt %>">
+            <form id="formAnimal" enctype="multipart/form-data">
+                <input type="hidden" id="id" name="id" value="<%= animais.ani_id %>">
+                <input type="hidden" id="createdAt" name="createdAt" value="<%= animais.createdAt %>">
 
-                        <!-- Informações Básicas -->
-                        <div class="row g-3 mb-4">
+                <!-- Informações Básicas -->
+                <div class="card shadow-sm border-0 mb-4" style="border-radius: 1rem;">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="row g-3">
                             <h5 class="fw-bold mb-0">Informações Básicas</h5>
                             <div class="col-md-8">
                                 <label for="nome" class="form-label">Nome do Animal<span class="text-danger">*</span></label>
-                                <input type="text" id="nome" class="form-control" value="<%= animais.ani_nome %>" required>
+                                <input type="text" id="nome" name="nome" class="form-control" value="<%= animais.ani_nome %>" required>
                             </div>
                             <div class="col-md-4">
                                 <label for="sexo" class="form-label">Sexo<span class="text-danger">*</span></label>
-                                <select id="sexo" class="form-select" required>
+                                <select id="sexo" name="sexo" class="form-select" required>
                                     <option value="Macho" <%= animais.ani_sexo === 'Macho' ? 'selected' : '' %>>Macho</option>
                                     <option value="Femea" <%= animais.ani_sexo === 'Femea' ? 'selected' : '' %>>Fêmea</option>
                                     <option value="Indefinido" <%= animais.ani_sexo === 'Indefinido' ? 'selected' : '' %>>Indefinido</option>
@@ -26,7 +26,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="especie" class="form-label">Espécie<span class="text-danger">*</span></label>
-                                <select id="especie" class="form-select" required>
+                                <select id="especie" name="especie" class="form-select" required>
                                     <% listaEspecies.forEach(function(esp) { %>
                                         <option value="<%= esp.esp_id %>" <%= String(animais.ani_especie) === String(esp.esp_id) ? 'selected' : '' %>><%= esp.esp_nome %></option>
                                     <% }); %>
@@ -34,76 +34,201 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="raca" class="form-label">Raça</label>
-                                <input type="text" id="raca" class="form-control" value="<%= animais.ani_raca %>">
+                                <input type="text" id="raca" name="raca" class="form-control" value="<%= animais.ani_raca %>">
                             </div>
                         </div>
+                    </div>
+                </div>
 
-                        <hr class="my-4 opacity-10">
-
-                        <!-- Saúde e Estado -->
-                        <div class="row g-3 mb-4">
+                <!-- Estado e Localização -->
+                <div class="card shadow-sm border-0 mb-4" style="border-radius: 1rem;">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="row g-3">
                             <h5 class="fw-bold mb-0">Estado e Localização</h5>
                             <div class="col-md-6">
                                 <label for="campoData" class="form-label">Data de Nascimento</label>
-                                <input type="date" id="campoData" class="form-control" value="<%= animais.ani_nascimento %>" <%= !animais.ani_nascimento ? 'disabled' : '' %>>
+                                <input type="date" id="campoData" name="campoData" class="form-control"
+                                    value="<%= animais.ani_nascimento %>"
+                                    <%= !animais.ani_nascimento ? 'disabled' : '' %>>
                                 <div class="form-check mt-2">
-                                    <input class="form-check-input" type="checkbox" id="dataDesconhecida" name="dataDesconhecida" <%= !animais.ani_nascimento ? 'checked' : '' %>>
-                                    <label class="form-check-label" for="dataDesconhecida">
-                                        Data de nascimento desconhecida
-                                    </label>
+                                    <input class="form-check-input" type="checkbox" id="dataDesconhecida" name="dataDesconhecida"
+                                        <%= !animais.ani_nascimento ? 'checked' : '' %>>
+                                    <label class="form-check-label" for="dataDesconhecida">Data de nascimento desconhecida</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <label for="localidade" class="form-label">Localização Atual<span class="text-danger">*</span></label>
-                                <select id="localidade" class="form-select" required>
+                                <select id="localidade" name="localidade" class="form-select" required>
                                     <option value="ONG" <%= animais.ani_localidade === 'ONG' ? 'selected' : '' %>>Habitando na ONG</option>
                                     <option value="Lar provisório" <%= animais.ani_localidade === 'Lar provisório' ? 'selected' : '' %>>Lar provisório</option>
                                     <option value="Abandonado" <%= animais.ani_localidade === 'Abandonado' ? 'selected' : '' %>>Abandonado</option>
                                 </select>
                             </div>
-                            
                             <div class="col-md-4">
                                 <label for="disp" class="form-label">Disponível para Adoção?<span class="text-danger">*</span></label>
-                                <select id="disp" class="form-select" required>
+                                <select id="disp" name="disp" class="form-select" required>
                                     <option value="Sim" <%= animais.ani_disponivel === 'Sim' ? 'selected' : '' %>>Sim</option>
                                     <option value="Nao" <%= animais.ani_disponivel === 'Nao' ? 'selected' : '' %>>Não</option>
                                 </select>
                             </div>
-
                             <div class="col-md-4">
                                 <label for="ester" class="form-label">Esterilização</label>
-                                <select id="ester" class="form-select">
-                                    <option value="Indefinido" <%= animais.ani_ester === 'Indefinido' ? 'selected' : '' %>>Não informado</option>
+                                <select id="ester" name="ester" class="form-select">
+                                    <option value="Indefinido" <%= (animais.ani_ester === 'Indefinido' || !animais.ani_ester) ? 'selected' : '' %>>Não informado</option>
                                     <option value="Fertil" <%= animais.ani_ester === 'Fertil' ? 'selected' : '' %>>Fértil</option>
                                     <option value="Castrado" <%= animais.ani_ester === 'Castrado' ? 'selected' : '' %>>Castrado</option>
                                 </select>
                             </div>
                             <div class="col-md-4">
                                 <label for="pelagem" class="form-label">Pelagem</label>
-                                <input type="text" id="pelagem" class="form-control" value="<%= animais.ani_pelagem %>">
+                                <input type="text" id="pelagem" name="pelagem" class="form-control" value="<%= animais.ani_pelagem || '' %>">
                             </div>
-                        </div>
-
-                        <hr class="my-4 opacity-10">
-
-                        <!-- Descrição -->
-                        <div class="row g-3 mb-4">
-                            <h5 class="fw-bold mb-0">Detalhes Adicionais</h5>
                             <div class="col-12">
                                 <label for="desc" class="form-label">Descrição / Observações</label>
-                                <textarea id="desc" class="form-control" rows="4"><%= animais.ani_descricao %></textarea>
+                                <textarea id="desc" name="desc" class="form-control" rows="3"><%= animais.ani_descricao || '' %></textarea>
                             </div>
                         </div>
-
-                        <div class="mt-5 d-flex gap-2">
-                            <button type="submit" class="btn btn-success px-5 py-2 fw-bold" id="btnSalvar">Salvar Alterações</button>
-                            <a href="/animais/listar" class="btn btn-outline-secondary px-5 py-2">Cancelar</a>
-                        </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
+
+                <!-- Galeria de Fotos Existentes -->
+                <div class="card shadow-sm border-0 mb-4" style="border-radius: 1rem;">
+                    <div class="card-body p-4 p-md-5">
+                        <h5 class="fw-bold mb-1">Fotos Cadastradas</h5>
+                        <p class="text-muted small mb-4">Clique em ⭐ para definir como foto de perfil, ou em 🗑️ para remover a foto.</p>
+
+                        <% if (fotos && fotos.length > 0) { %>
+                        <div class="fotos-grid mb-4" id="fotosExistentes">
+                            <% fotos.forEach(function(foto) { %>
+                            <div class="foto-item <%= foto.foto_perfil ? 'is-perfil' : '' %>" id="foto-db-<%= foto.foto_id %>">
+                                <img src="<%= foto.foto_path %>" alt="Foto animal">
+                                <div class="foto-actions">
+                                    <button type="button" class="btn-foto btn-foto-perfil"
+                                        onclick="definirPerfilExistente(<%= foto.foto_id %>, <%= animais.ani_id %>)"
+                                        title="Definir como foto de perfil">
+                                        <i class="fas fa-star"></i>
+                                    </button>
+                                    <button type="button" class="btn-foto btn-foto-remove"
+                                        onclick="removerFotoExistente(<%= foto.foto_id %>, '<%= foto.foto_path %>')"
+                                        title="Remover foto">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                                <% if (foto.foto_perfil) { %>
+                                <span class="badge-perfil">⭐ Perfil</span>
+                                <% } %>
+                            </div>
+                            <% }); %>
+                        </div>
+                        <% } else { %>
+                        <p class="text-muted small mb-4">Nenhuma foto cadastrada ainda.</p>
+                        <% } %>
+
+                        <h5 class="fw-bold mb-1">Adicionar Novas Fotos</h5>
+                        <p class="text-muted small mb-3">As fotos adicionadas aqui serão incluídas às já existentes.</p>
+
+                        <div id="dropZone" class="drop-zone mb-4">
+                            <div class="drop-zone-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                            <p class="drop-zone-text">Arraste as fotos aqui ou <strong>clique para selecionar</strong></p>
+                            <p class="drop-zone-hint">JPG, PNG, WEBP até 10MB cada</p>
+                            <input type="file" id="fotosInput" name="fotos" multiple accept="image/*" class="d-none">
+                        </div>
+                        <div id="previasContainer" class="fotos-grid"></div>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2 mb-5">
+                    <button type="submit" class="btn btn-success px-5 py-2 fw-bold">
+                        <i class="fas fa-save me-2"></i>Salvar Alterações
+                    </button>
+                    <a href="/animais/listar" class="btn btn-outline-secondary px-5 py-2">Cancelar</a>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
+<style>
+.drop-zone {
+    border: 2px dashed #d1d5db;
+    border-radius: 1rem;
+    padding: 3rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: #fafafa;
+}
+.drop-zone:hover, .drop-zone.drag-over {
+    border-color: #7c3aed;
+    background: #f5f3ff;
+}
+.drop-zone-icon { font-size: 3rem; color: #9ca3af; margin-bottom: 1rem; }
+.drop-zone:hover .drop-zone-icon, .drop-zone.drag-over .drop-zone-icon { color: #7c3aed; }
+.drop-zone-text { font-size: 1rem; color: #374151; margin-bottom: 0.25rem; }
+.drop-zone-hint { font-size: 0.8rem; color: #9ca3af; margin: 0; }
+
+.fotos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1rem;
+}
+.foto-item {
+    position: relative;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    background: #f3f4f6;
+    aspect-ratio: 1;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border: 2px solid transparent;
+    transition: all 0.2s;
+}
+.foto-item.is-perfil {
+    border-color: #7c3aed;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+}
+.foto-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.foto-actions {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+.foto-item:hover .foto-actions { opacity: 1; }
+.foto-actions .btn-foto {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    transition: transform 0.15s;
+}
+.foto-actions .btn-foto:hover { transform: scale(1.15); }
+.btn-foto-perfil { background: #7c3aed; color: white; }
+.btn-foto-remove { background: #ef4444; color: white; }
+.badge-perfil {
+    position: absolute;
+    bottom: 0.4rem; left: 0.4rem;
+    background: rgba(124, 58, 237, 0.9);
+    color: white;
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 0.2rem 0.5rem;
+    border-radius: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+</style>
 
 <script src="/js/alterar/animais.js" defer></script>

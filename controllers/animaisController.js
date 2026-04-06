@@ -29,38 +29,28 @@ class AnimalController {
                 disp, desc || null, dataHoje.toISODate(), dataHoje.toISODate(), localidade
             );
 
-            let result = await animal.cadastrar();
+            const aniId = await animal.cadastrarRetornandoId();
 
-            if (result) {
+            if (aniId) {
                 // Processar fotos enviadas
                 if (req.files && req.files.length > 0) {
                     const fotoModel = new AnimalFotoModel();
-                    // Buscar o ID do animal recém-cadastrado
-                    const todosAnimais = await new AnimaisModel().listarAnimais();
-                    const ultimoAnimal = todosAnimais[todosAnimais.length - 1];
-                    const aniId = ultimoAnimal ? ultimoAnimal.ani_id : null;
+                    let perfilFotoId = null;
 
-                    if (aniId) {
-                        for (let i = 0; i < req.files.length; i++) {
-                            const file = req.files[i];
-                            const fotoPath = '/uploads/animais/' + file.filename;
-                            await fotoModel.inserir(aniId, fotoPath, dataHoje.toISODate());
-                        }
+                    for (let i = 0; i < req.files.length; i++) {
+                        const file = req.files[i];
+                        const fotoPath = '/uploads/animais/' + file.filename;
+                        const fotoId = await fotoModel.inserirLastId(aniId, fotoPath, dataHoje.toISODate());
+                        if (i === 0 && perfilFotoId === null) perfilFotoId = fotoId;
+                    }
 
-                        // Definir foto de perfil (índice vem do body)
-                        if (fotoPerfil !== undefined && fotoPerfil !== null && fotoPerfil !== '') {
-                            const todasFotos = await fotoModel.listarPorAnimal(aniId);
-                            const perfilIdx = parseInt(fotoPerfil, 10);
-                            if (todasFotos[perfilIdx]) {
-                                await fotoModel.definirPerfil(todasFotos[perfilIdx].foto_id, aniId);
-                            }
-                        } else if (req.files.length > 0) {
-                            // Se não escolheu, a primeira vira perfil
-                            const todasFotos = await fotoModel.listarPorAnimal(aniId);
-                            if (todasFotos[0]) {
-                                await fotoModel.definirPerfil(todasFotos[0].foto_id, aniId);
-                            }
-                        }
+                    // Definir foto de perfil
+                    const perfilIdx = parseInt(fotoPerfil, 10) || 0;
+                    const todasFotos = await fotoModel.listarPorAnimal(aniId);
+                    if (todasFotos[perfilIdx]) {
+                        await fotoModel.definirPerfil(todasFotos[perfilIdx].foto_id, aniId);
+                    } else if (todasFotos[0]) {
+                        await fotoModel.definirPerfil(todasFotos[0].foto_id, aniId);
                     }
                 }
 
@@ -78,10 +68,27 @@ class AnimalController {
         let listaAnimais = await animal.listarAnimais();
         const fotoModel = new AnimalFotoModel();
 
-        // Para cada animal, busca foto de perfil
+        // Para cada animal, serializa os campos (campos privados não passam com spread)
+        // e agrega a foto de perfil
         const listaComFotos = await Promise.all(listaAnimais.map(async (a) => {
             const foto = await fotoModel.obterFotoPerfil(a.ani_id);
-            return { ...a, fotoPerfil: foto ? foto.foto_path : null };
+            return {
+                ani_id: a.ani_id,
+                ani_nome: a.ani_nome,
+                ani_nascimento: a.ani_nascimento,
+                ani_raca: a.ani_raca,
+                ani_sexo: a.ani_sexo,
+                ani_especie: a.ani_especie,
+                ani_pelagem: a.ani_pelagem,
+                ani_ester: a.ani_ester,
+                ani_estado: a.ani_estado,
+                ani_disponivel: a.ani_disponivel,
+                ani_descricao: a.ani_descricao,
+                ani_localidade: a.ani_localidade,
+                createdAt: a.createdAt,
+                updatedAt: a.updatedAt,
+                fotoPerfil: foto ? foto.foto_path : null
+            };
         }));
 
         res.render('listar/animais', { lista: listaComFotos });
