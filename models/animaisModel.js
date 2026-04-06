@@ -11,10 +11,11 @@ class AnimaisModel {
     #ani_sexo;
     #ani_especie;
     #ani_pelagem;
-    #ani_ester
+    #ani_ester;
     #ani_estado;
     #ani_disponivel;
     #ani_descricao;
+    #ani_localidade;
     #createdAt;
     #updatedAt;
 

@@ -66,17 +66,16 @@
 </table>
 
 <!-- Grid de Cards -->
-<div class="row">
-    <% if (lista.length===0) { %>
-        <div class="col-12 text-center py-5 text-muted">
-            <i class="fas fa-paw fa-3x mb-3"></i>
-            <p>Nenhum animal cadastrado no momento.</p>
-        </div>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4">
+        <% if (lista.length===0) { %>
+            <div class="col-12 text-center py-5 text-muted">
+                <i class="fas fa-paw fa-3x mb-3"></i>
+                <p>Nenhum animal cadastrado no momento.</p>
+            </div>
         <% } %>
-
-            <% for (let i=0; i < lista.length; i++) { %>
-                <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4 d-flex align-items-stretch">
-                    <div class="animal-card">
+        <% for (let i=0; i < lista.length; i++) { %>
+            <div class="col d-flex align-items-stretch">
+                <div class="animal-card">
                         <div class="img-container">
                             <% if (lista[i].ani_foto) { %>
                                 <img src="<%= lista[i].ani_foto %>" alt="Foto de <%= lista[i].ani_nome %>">
@@ -101,50 +100,38 @@
                                 <%= lista[i].ani_nome %>
                             </h3>
                             <p class="animal-description"
-                                style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                                style="display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
                                 <%= lista[i].ani_descricao || 'Sem descrição cadastrada.' %>
                             </p>
 
                             <ul class="info-list">
                                 <li>
-                                    <i class="fas fa-tag icon"></i>
-                                    <span class="label">ID:</span>
-                                    <span>
-                                        <%= lista[i].ani_id %>
+                                    <span class="label">ID</span>
+                                    <span>#<%= lista[i].ani_id %></span>
+                                </li>
+                                <li>
+                                    <span class="label">Raça</span>
+                                    <span><%= lista[i].ani_raca %></span>
+                                </li>
+                                <li>
+                                    <span class="label">Sexo</span>
+                                    <span class="gender-badge <%= (lista[i].ani_sexo || '').toLowerCase() %>">
+                                        <%= (lista[i].ani_sexo || '').toLowerCase() === 'macho' ? '♂' : '♀' %> <%= lista[i].ani_sexo %>
                                     </span>
                                 </li>
                                 <li>
-                                    <i class="fas fa-paw icon"></i>
-                                    <span class="label">Raça:</span>
+                                    <span class="label">Espécie</span>
+                                    <span><%= lista[i].ani_especie %></span>
+                                </li>
+                                <li>
+                                    <span class="label">Nascimento</span>
                                     <span>
-                                        <%= lista[i].ani_raca %> (<%= lista[i].ani_especie %>)
+                                        <%= new Date(lista[i].ani_nascimento).toLocaleDateString('pt-BR', { timeZone: 'UTC' }) %>
                                     </span>
                                 </li>
                                 <li>
-                                    <% if (lista[i].ani_sexo==='Macho' ) { %>
-                                        <span class="gender-icon macho">♂</span>
-                                        <% } else { %>
-                                            <span class="gender-icon femea">♀</span>
-                                            <% } %>
-                                                <span class="label">Sexo:</span>
-                                                <span>
-                                                    <%= lista[i].ani_sexo %>
-                                                </span>
-                                </li>
-                                <li>
-                                    <i class="fas fa-calendar-alt icon"></i>
-                                    <span class="label">Nasc:</span>
-                                    <span>
-                                        <%= new Date(lista[i].ani_nascimento).toLocaleDateString('pt-BR', {
-                                            timeZone: 'UTC' }) %>
-                                    </span>
-                                </li>
-                                <li>
-                                    <i class="fas fa-heartbeat icon"></i>
-                                    <span class="label">Esterilizado:</span>
-                                    <span>
-                                        <%= lista[i].ani_ester %>
-                                    </span>
+                                    <span class="label">Esterilizado</span>
+                                    <span><%= lista[i].ani_ester %></span>
                                 </li>
                             </ul>
                         </div>

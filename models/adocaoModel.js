@@ -79,17 +79,17 @@ class AdocaoModel {
     }
 
     async obterAdoAniId(id) {
-            
-            let sql = "SELECT * FROM tb_adocao WHERE ani_id = ?";
-    
-            let val = [id];
-    
-            let rows = await banco.ExecutaComando(sql, val);
-    
-            if (rows.length > 0) {
-                let row = rows[0];
-                return row;
-            }
+
+        let sql = "SELECT * FROM tb_adocao WHERE ani_id = ?";
+
+        let val = [id];
+
+        let rows = await banco.ExecutaComando(sql, val);
+
+        if (rows.length > 0) {
+            let row = rows[0];
+            return row;
+        }
     }
 
     async criarAdocao() {
@@ -136,13 +136,13 @@ class AdocaoModel {
     }
 
     async contarAdotados() {
-        let sql = "SELECT COUNT(*) as total FROM tb_adocao WHERE status = 'Aprovado'";
+        let sql = "SELECT COUNT(*) as total FROM tb_adocao WHERE LOWER(status) IN ('aprovado', 'aprovada')";
         let rows = await banco.ExecutaComando(sql);
         return rows[0].total;
     }
 
     async contarPendentes() {
-        let sql = "SELECT COUNT(*) as total FROM tb_adocao WHERE status = 'Pendente'";
+        let sql = "SELECT COUNT(*) as total FROM tb_adocao WHERE LOWER(status) = 'pendente'";
         let rows = await banco.ExecutaComando(sql);
         return rows[0].total;
     }
