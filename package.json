@@ -25,6 +25,7 @@
   "homepage": "https://github.com/Guxta-RDM/ONG-ADAPV#readme",
   "dependencies": {
     "@prisma/client": "^7.4.2",
+    "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.3",
     "bootstrap": "^5.3.3",
     "busca-cep": "^0.5.0",
@@ -37,7 +38,8 @@
     "jsonwebtoken": "^9.0.3",
     "luxon": "^3.4.4",
     "multer": "^2.1.1",
-    "mysql2": "^3.9.3"
+    "mysql2": "^3.9.3",
+    "nodemailer": "^8.0.5"
   },
   "devDependencies": {
     "prisma": "^7.4.2"
