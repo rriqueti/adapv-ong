@@ -31,10 +31,10 @@
                     <td><%= listaEve[i].even_nome %></td>
                     <td><%= listaEve[i].even_descricao %></td>
                     <td><%= listaEve[i].even_local %></td>
-                    <td><%= listaEve[i].even_dataInicio.split("-").reverse().join("/") %></td>
-                    <td><%= listaEve[i].even_dataFinal.split("-").reverse().join("/") %></td>
-                    <td><%= listaEve[i].createdAt %></td>
-                    <td><%= listaEve[i].updatedAt %></td>
+                    <td><%= new Date(listaEve[i].even_dataInicio).toLocaleDateString('pt-BR') %></td>
+                    <td><%= new Date(listaEve[i].even_dataFinal).toLocaleDateString('pt-BR') %></td>
+                    <td><%= new Date(listaEve[i].createdAt).toLocaleDateString('pt-BR') %></td>
+                    <td><%= new Date(listaEve[i].updatedAt).toLocaleDateString('pt-BR') %></td>
                     <td>
                         <a id="alterabtn" href="/eventos/alterar/<%= listaEve[i].even_id %>" class="btn btn-primary"><i class="fas fa-pen"></i></a>
                         <button id="delbtn" data-codigoexclusao="<%= listaEve[i].even_id %>" class="btn btn-danger btnExclusao"><i class="fas fa-trash"></i></button>

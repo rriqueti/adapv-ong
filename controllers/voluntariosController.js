@@ -5,26 +5,29 @@ const VoluntariosModel = require("../models/voluntariosModel");
 class VoluntariosController {
 
     cadastroView(req, res) {
-        res.render('cadastrar/voluntarios');
+        res.render('cadastrar/voluntarios', {
+            filtros: { nome: "", faixaEtaria: "" }
+        });
     }
 
     async cadastrar(req, res) {
         const dataHoje = DateTime.now();
-        if (req.body.voluntario != '0') {
-            let voluntario = new VoluntariosModel(0, req.body.voluntario, dataHoje.toISODate(), dataHoje.toISODate());
+        const { voluntario, areaAtuacao, disponibilidade } = req.body;
+        if (voluntario != '0') {
+            let voluntarioModel = new VoluntariosModel(0, voluntario, areaAtuacao, disponibilidade, dataHoje.toISODate(), dataHoje.toISODate());
 
-            let result = await voluntario.cadastrarVoluntario();
+            let result = await voluntarioModel.cadastrarVoluntario();
 
             if (result) {
                 res.send({
                     ok: true,
-                    msg: "Voluntario registrada com sucesso!"
+                    msg: "Voluntário registrado com sucesso!"
                 });
             }
             else {
                 res.send({
                     ok: false,
-                    msg: "Erro ao registrar a Voluntario, tente novamente!"
+                    msg: "Erro ao registrar o voluntário, tente novamente!"
                 });
             }
         }
@@ -39,20 +42,21 @@ class VoluntariosController {
     async listagemVolunCadView(req, res) {
         let pessoa = new PessoaModel();
         let listaPessoas = await pessoa.listarPessoa()
-        res.render('cadastrar/voluntarios', { listaPessoa: listaPessoas })
+        res.render('cadastrar/voluntarios', { 
+            listaPessoa: listaPessoas,
+            filtros: { nome: "", faixaEtaria: "" } 
+        })
     }
 
-
-    // async listagemVolunAltView(req, res) {
-    //     let pessoa = new PessoaModel();
-    //     let listaPessoas = await pessoa.listarPessoa()
-    //     res.render('alterar/voluntarios', { listaPessoa: listaPessoas })
-    // }
-
     async listagemView(req, res) {
-        let voluntario = new VoluntariosModel()
-        let listaVolun = await voluntario.listarVoluntarios();
-        res.render('listar/voluntarios', { listaVolun: listaVolun });
+        const nome = req.query.nome || "";
+        const faixaEtaria = req.query.faixaEtaria || "";
+        let voluntarioModel = new VoluntariosModel();
+        let listaVolun = await voluntarioModel.listarVoluntarios({ nome, faixaEtaria });
+        res.render('listar/voluntarios', { 
+            listaVolun: listaVolun, 
+            filtros: { nome, faixaEtaria } 
+        });
     }
 
     async alterarView(req, res) {
@@ -60,7 +64,11 @@ class VoluntariosController {
         voluntario = await voluntario.obterVolId(req.params.id);
         let pessoa = new PessoaModel();
         let listaPessoas = await pessoa.listarPessoa()
-        res.render('alterar/voluntarios', { voluntario: voluntario, listaPessoa: listaPessoas});
+        res.render('alterar/voluntarios', { 
+            voluntario: voluntario, 
+            listaPessoa: listaPessoas,
+            filtros: { nome: "", faixaEtaria: "" }
+        });
     }
 
     async alterar(req, res) {
@@ -68,11 +76,12 @@ class VoluntariosController {
         const dataTratar = new Date(Date.parse(req.body.createdAt))
         const dataTratar2 = DateTime.fromJSDate(dataTratar)
         const dataCriacao = dataTratar2.toISODate()
+        const { id, voluntario, areaAtuacao, disponibilidade } = req.body;
 
-        if (req.body.voluntario != "0") {
-            let voluntario = new VoluntariosModel(req.body.id, req.body.voluntario, dataCriacao, dataHoje.toISODate());
+        if (voluntario != "0") {
+            let voluntarioModel = new VoluntariosModel(id, voluntario, areaAtuacao, disponibilidade, dataCriacao, dataHoje.toISODate());
 
-            let result = await voluntario.editarVoluntario();
+            let result = await voluntarioModel.editarVoluntario();
             if (result) {
                 res.send({
                     ok: true,

@@ -1,88 +1,65 @@
 document.addEventListener("DOMContentLoaded", function () {
 
     document.getElementById("btnCadastrar").addEventListener("click", cadastrar);
-
-    document.getElementById("cancelar").addEventListener("click", redirecionar);
-
-    function redirecionar() {
-        window.location.href = "/atividades/listar";
-    }
+    document.getElementById("cancelar").addEventListener("click", () => window.location.href = "/atividades/listar");
 
     function limparValidacao() {
-        document.getElementById("atv_nome").style["border-color"] = "#ced4da";
-        document.getElementById("atv_desc").style["border-color"] = "#ced4da";
-        document.getElementById("atv_data").style["border-color"] = "#ced4da";
-        document.getElementById("vol_id").style["border-color"] = "#ced4da";
-        document.getElementById("emp_id").style["border-color"] = "#ced4da";
-        document.getElementById("pro_id").style["border-color"] = "#ced4da";
+        ["atv_nome", "atv_desc", "atv_data", "pro_id"].forEach(id => {
+            document.getElementById(id).style["border-color"] = "#ced4da";
+        });
     }
 
-    function cadastrar() {
+    async function cadastrar() {
         limparValidacao();
 
-        let nome = document.querySelector("#atv_nome").value;
-        let desc = document.querySelector("#atv_desc").value;
-        let data = document.querySelector("#atv_data").value.split("/").reverse().join("-");
-        let vol_id = document.querySelector("#vol_id").value;
-        let emp_id = document.querySelector("#emp_id").value;
-        let pro_id = document.querySelector("#pro_id").value;
+        const nome = document.querySelector("#atv_nome").value;
+        const data = document.querySelector("#atv_data").value;
+        const desc = document.querySelector("#atv_desc").value;
+        const pro_id = document.querySelector("#pro_id").value;
+        const emp_id = document.querySelector("#emp_id").value;
+
+        // Obter voluntários selecionados (checkboxes)
+        const checkboxes = document.querySelectorAll('input[name="voluntarios"]:checked');
+        const voluntarios = Array.from(checkboxes).map(cb => cb.value);
 
         let listaErros = [];
+        if (nome === "") listaErros.push("atv_nome");
+        if (data === "") listaErros.push("atv_data");
+        if (desc === "") listaErros.push("atv_desc");
+        if (!pro_id) listaErros.push("pro_id");
 
-        if (nome === "") {
-            listaErros.push("atv_nome");
-        }
-        if (desc === "") {
-            listaErros.push("atv_desc");
-        }
-        if (data === "") {
-            listaErros.push("atv_data");
-        }
-        if (pro_id === "") {
-            listaErros.push("pro_id");
-        }
-        console.log(listaErros)
-
-        if (listaErros.length == 0) {
-
-            let obj = {
-                nome: nome,
-                desc: desc,
-                data: data,
-                vol_id: vol_id,
-                emp_id: emp_id,
-                pro_id: pro_id
+        if (listaErros.length === 0) {
+            const obj = {
+                nome,
+                data,
+                desc,
+                pro_id,
+                emp_id,
+                voluntarios
             };
 
-            fetch("/atividades/cadastrar", {
-                method: 'POST',
-                body: JSON.stringify(obj),
-                headers: {
-                    "Content-Type": "application/json",
+            try {
+                const response = await fetch("/atividades/cadastrar", {
+                    method: 'POST',
+                    body: JSON.stringify(obj),
+                    headers: { "Content-Type": "application/json" }
+                });
+
+                const result = await response.json();
+                if (result.ok) {
+                    window.location.href = "/atividades/listar";
+                } else {
+                    alert(result.msg);
                 }
-            })
-                .then(r => {
-                    return r.json();
-                })
-                .then(r => {
-                    if (r.ok) {
-                        window.location.href = "/atividades/listar";
-                    }
-                    else {
-                        alert(r.msg);
-                    }
-                })
-
-        }
-        else {
-
-            for (let i = 0; i < listaErros.length; i++) {
-                let campos = document.getElementById(listaErros[i]);
-                campos.style["border-color"] = "red";
+            } catch (err) {
+                console.error(err);
+                alert("Erro ao processar a requisição.");
             }
+        } else {
+            listaErros.forEach(id => {
+                document.getElementById(id).style["border-color"] = "red";
+            });
             alert("Preencha corretamente os campos indicados!");
-
         }
     }
-
-})
+});

@@ -1,3 +1,8 @@
+<%
+    // Solução definitiva para evitar ReferenceError no EJS
+    const searchNome = (locals.filtros && locals.filtros.nome) ? locals.filtros.nome : '';
+    const searchFaixa = (locals.filtros && locals.filtros.faixaEtaria) ? locals.filtros.faixaEtaria : '';
+%>
 <div class="page-header mb-4">
     <div>
         <h1 class="page-title fw-bold" style="font-size: 2.25rem; font-weight: 800;">Voluntários do SOS Caramelo</h1>
@@ -13,6 +18,33 @@
     </div>
 </div>
 
+<!-- Filtros de Pesquisa -->
+<div class="card shadow-sm border-0 mb-4" style="border-radius: 1rem;">
+    <div class="card-body p-4">
+        <form action="/voluntarios/listar" method="GET" class="row g-3">
+            <div class="col-md-5">
+                <label for="nome" class="form-label fw-bold">Nome do Voluntário</label>
+                <input type="text" name="nome" id="nome" class="form-control" placeholder="Buscar por nome..." value="<%= searchNome %>">
+            </div>
+            <div class="col-md-4">
+                <label for="faixaEtaria" class="form-label fw-bold">Faixa Etária</label>
+                <select name="faixaEtaria" id="faixaEtaria" class="form-select">
+                    <option value="">Todas as idades</option>
+                    <option value="jovem" <%= searchFaixa === 'jovem' ? 'selected' : '' %>>Jovem (18-25 anos)</option>
+                    <option value="adulto" <%= searchFaixa === 'adulto' ? 'selected' : '' %>>Adulto (26-50 anos)</option>
+                    <option value="senior" <%= searchFaixa === 'senior' ? 'selected' : '' %>>Sênior (+50 anos)</option>
+                </select>
+            </div>
+            <div class="col-md-3 d-flex align-items-end gap-2">
+                <button type="submit" class="btn btn-primary w-100 fw-bold">
+                    <i class="fas fa-search me-2"></i>Filtrar
+                </button>
+                <a href="/voluntarios/listar" class="btn btn-outline-secondary w-100 fw-bold">Limpar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
 <div class="card shadow-sm border-0" style="border-radius: 1rem;">
     <div class="card-body p-4">
         <div class="table-responsive">
@@ -20,12 +52,13 @@
                 <thead class="table-light">
                     <tr>
                         <th class="border-0">Identificação</th>
+                        <th class="border-0">Área / Disponibilidade</th>
                         <th class="border-0">Data de Registro</th>
                         <th class="border-0 text-center">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <% if (listaVolun && listaVolun.length > 0) { %>
+                    <% if (locals.listaVolun && listaVolun.length > 0) { %>
                         <% for (let i = 0; i < listaVolun.length; i++) { %>
                             <tr>
                                 <td>
@@ -38,6 +71,10 @@
                                             <small class="text-muted">Cód: #<%= listaVolun[i].vol_id %></small>
                                         </div>
                                     </div>
+                                </td>
+                                <td>
+                                    <div class="text-dark fw-bold"><%= listaVolun[i].vol_area_atuacao || 'Não informada' %></div>
+                                    <small class="text-muted"><i class="far fa-clock me-1"></i><%= listaVolun[i].vol_disponibilidade || 'Não informada' %></small>
                                 </td>
                                 <td>
                                     <div class="text-dark">
@@ -60,7 +97,7 @@
                         <% } %>
                     <% } else { %>
                         <tr>
-                            <td colspan="3" class="text-center py-5 text-muted">
+                            <td colspan="4" class="text-center py-5 text-muted">
                                 <i class="fas fa-user-slash d-block fs-1 mb-3 opacity-25"></i>
                                 Nenhum voluntário registrado no sistema.
                             </td>

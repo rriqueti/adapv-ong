@@ -1,159 +1,465 @@
-<div class="container-fluid pt-4">
+<div class="container-fluid pt-3 pb-5">
 
-    <!-- Cabeçalho da Página -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800 font-weight-bold">Painel de Controle</h1>
-        <!-- Se precisar do botão de relatório no futuro, implemente de verdade. Não deixe código morto na view. -->
-    </div>
-
-    <!-- Linha dos Cards de Resumo de Animais e Adoções -->
-    <div class="row">
-
-        <!-- Card: Animais Disponíveis -->
-        <div class="col-xl-4 col-md-6 mb-4">
-            <div class="card border-left-warning shadow-sm h-100 py-2 border-0" style="border-radius: 1rem; border-left: 5px solid #f6c23e !important;">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1" style="color: #f6c23e !important;">
-                                Animais Disponíveis
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                <%= locals.totalDisponiveis || 0 %>
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-paw fa-2x text-warning opacity-50"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <!-- Cabeçalho -->
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h1 class="h3 mb-0 fw-bold" style="color:#1f2937;">Painel de Controle</h1>
+            <p class="text-muted mb-0 mt-1" style="font-size:0.875rem;">
+                Bem-vindo de volta, <strong>
+                    <%= locals.usuarioLogado?.nome || 'Administrador' %>
+                </strong> 👋
+            </p>
         </div>
-
-        <!-- Card: Total Adotados -->
-        <div class="col-xl-4 col-md-6 mb-4">
-            <div class="card border-left-success shadow-sm h-100 py-2 border-0" style="border-radius: 1rem; border-left: 5px solid #1cc88a !important;">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Total de Adotados
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                <%= locals.totalAdotados || 0 %>
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-heart fa-2x text-success opacity-50"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card: Adoções Pendentes -->
-        <div class="col-xl-4 col-md-6 mb-4">
-            <div class="card border-left-danger shadow-sm h-100 py-2 border-0" style="border-radius: 1rem; border-left: 5px solid #e74a3b !important;">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                                Adoções Pendentes
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                <%= locals.totalPendentes || 0 %>
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-clock fa-2x text-danger opacity-50"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="d-flex gap-2">
+            <a href="/doacoes/listar" class="btn btn-outline-purple d-none d-md-inline-flex">
+                <i class="fas fa-box-open me-2"></i>Ver Doações
+            </a>
+            <a href="/financeiro/listar" class="btn btn-outline-purple d-none d-md-inline-flex">
+                <i class="fas fa-chart-line me-2"></i>Ver Financeiro
+            </a>
         </div>
     </div>
 
-    <!-- Linha dos Cards de Resumo Financeiro -->
-    <div class="row">
+    <!-- ===== FAIXA DE INDICADORES ANIMAIS ===== -->
+    <div class="row g-3 mb-3">
 
-        <!-- Card: Doação (Mês atual) -->
-        <div class="col-xl-4 col-md-6 mb-4">
-            <div class="card border-left-primary shadow-sm h-100 py-2 border-0" style="border-radius: 1rem; border-left: 5px solid #4e73df !important;">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Doação em dinheiro (Mês atual)
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                R$<%= (saldoMesAtual || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) %>
-                            </div>
+        <!-- Disponíveis -->
+        <div class="col-sm-6 col-xl-4">
+            <div class="stat-card stat-yellow">
+                <div class="stat-card-body">
+                    <div>
+                        <div class="stat-label">Animais Disponíveis</div>
+                        <div class="stat-value">
+                            <%= locals.totalDisponiveis || 0 %>
                         </div>
-                        <div class="col-auto">
-                            <i class="fas fa-calendar-alt fa-2x text-primary opacity-50"></i>
-                        </div>
+                        <a href="/animais/listar" class="stat-link">Ver listagem →</a>
+                    </div>
+                    <div class="stat-icon">
+                        <i class="fas fa-paw"></i>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Card: Doação (Anual) -->
-        <div class="col-xl-4 col-md-6 mb-4">
-            <div class="card border-left-primary shadow-sm h-100 py-2 border-0" style="border-radius: 1rem; border-left: 5px solid #36b9cc !important;">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1" style="color: #36b9cc !important;">
-                                Doação em dinheiro (Anual)
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                R$<%= (saldoAnoAtual || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) %>
-                            </div>
+        <!-- Adotados -->
+        <div class="col-sm-6 col-xl-4">
+            <div class="stat-card stat-green">
+                <div class="stat-card-body">
+                    <div>
+                        <div class="stat-label">Total de Adotados</div>
+                        <div class="stat-value">
+                            <%= locals.totalAdotados || 0 %>
                         </div>
-                        <div class="col-auto">
-                            <i class="fas fa-dollar-sign fa-2x text-info opacity-50"></i>
-                        </div>
+                        <a href="/adocao/listar" class="stat-link">Ver adoções →</a>
+                    </div>
+                    <div class="stat-icon">
+                        <i class="fas fa-heart"></i>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Card: Controle de Eventos -->
-        <div class="col-xl-4 col-md-6 mb-4">
-            <div class="card border-left-info shadow-sm h-100 py-2 border-0" style="border-radius: 1rem; border-left: 5px solid #858796 !important;">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">
-                                Inventário/Eventos em aberto
-                            </div>
-                            <div class="row no-gutters align-items-center mt-2">
-                                <div class="col-auto">
-                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><%= qntEmAberto || 0 %></div>
-                                </div>
-                                <div class="col">
-                                    <div class="progress progress-sm mr-2" style="height: 8px; border-radius: 4px;">
-                                        <div class="progress-bar bg-info" role="progressbar"
-                                            style="width: <%= qntEmAbertoPorcen || 0 %>%" 
-                                            aria-valuenow="<%= qntEmAbertoPorcen || 0 %>" 
-                                            aria-valuemin="0"
-                                            aria-valuemax="100">
-                                        </div>
+        <!-- Pendentes -->
+        <div class="col-sm-6 col-xl-4">
+            <div class="stat-card stat-red">
+                <div class="stat-card-body">
+                    <div>
+                        <div class="stat-label">Adoções Pendentes</div>
+                        <div class="stat-value">
+                            <%= locals.totalPendentes || 0 %>
+                        </div>
+                        <a href="/adocao/listar" class="stat-link">Ver pendências →</a>
+                    </div>
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PRÓXIMOS EVENTOS E PROJETOS ===== -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h5 class="fw-bold mb-0" style="color:#1f2937;">
+                    <i class="fas fa-calendar-star me-2" style="color:#7c3aed;"></i>
+                    Próximos Eventos e Projetos
+                </h5>
+                <a href="/projeto/listar" class="btn btn-sm btn-link text-purple fw-bold">Ver todos</a>
+            </div>
+            
+            <div class="row g-3">
+                <% if (locals.proximosEventos && proximosEventos.length > 0) { %>
+                    <% proximosEventos.forEach(function(ev) { %>
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card h-100 border-0 shadow-sm overflow-hidden" style="border-radius: 1rem;">
+                                <% if (ev.pro_banner) { %>
+                                    <img src="/uploads/projetos/<%= ev.pro_banner %>" class="card-img-top" alt="<%= ev.pro_nome %>" style="height: 140px; object-fit: cover;">
+                                <% } else { %>
+                                    <div class="bg-light d-flex align-items-center justify-content-center" style="height: 140px;">
+                                        <i class="fas fa-image fa-3x text-muted opacity-25"></i>
                                     </div>
-                                </div>
-                                <div class="col-auto">
-                                    <small class="text-muted"><%= qntEmAbertoPorcen || 0 %>%</small>
+                                <% } %>
+                                <div class="card-body p-3">
+                                    <div class="badge bg-purple-soft text-purple mb-2" style="font-size: 0.7rem;">
+                                        <%= new Date(ev.pro_data).toLocaleDateString('pt-BR') %>
+                                    </div>
+                                    <h6 class="fw-bold mb-1 text-truncate"><%= ev.pro_nome %></h6>
+                                    <p class="text-muted small mb-0 text-truncate-2" style="font-size: 0.75rem; height: 2.2rem; overflow: hidden;">
+                                        <%= ev.pro_desc %>
+                                    </p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-auto">
-                            <i class="fas fa-tasks fa-2x text-gray-400 opacity-50"></i>
+                    <% }); %>
+                <% } else { %>
+                    <div class="col-12">
+                        <div class="text-center py-4 bg-white rounded-3 shadow-sm text-muted">
+                            <i class="fas fa-calendar-day fa-2x mb-2 opacity-25 d-block"></i>
+                            Nenhum evento programado para os próximos dias.
                         </div>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FAIXA FINANCEIRA ===== -->
+    <div class="row g-3 mb-4">
+
+        <!-- Mês Atual -->
+        <div class="col-sm-6 col-xl-3">
+            <div class="stat-card stat-purple">
+                <div class="stat-card-body">
+                    <div>
+                        <div class="stat-label">Doações — Mês Atual</div>
+                        <div class="stat-value" style="font-size: 1.4rem;">
+                            R$ <%= (saldoMesAtual || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) %>
+                        </div>
+                    </div>
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-alt"></i>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- Ano Atual -->
+        <div class="col-sm-6 col-xl-3">
+            <div class="stat-card stat-blue">
+                <div class="stat-card-body">
+                    <div>
+                        <div class="stat-label">Doações — Ano Atual</div>
+                        <div class="stat-value" style="font-size: 1.4rem;">
+                            R$ <%= (saldoAnoAtual || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) %>
+                        </div>
+                    </div>
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Histórico -->
+        <div class="col-sm-6 col-xl-3">
+            <div class="stat-card stat-teal">
+                <div class="stat-card-body">
+                    <div>
+                        <div class="stat-label">Total Arrecadado</div>
+                        <div class="stat-value" style="font-size: 1.4rem;">
+                            R$ <%= (saldoTotal || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) %>
+                        </div>
+                    </div>
+                    <div class="stat-icon">
+                        <i class="fas fa-hand-holding-usd"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nº de Doações -->
+        <div class="col-sm-6 col-xl-3">
+            <div class="stat-card stat-gray">
+                <div class="stat-card-body">
+                    <div>
+                        <div class="stat-label">Total de Doações</div>
+                        <div class="stat-value">
+                            <%= totalDoacoes || 0 %>
+                        </div>
+                        <a href="/financeiro/listar" class="stat-link">Ver todas →</a>
+                    </div>
+                    <div class="stat-icon">
+                        <i class="fas fa-receipt"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <!-- ===== LINHA INFERIOR: ÚLTIMAS DOAÇÕES GERAIS ===== -->
+    <div class="row g-3">
+
+        <!-- Últimas Doações -->
+        <div class="col-12">
+            <div class="card border-0 shadow-sm" style="border-radius:1rem;">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h6 class="fw-bold mb-0" style="color:#1f2937;">
+                            <i class="fas fa-history me-2" style="color:var(--btn-primary-bg);"></i>
+                            Últimas Doações (Geral)
+                        </h6>
+                        <a href="/doacoes/listar" class="btn btn-sm btn-outline-purple">Ver todas</a>
+                    </div>
+
+                    <% if (ultimasDoacoes && ultimasDoacoes.length > 0) { %>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0" style="font-size:0.875rem;">
+                                <thead>
+                                    <tr>
+                                        <th class="border-0 text-muted fw-semibold"
+                                            style="font-size:0.75rem;text-transform:uppercase;">Doador</th>
+                                        <th class="border-0 text-muted fw-semibold"
+                                            style="font-size:0.75rem;text-transform:uppercase;">Tipo</th>
+                                        <th class="border-0 text-muted fw-semibold"
+                                            style="font-size:0.75rem;text-transform:uppercase;">Descrição</th>
+                                        <th class="border-0 text-muted fw-semibold"
+                                            style="font-size:0.75rem;text-transform:uppercase;">Quantidade/Valor</th>
+                                        <th class="border-0 text-muted fw-semibold"
+                                            style="font-size:0.75rem;text-transform:uppercase;">Data</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% ultimasDoacoes.forEach(function(d) { %>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <div
+                                                        style="width:32px;height:32px;border-radius:50%;background:rgba(124,58,237,0.1);color:var(--btn-primary-bg);display:flex;align-items:center;justify-content:center;font-size:0.75rem;">
+                                                        <i class="fas fa-hands-helping"></i>
+                                                    </div>
+                                                    <span class="fw-semibold">
+                                                        <%= d.doa_doador || d.pess_nome || 'Anônimo' %>
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span class="badge rounded-pill"
+                                                    style="background:#f3f4f6;color:#374151;font-size:0.7rem;font-weight:700;padding:0.3rem 0.6rem;">
+                                                    <%= (d.doa_tipo || '' ).toUpperCase() %>
+                                                </span>
+                                            </td>
+                                            <td class="text-muted">
+                                                <%= d.doa_desc || '—' %>
+                                            </td>
+                                            <td class="fw-bold">
+                                                <%= d.doa_tipo === 'Dinheiro' ? 'R$ ' + parseFloat(d.doa_qnt || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) : d.doa_qnt %>
+                                            </td>
+                                            <td class="text-muted">
+                                                <%= d.doa_data ? new Date(d.doa_data).toLocaleDateString('pt-BR') : '—' %>
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+                        <% } else { %>
+                            <div class="text-center py-4 text-muted">
+                                <i class="fas fa-box fa-2x mb-2 opacity-25 d-block"></i>
+                                Nenhuma doação registrada ainda na tabela geral.
+                            </div>
+                            <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<!-- Modal Evento Hoje -->
+<% if (locals.eventoHoje) { %>
+<div class="modal fade" id="modalEventoHoje" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 1.5rem;">
+            <div class="modal-header border-0 pb-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center p-4 pt-0">
+                <div class="mb-3">
+                    <div class="bg-purple-soft rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                        <i class="fas fa-star fa-2x text-purple"></i>
+                    </div>
+                </div>
+                <h4 class="fw-bold mb-1">Evento Ocorrendo Hoje!</h4>
+                <p class="text-muted small mb-4">Não esqueça de conferir os detalhes do projeto programado para hoje.</p>
+                
+                <div class="card bg-light border-0 mb-4" style="border-radius: 1rem;">
+                    <div class="card-body">
+                        <h5 class="fw-bold text-purple mb-2"><%= eventoHoje.pro_nome %></h5>
+                        <div class="text-start mb-3">
+                            <label class="fw-bold small text-muted mb-0">Descrição:</label>
+                            <p class="mb-2 small"><%= eventoHoje.pro_desc %></p>
+                            
+                            <label class="fw-bold small text-muted mb-0">Objetivo:</label>
+                            <p class="mb-0 small"><%= eventoHoje.pro_objetivo %></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="button" class="btn btn-purple w-100 fw-bold py-3" data-bs-dismiss="modal" data-dismiss="modal" style="border-radius: 0.8rem;">
+                    Entendido, obrigado!
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<% } %>
+
+<style>
+    /* ===== CLASSES AUXILIARES ===== */
+    .bg-purple-soft { background-color: rgba(124, 58, 237, 0.1); }
+    .text-purple { color: #7c3aed; }
+    .btn-purple { background-color: #7c3aed; color: white; border: none; }
+    .btn-purple:hover { background-color: #6d28d9; color: white; }
+    .text-truncate-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* ===== CARDS DE ESTATÍSTICA ===== */
+    .stat-card {
+        border-radius: 1rem;
+        border: none;
+        padding: 1.25rem 1.5rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        transition: transform 0.2s, box-shadow 0.2s;
+        height: 100%;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.10);
+    }
+
+    .stat-card-body {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+    .stat-label {
+        font-size: 0.72rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 0.375rem;
+        opacity: 0.8;
+    }
+
+    .stat-value {
+        font-size: 1.75rem;
+        font-weight: 900;
+        line-height: 1.1;
+        margin-bottom: 0.375rem;
+    }
+
+    .stat-link {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-decoration: none;
+        opacity: 0.75;
+        transition: opacity 0.15s;
+    }
+
+    .stat-link:hover {
+        opacity: 1;
+    }
+
+    .stat-icon {
+        font-size: 2.5rem;
+        opacity: 0.2;
+        flex-shrink: 0;
+    }
+
+    /* Variantes de cor */
+    .stat-yellow {
+        background: linear-gradient(135deg, #fffbeb, #fef3c7);
+        color: #92400e;
+    }
+
+    .stat-yellow .stat-link {
+        color: #92400e;
+    }
+
+    .stat-green {
+        background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+        color: #065f46;
+    }
+
+    .stat-green .stat-link {
+        color: #065f46;
+    }
+
+    .stat-red {
+        background: linear-gradient(135deg, #fff1f2, #ffe4e6);
+        color: #9f1239;
+    }
+
+    .stat-red .stat-link {
+        color: #9f1239;
+    }
+
+    .stat-purple {
+        background: linear-gradient(135deg, #f5f3ff, #ede9fe);
+        color: #5b21b6;
+    }
+
+    .stat-blue {
+        background: linear-gradient(135deg, #eff6ff, #dbeafe);
+        color: #1e40af;
+    }
+
+    .stat-teal {
+        background: linear-gradient(135deg, #f0fdfa, #ccfbf1);
+        color: #134e4a;
+    }
+
+    .stat-gray {
+        background: linear-gradient(135deg, #f9fafb, #f3f4f6);
+        color: #1f2937;
+    }
+
+    .stat-gray .stat-link {
+        color: #7c3aed;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        <% if (locals.eventoHoje) { %>
+            const modalElement = document.getElementById('modalEventoHoje');
+            const modal = new bootstrap.Modal(modalElement);
+            modal.show();
+
+            // Fechamento manual para evitar conflitos entre versões do Bootstrap (fallback)
+            const closeButtons = modalElement.querySelectorAll('[data-bs-dismiss="modal"], [data-dismiss="modal"]');
+            closeButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    modal.hide();
+                    
+                    // Remove o backdrop e classes residuais manualmente se o Bootstrap 4/5 conflitar
+                    setTimeout(() => {
+                        const backdrop = document.querySelector('.modal-backdrop');
+                        if (backdrop) backdrop.remove();
+                        document.body.classList.remove('modal-open');
+                        document.body.style.overflow = '';
+                        document.body.style.paddingRight = '';
+                    }, 300);
+                });
+            });
+        <% } %>
+    });
+</script>

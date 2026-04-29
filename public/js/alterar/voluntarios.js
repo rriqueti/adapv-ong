@@ -2,7 +2,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.getElementById("btnAlterar").addEventListener("click", alterar);
 
-    document.getElementById("cancelar").addEventListener("click", redirecionar);
+    // O botão cancelar já é um link <a> na view, mas mantemos o listener por segurança ou compatibilidade
+    const btnCancelar = document.getElementById("cancelar");
+    if (btnCancelar && btnCancelar.tagName !== 'A') {
+        btnCancelar.addEventListener("click", redirecionar);
+    }
 
     function redirecionar() {
         window.location.href = "/voluntarios/listar";
@@ -10,6 +14,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function limparValidacao() {
         document.getElementById("idVolun").style["border-color"] = "#ced4da";
+        document.getElementById("areaAtuacao").style["border-color"] = "#ced4da";
+        document.getElementById("disponibilidade").style["border-color"] = "#ced4da";
     }
 
     function alterar() {
@@ -17,11 +23,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
         let id = document.querySelector("#id").value;
         let voluntario = document.querySelector("#idVolun").value;
+        let areaAtuacao = document.querySelector("#areaAtuacao").value;
+        let disponibilidade = document.querySelector("#disponibilidade").value;
         let createdAt = document.querySelector("#createdAt").value;
 
         let listaErros = [];
 
-        if (voluntario === "") {
+        if (voluntario === "" || voluntario === "0") {
             listaErros.push("idVolun");
         }
 
@@ -30,6 +38,8 @@ document.addEventListener("DOMContentLoaded", function () {
             let obj = {
                 id: id,
                 voluntario: voluntario,
+                areaAtuacao: areaAtuacao,
+                disponibilidade: disponibilidade,
                 createdAt: createdAt
             };
 

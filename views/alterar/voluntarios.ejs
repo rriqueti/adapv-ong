@@ -1,29 +1,90 @@
-<script src="/js/alterar/voluntarios.js"></script>
-<div class="container">
+<div class="container-fluid py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <input id="id" hidden value="<%= voluntario.vol_id %>">
+            <input id="createdAt" hidden value="<%= voluntario.createdAt %>">
+            
+            <div class="d-flex align-items-center mb-4">
+                <a href="/voluntarios/listar" class="btn btn-link text-decoration-none me-3">
+                    <i class="fas fa-arrow-left fa-lg"></i>
+                </a>
+                <h1 class="h3 mb-0 text-gray-800 fw-bold">Editar Perfil do Voluntário</h1>
+            </div>
 
-    <div class="container-fluid">
-        
-        <input id="id" hidden value="<%= voluntario.vol_id %>">
-        <input id="createdAt" hidden value="<%= voluntario.createdAt %>">
-        <h1 class="h3 mb-4 text-gray-800">Registrar Voluntários</h1>
-        <% if (typeof msg != "undefined") {%>
-            <span><%= msg %></span>
-        <% } %>
+            <div class="card shadow-sm border-0" style="border-radius: 1rem;">
+                <div class="card-body p-4 p-md-5">
+                    <form id="formAlterarVoluntario">
+                        <% if (typeof msg != "undefined" && msg) { %>
+                            <div class="alert alert-info alert-dismissible fade show border-0 shadow-sm mb-4" role="alert">
+                                <i class="fas fa-info-circle me-2"></i><%= msg %>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        <% } %>
 
-        <div class="col-md-6">
-            <label for="idVolun" class="form-label">Nome do voluntário<span class="text-danger">*</span></label>
-            <select name="idVolun" id="idVolun">
-                <% listaPessoa.forEach(function(pessoas) { %>
-                    <option value="<%= pessoas.pess_id%>" <%= pessoas.pess_id === voluntario.pess_id ? "selected" : "" %>>NOME: <%= pessoas.pess_nome, %> - CPF: <%= pessoas.pess_cpf %> </option>
-                <% }); %>
-            </select>
+                        <!-- Seleção da Pessoa (Informação Primária) -->
+                        <div class="row g-3 mb-5">
+                            <div class="col-12">
+                                <h5 class="fw-bold mb-3 text-primary">Identificação</h5>
+                                <label for="idVolun" class="form-label text-muted small fw-bold">PESSOA VINCULADA</label>
+                                <select name="idVolun" class="form-select form-select-lg shadow-none border-2" id="idVolun" required>
+                                    <% if (locals.listaPessoa) { %>
+                                        <% listaPessoa.forEach(function(pessoa) { %>
+                                            <option value="<%= pessoa.pess_id %>" <%= (pessoa.pess_id === voluntario.pess_id) ? "selected" : "" %>>
+                                                <%= pessoa.pess_nome %> (CPF: <%= pessoa.pess_cpf || 'N/A' %>)
+                                            </option>
+                                        <% }); %>
+                                    <% } %>
+                                </select>
+                                <div class="form-text mt-2">
+                                    <i class="fas fa-id-card me-1"></i> O vínculo deve ser com uma pessoa já cadastrada no sistema.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Informações Complementares (O que foi solicitado carregar) -->
+                        <div class="row g-4 mb-5">
+                            <div class="col-12">
+                                <h5 class="fw-bold mb-3 text-primary">Atuação e Horários</h5>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="areaAtuacao" class="form-label text-muted small fw-bold">ÁREA DE ATUAÇÃO</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-2 border-end-0"><i class="fas fa-briefcase text-muted"></i></span>
+                                    <input type="text" 
+                                           class="form-control form-control-lg shadow-none border-2 border-start-0" 
+                                           id="areaAtuacao" 
+                                           name="areaAtuacao" 
+                                           value="<%= voluntario.vol_area_atuacao || '' %>" 
+                                           placeholder="Ex: Resgate, TI, Eventos...">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="disponibilidade" class="form-label text-muted small fw-bold">DISPONIBILIDADE</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-2 border-end-0"><i class="fas fa-clock text-muted"></i></span>
+                                    <input type="text" 
+                                           class="form-control form-control-lg shadow-none border-2 border-start-0" 
+                                           id="disponibilidade" 
+                                           name="disponibilidade" 
+                                           value="<%= voluntario.vol_disponibilidade || '' %>" 
+                                           placeholder="Ex: Sábados de manhã, Noites...">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-5 d-flex flex-column flex-md-row gap-3">
+                            <button type="button" class="btn btn-success px-5 py-3 fw-bold shadow-sm flex-grow-1" id="btnAlterar">
+                                <i class="fas fa-check-circle me-2"></i>Salvar Alterações
+                            </button>
+                            <a href="/voluntarios/listar" class="btn btn-light px-5 py-3 fw-bold border shadow-sm" id="cancelar">
+                                Descartar Alterações
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <br><br>
-        <div class="col-12">
-            <button type="button" class="btn btn-success px-4 py-3" id="btnAlterar">Salvar</button>
-            <button type="button" class="btn btn-secondary px-3 py-3" id="cancelar">Cancelar</button>
-        </div>
-
     </div>
-
 </div>
+
+<script src="/js/alterar/voluntarios.js"></script>

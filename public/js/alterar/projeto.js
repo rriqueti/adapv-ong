@@ -17,52 +17,58 @@ document.addEventListener("DOMContentLoaded", function () {
     function alterar() {
         limparValidacao();
 
+        const formData = new FormData();
+
         let id = document.querySelector("#id").value;
         let nome = document.querySelector("#nomePro").value;
         let data = document.querySelector("#dataPro").value;
         let desc = document.querySelector("#descPro").value;
+        let objetivo = document.querySelector("#objetivoPro").value;
         let createdAt = document.querySelector("#createdAt").value;
+        let banner = document.querySelector("#bannerPro").files[0];
+        
+        // Obter voluntários selecionados
+        let selectVol = document.querySelector("#voluntariosPro");
+        let voluntarios = Array.from(selectVol.selectedOptions).map(option => option.value);
 
         let listaErros = [];
 
-        if (nome === "") {
-            listaErros.push("nome");
-        }
-        if (data === "") {
-            listaErros.push("data");
-        }
-        if (desc === "") {
-            listaErros.push("desc");
-        }
+        if (nome === "") listaErros.push("nomePro");
+        if (data === "") listaErros.push("dataPro");
+        if (desc === "") listaErros.push("descPro");
 
         if (listaErros.length == 0) {
 
-            let obj = {
-                id: id,
-                nome: nome,
-                data: data,
-                desc: desc,
-                createdAt: createdAt
-            };
+            formData.append("id", id);
+            formData.append("nome", nome);
+            formData.append("data", data);
+            formData.append("desc", desc);
+            formData.append("objetivo", objetivo);
+            formData.append("createdAt", createdAt);
+            if (banner) formData.append("banner", banner);
+            
+            voluntarios.forEach(vId => {
+                formData.append("voluntarios", vId);
+            });
 
             fetch("/projeto/alterar", {
                 method: 'POST',
-                body: JSON.stringify(obj),
-                headers: {
-                    "Content-Type": "application/json",
+                body: formData
+            })
+            .then(r => r.json())
+            .then(r => {
+                if (r.ok) {
+                    alert(r.msg);
+                    window.location.href = "/projeto/listar";
+                }
+                else {
+                    alert(r.msg);
                 }
             })
-
-                .then(r => { return r.json(); })
-                .then(r => {
-                    if (r.ok) {
-                        alert(r.msg);
-                        window.location.href = "/projeto/listar";
-                    }
-                    else {
-                        alert(r.msg);
-                    }
-                })
+            .catch(err => {
+                console.error("Erro na alteração:", err);
+                alert("Ocorreu um erro ao processar a requisição.");
+            });
 
         }
         else {

@@ -1,72 +1,106 @@
-<link rel="stylesheet" type="text/css"  media="print" href="/css/print.css">
+<link rel="stylesheet" type="text/css" media="print" href="/css/print.css">
 <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
 <script src="/js/listar/atividades.js"></script>
 
-<h1>Atividades Cadastradas</h1>
-<div style="display: flex; justify-content: space-between;">
-    <a id="novoReg" class="btn btn-secondary" style="max-width: 200px;" href="/atividades/cadastrar">Nova atividade</a>
-    <div>
-        <button id="btnExportarExcel" class="btn btn-info" >Exportar para Excel</button>
-        <button id="btnExportarPdf"  onclick="window.print()" class="btn btn-info">Exportar para PDF</button>
+<div class="container-fluid py-4">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h1 class="h3 mb-0 fw-bold text-gray-800">Gestão de Atividades</h1>
+            <p class="text-muted small mb-0">Planejamento e vinculação de voluntários para atividades da ONG.</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="/atividades/cadastrar" class="btn btn-purple shadow-sm fw-bold">
+                <i class="fas fa-plus me-2"></i>Nova Atividade
+            </a>
+            <div class="dropdown">
+                <button class="btn btn-outline-secondary dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown">
+                    <i class="fas fa-download me-2"></i>Exportar
+                </button>
+                <ul class="dropdown-menu shadow border-0">
+                    <li><a class="dropdown-item" href="#" id="btnExportarExcel"><i class="fas fa-file-excel me-2 text-success"></i>Excel</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="window.print()"><i class="fas fa-file-pdf me-2 text-danger"></i>PDF / Imprimir</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm" style="border-radius: 1rem;">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table id="tabelaAtiv" class="table table-hover align-middle mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="border-0 px-4 py-3 text-muted fw-bold small">ID</th>
+                            <th class="border-0 py-3 text-muted fw-bold small">ATIVIDADE</th>
+                            <th class="border-0 py-3 text-muted fw-bold small">DATA</th>
+                            <th class="border-0 py-3 text-muted fw-bold small">VOLUNTÁRIOS</th>
+                            <th class="border-0 py-3 text-muted fw-bold small">PROJETO / EMPRESA</th>
+                            <th class="border-0 py-3 text-muted fw-bold small text-center">AÇÕES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (locals.listaAtividade && listaAtividade.length > 0) { %>
+                            <% listaAtividade.forEach(function(atv) { %>
+                                <tr>
+                                    <td class="px-4 text-muted small">#<%= atv.atv_id %></td>
+                                    <td>
+                                        <div class="fw-bold text-dark"><%= atv.atv_nome %></div>
+                                        <div class="text-muted small text-truncate" style="max-width: 250px;"><%= atv.atv_desc %></div>
+                                    </td>
+                                    <td>
+                                        <span class="badge rounded-pill bg-purple-soft text-purple px-2 py-1">
+                                            <%= new Date(atv.atv_data).toLocaleDateString('pt-BR') %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <% if (atv.voluntarios && atv.voluntarios.length > 0) { %>
+                                            <div class="d-flex flex-wrap gap-1">
+                                                <% atv.voluntarios.forEach(v => { %>
+                                                    <span class="badge bg-light text-dark border small" style="font-size: 0.65rem;">
+                                                        <%= v.pess_nome %>
+                                                    </span>
+                                                <% }) %>
+                                            </div>
+                                        <% } else { %>
+                                            <span class="text-muted small">Nenhum vinculado</span>
+                                        <% } %>
+                                    </td>
+                                    <td>
+                                        <div class="small fw-semibold text-primary"><i class="fas fa-project-diagram me-1"></i>ID Projeto: <%= atv.pro_id %></div>
+                                        <% if (atv.emp_id) { %>
+                                            <div class="small text-success"><i class="fas fa-building me-1"></i>ID Empresa: <%= atv.emp_id %></div>
+                                        <% } %>
+                                    </td>
+                                    <td class="text-center px-4">
+                                        <div class="d-flex justify-content-center gap-2">
+                                            <a href="/atividades/alterar/<%= atv.atv_id %>" class="btn btn-sm btn-outline-primary" title="Editar">
+                                                <i class="fas fa-pen"></i>
+                                            </a>
+                                            <button data-codigoexclusao="<%= atv.atv_id %>" class="btn btn-sm btn-outline-danger btnExclusao" title="Excluir">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="6" class="text-center py-5 text-muted">
+                                    <i class="fas fa-tasks fa-3x mb-3 opacity-25 d-block"></i>
+                                    Nenhuma atividade registrada no momento.
+                                </td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 
-<hr>
-    <div>
-
-        <table id="tabelaAtiv" class="table table-striped">
-            <thead>
-                <th>Id</th>
-                <th>Nome</th>
-                <th>Descrição</th>
-                <th>Data</th>
-                <th>Voluntário participante</th>
-                <th>Empresa investidora</th>
-                <th>Projeto responsável</th>
-                <th>Registro criado</th>
-                <th>Registro atualizado</th>
-            </thead>
-            <tbody>
-                <% for (let i = 0; i < listaAtividade.length; i++) { %>
-                    <%
-                    for(let j = 0; j < listaVolun.length; j++){
-                        if(listaVolun[j].vol_id == listaAtividade[i].vol_id){
-                            for(let k = 0; k < listaPessoa.length; k++){
-                                if(listaPessoa[k].pess_id == listaVolun[j].pess_id){
-                                    listaAtividade[i].vol_id = listaPessoa[k].pess_nome
-                                }
-                            }
-                        }
-                    }
-                    for(let j = 0; j < listaEmp.length; j++){
-                        if(listaEmp[j].emp_id == listaAtividade[i].emp_id){
-                            listaAtividade[i].emp_id = listaEmp[j].emp_nome
-                        }
-                    }
-                    for(let j = 0; j < listaProj.length; j++){
-                        if(listaProj[j].pro_id == listaAtividade[i].pro_id){
-                            listaAtividade[i].pro_id = listaProj[j].pro_nome
-                        }
-                    }
-                    %>
-                    <tr>
-                        <td><%= listaAtividade[i].atv_id %></td>
-                        <td><%= listaAtividade[i].atv_nome %></td>
-                        <td><%= listaAtividade[i].atv_desc %></td>
-                        <td><%= listaAtividade[i].atv_data.split("-").reverse().join("/") %></td>
-                        <td><%= listaAtividade[i].vol_id %></td>
-                        <td><%= listaAtividade[i].emp_id %></td>
-                        <td><%= listaAtividade[i].pro_id %></td>
-                        <td><%= listaAtividade[i].createdAt %></td>
-                        <td><%= listaAtividade[i].updatedAt %></td>
-                        <td>
-                            <a id="alterabtn" href="/atividades/alterar/<%= listaAtividade[i].atv_id %>" class="btn btn-primary"><i class="fas fa-pen"></i></a>
-                            <button id="delbtn" data-codigoexclusao="<%= listaAtividade[i].atv_id %>" class="btn btn-danger btnExclusao"><i class="fas fa-trash"></i></button>
-                        </td>
-                        
-                    </tr>
-                <% } %>
-            </tbody>
-        </table>
-
-    </div>
+<style>
+    .bg-purple-soft { background-color: rgba(124, 58, 237, 0.1); }
+    .text-purple { color: #7c3aed; }
+    .btn-purple { background-color: #7c3aed; color: white; border: none; }
+    .btn-purple:hover { background-color: #6d28d9; color: white; }
+</style>

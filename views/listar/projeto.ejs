@@ -1,42 +1,100 @@
-<link rel="stylesheet" type="text/css"  media="print" href="/css/print.css">
+<link rel="stylesheet" type="text/css" media="print" href="/css/print.css">
 <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
 <script src="/js/listar/projeto.js"></script>
 
-<h1>Projetos Registrados</h1>
-<div style="display: flex; justify-content: space-between;">
-    <a id="novoReg" class="btn btn-secondary" style="max-width: 200px;" href="/projeto/cadastrar">Novo Projeto</a>
-    <div>
-        <button id="btnExportarExcel" class="btn btn-info" >Exportar para Excel</button>
-        <button id="btnExportarPdf"  onclick="window.print()" class="btn btn-info">Exportar para PDF</button>
+<div class="container-fluid py-4">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h1 class="h3 mb-0 fw-bold text-gray-800">Projetos e Eventos</h1>
+            <p class="text-muted small mb-0">Gerencie o calendário de atividades e voluntários da ONG.</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="/projeto/cadastrar" class="btn btn-purple shadow-sm fw-bold">
+                <i class="fas fa-plus me-2"></i>Novo Projeto
+            </a>
+            <div class="dropdown">
+                <button class="btn btn-outline-secondary dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown">
+                    <i class="fas fa-download me-2"></i>Exportar
+                </button>
+                <ul class="dropdown-menu shadow border-0">
+                    <li><a class="dropdown-item" href="#" id="btnExportarExcel"><i class="fas fa-file-excel me-2 text-success"></i>Excel</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="window.print()"><i class="fas fa-file-pdf me-2 text-danger"></i>PDF / Imprimir</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm" style="border-radius: 1rem;">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table id="tabelaProjeto" class="table table-hover align-middle mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="border-0 px-4 py-3 text-muted fw-bold small">ID</th>
+                            <th class="border-0 py-3 text-muted fw-bold small">BANNER</th>
+                            <th class="border-0 py-3 text-muted fw-bold small">NOME DO PROJETO</th>
+                            <th class="border-0 py-3 text-muted fw-bold small">DATA</th>
+                            <th class="border-0 py-3 text-muted fw-bold small">DESCRIÇÃO</th>
+                            <th class="border-0 py-3 text-muted fw-bold small text-center">AÇÕES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (locals.listaPro && listaPro.length > 0) { %>
+                            <% listaPro.forEach(function(p) { %>
+                                <tr>
+                                    <td class="px-4 text-muted small">#<%= p.pro_id %></td>
+                                    <td>
+                                        <% if (p.pro_banner) { %>
+                                            <img src="/uploads/projetos/<%= p.pro_banner %>" class="rounded shadow-sm" style="width: 50px; height: 35px; object-fit: cover;">
+                                        <% } else { %>
+                                            <div class="bg-light rounded d-flex align-items-center justify-content-center" style="width: 50px; height: 35px;">
+                                                <i class="fas fa-image text-muted opacity-25" style="font-size: 0.7rem;"></i>
+                                            </div>
+                                        <% } %>
+                                    </td>
+                                    <td>
+                                        <div class="fw-bold text-dark"><%= p.pro_nome %></div>
+                                        <div class="text-muted small" style="font-size: 0.7rem;"><%= p.pro_objetivo ? p.pro_objetivo.substring(0, 40) + '...' : 'Sem objetivo definido' %></div>
+                                    </td>
+                                    <td>
+                                        <span class="badge rounded-pill bg-purple-soft text-purple px-2 py-1">
+                                            <%= new Date(p.pro_data).toLocaleDateString('pt-BR') %>
+                                        </span>
+                                    </td>
+                                    <td class="text-muted small">
+                                        <%= p.pro_desc %>
+                                    </td>
+                                    <td class="text-center px-4">
+                                        <div class="d-flex justify-content-center gap-2">
+                                            <a href="/projeto/alterar/<%= p.pro_id %>" class="btn btn-sm btn-outline-primary" title="Editar">
+                                                <i class="fas fa-pen"></i>
+                                            </a>
+                                            <button data-codigoexclusao="<%= p.pro_id %>" class="btn btn-sm btn-outline-danger btnExclusao" title="Excluir">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="6" class="text-center py-5 text-muted">
+                                    <i class="fas fa-folder-open fa-3x mb-3 opacity-25 d-block"></i>
+                                    Nenhum projeto registrado no momento.
+                                </td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 
-<hr>
-<div>
-    <table id="tabelaProjeto" class="table table-striped">
-        <thead>
-            <th>Id</th>
-            <th>Nome</th>
-            <th>Data</th>
-            <th>Desc</th>
-            <th>Registro criado</th>
-            <th>Registro atualizado</th>
-        </thead>
-        <tbody>
-            <% for (let i = 0; i < listaPro.length; i++) { %>
-                <tr>
-                    <td><%= listaPro[i].pro_id %></td>
-                    <td><%= listaPro[i].pro_nome %></td>
-                    <td><%= listaPro[i].pro_data.split("-").reverse().join("/") %></td>
-                    <td><%= listaPro[i].pro_desc %></td>
-                    <td><%= listaPro[i].createdAt %></td>
-                    <td><%= listaPro[i].updatedAt %></td>
-                    <td>
-                        <a id="alterabtn" href="/projeto/alterar/<%= listaPro[i].pro_id %>" class="btn btn-primary"><i class="fas fa-pen"></i></a>
-                        <button id="delbtn" data-codigoexclusao="<%= listaPro[i].pro_id %>" class="btn btn-danger btnExclusao"><i class="fas fa-trash"></i></button>
-                    </td>
-                </tr>
-            <% } %>
-        </tbody>
-    </table>
-</div>
+<style>
+    .bg-purple-soft { background-color: rgba(124, 58, 237, 0.1); }
+    .text-purple { color: #7c3aed; }
+    .btn-purple { background-color: #7c3aed; color: white; border: none; }
+    .btn-purple:hover { background-color: #6d28d9; color: white; }
+    .table-hover tbody tr:hover { background-color: #f9fafb; cursor: pointer; }
+</style>

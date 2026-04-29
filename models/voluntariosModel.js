@@ -1,3 +1,4 @@
+const { DateTime } = require("luxon");
 const Database = require("../utils/database");
 const PessoaModel = require("./pessoaModel");
 
@@ -7,6 +8,8 @@ class VoluntariosModel {
 
     #vol_id;
     #pess_id;
+    #vol_area_atuacao;
+    #vol_disponibilidade;
     #createdAt;
     #updatedAt;
     pess_nome; // Propriedade pública para armazenar o nome da pessoa associada
@@ -15,6 +18,8 @@ class VoluntariosModel {
 
     get vol_id() { return this.#vol_id }
     get pess_id() { return this.#pess_id }
+    get vol_area_atuacao() { return this.#vol_area_atuacao }
+    get vol_disponibilidade() { return this.#vol_disponibilidade }
     get createdAt() { return this.#createdAt }
     get updatedAt() { return this.#updatedAt }
 
@@ -22,37 +27,77 @@ class VoluntariosModel {
 
     set vol_id(value) { this.#vol_id = value }
     set pess_id(value) { this.#pess_id = value }
+    set vol_area_atuacao(value) { this.#vol_area_atuacao = value }
+    set vol_disponibilidade(value) { this.#vol_disponibilidade = value }
     set createdAt(value) { this.#createdAt = value }
     set updatedAt(value) { this.#updatedAt = value }
 
     // Constructor
 
-    constructor(vol_id, pess_id, createdAt, updatedAt) {
+    constructor(vol_id, pess_id, vol_area_atuacao, vol_disponibilidade, createdAt, updatedAt) {
         this.#vol_id = vol_id;
         this.#pess_id = pess_id;
+        this.#vol_area_atuacao = vol_area_atuacao;
+        this.#vol_disponibilidade = vol_disponibilidade;
         this.#createdAt = createdAt;
         this.#updatedAt = updatedAt;
     }
 
     // Métodos
 
-    async listarVoluntarios() {
-        let sql = `SELECT v.*, p.pess_nome 
+    async listarVoluntarios(filtros = {}) {
+        let sql = `SELECT v.*, p.pess_nome, p.pess_nasc 
                    FROM tb_voluntarios v
-                   INNER JOIN tb_pessoa p ON v.pess_id = p.pess_id`;
+                   INNER JOIN tb_pessoa p ON v.pess_id = p.pess_id
+                   WHERE 1=1`;
+        let val = [];
 
-        let rows = await banco.ExecutaComando(sql);
+        if (filtros.nome) {
+            sql += " AND p.pess_nome LIKE ?";
+            val.push(`%${filtros.nome}%`);
+        }
+
+        if (filtros.apenasAtivos) {
+            sql += " AND v.vol_ativo = 1";
+        }
+
+        let rows = await banco.ExecutaComando(sql, val);
         let lista = [];
 
         for (let i = 0; i < rows.length; i++) {
             let voluntario = new VoluntariosModel(
                 rows[i]["vol_id"],
                 rows[i]["pess_id"],
+                rows[i]["vol_area_atuacao"],
+                rows[i]["vol_disponibilidade"],
                 rows[i]["createdAt"],
                 rows[i]["updatedAt"]
             );
             voluntario.pess_nome = rows[i]["pess_nome"];
-            lista.push(voluntario);
+            voluntario.pess_nasc = rows[i]["pess_nasc"];
+            
+            // Lógica de filtro por faixa etária no código (mais flexível que SQL para idades variáveis)
+            if (filtros.faixaEtaria) {
+                let birthDate = rows[i]["pess_nasc"];
+                let dt;
+                
+                if (birthDate instanceof Date) {
+                    dt = DateTime.fromJSDate(birthDate);
+                } else {
+                    dt = DateTime.fromISO(birthDate);
+                }
+
+                const idade = dt.diffNow('years').years * -1;
+                let incluir = false;
+                
+                if (filtros.faixaEtaria === 'jovem' && idade >= 18 && idade <= 25) incluir = true;
+                else if (filtros.faixaEtaria === 'adulto' && idade > 25 && idade <= 50) incluir = true;
+                else if (filtros.faixaEtaria === 'senior' && idade > 50) incluir = true;
+
+                if (incluir) lista.push(voluntario);
+            } else {
+                lista.push(voluntario);
+            }
         }
 
         return lista;
@@ -98,6 +143,8 @@ class VoluntariosModel {
             let voluntario = new VoluntariosModel(
                 row["vol_id"],
                 row["pess_id"],
+                row["vol_area_atuacao"],
+                row["vol_disponibilidade"],
                 row["createdAt"],
                 row["updatedAt"]
             );
@@ -109,10 +156,12 @@ class VoluntariosModel {
 
     async cadastrarVoluntario() {
         if (this.#vol_id === 0) {
-            let sql = "INSERT INTO tb_voluntarios (pess_id, createdAt, updatedAt) VALUES (?, ?, ?)";
+            let sql = "INSERT INTO tb_voluntarios (pess_id, vol_area_atuacao, vol_disponibilidade, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?)";
 
             let valores = [
                 this.#pess_id,
+                this.#vol_area_atuacao,
+                this.#vol_disponibilidade,
                 this.#createdAt,
                 this.#updatedAt
             ];
@@ -124,10 +173,12 @@ class VoluntariosModel {
     }
 
     async editarVoluntario() {
-        let sql = "UPDATE tb_voluntarios SET pess_id = ?, createdAt = ?, updatedAt = ? WHERE vol_id = ?";
+        let sql = "UPDATE tb_voluntarios SET pess_id = ?, vol_area_atuacao = ?, vol_disponibilidade = ?, createdAt = ?, updatedAt = ? WHERE vol_id = ?";
 
         let valores = [
             this.#pess_id,
+            this.#vol_area_atuacao,
+            this.#vol_disponibilidade,
             this.#createdAt,
             this.#updatedAt,
             this.#vol_id

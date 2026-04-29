@@ -4,9 +4,16 @@
  */
 function verificarPermissao(permissaoRequerida) {
     return (req, res, next) => {
-        // As permissões são carregadas no token/menuMiddleware e ficam em res.locals.permissoes
-        const permissoes = res.locals.permissoes || [];
+        // Obter perfil e permissões do usuário logado (setados no token)
+        // Se estiver no res.locals (do menuMiddleware) ou no req.usuario (do authMiddleware)
+        const perfilId = res.locals.usuarioLogado?.perfil_id || req.usuario?.perfilId;
+        const permissoes = res.locals.permissoes || req.usuario?.permissoes || [];
         
+        // Regra Especial: Admin (id 1) sempre tem acesso total
+        if (perfilId === 1) {
+            return next();
+        }
+
         if (permissoes.includes(permissaoRequerida)) {
             return next();
         }

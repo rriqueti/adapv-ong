@@ -3,133 +3,133 @@ const AtividadesModel = require("../models/atividadesModel");
 const VoluntariosModel = require("../models/voluntariosModel");
 const ProjetosModel = require("../models/projetosModel");
 const EmpresasModel = require("../models/empresasModel");
-const PessoaModel = require("../models/pessoaModel");
 
 class AtividadesController {
-    cadastroView(req, res) {
-        res.render('cadastrar/atividades')
+    
+    async listagemCadView(req, res) {
+        const voluntario = new VoluntariosModel();
+        const empresa = new EmpresasModel();
+        const projeto = new ProjetosModel();
+
+        const [listaVolun, listaEmp, listaProj] = await Promise.all([
+            voluntario.listarVoluntarios({ apenasAtivos: true }),
+            empresa.listarEmpresas(),
+            projeto.listarProjetos()
+        ]);
+
+        res.render('cadastrar/atividades', { listaVolun, listaEmp, listaProj });
     }
 
     async cadastrar(req, res) {
-        const dataHoje = DateTime.now();
-        console.log(req.body)
-        if (req.body.nome != "" && req.body.desc != "" && req.body.data != "" && req.body.pro_id != "") {
-            let atividades = new AtividadesModel(0, req.body.nome, req.body.desc, req.body.data, req.body.vol_id === "" ? null : req.body.vol_id, req.body.emp_id === "" ? null : req.body.emp_id, req.body.pro_id, dataHoje.toISODate(), dataHoje.toISODate());
-            let result = await atividades.cadastrarAtividades();
+        try {
+            const dataHoje = DateTime.now();
+            const { nome, desc, data, pro_id, emp_id, voluntarios } = req.body;
 
-            if (result) {   
-                res.send({
-                    ok: true,
-                    msg: "Atividade cadastrada com sucesso!"
-                });
+            if (nome && desc && data) {
+                const atividade = new AtividadesModel(
+                    0, nome, desc, data, 
+                    emp_id || null, 
+                    pro_id || null, 
+                    'Única', 1, 
+                    dataHoje.toISODate(), dataHoje.toISODate()
+                );
+
+                const atv_id = await atividade.cadastrarAtividades();
+
+                if (atv_id) {
+                    if (voluntarios) {
+                        const listaVol = Array.isArray(voluntarios) ? voluntarios : [voluntarios];
+                        await atividade.vincularVoluntarios(atv_id, listaVol);
+                    }
+                    res.send({ ok: true, msg: "Atividade cadastrada com sucesso!" });
+                } else {
+                    res.send({ ok: false, msg: "Erro ao cadastrar a atividade" });
+                }
+            } else {
+                res.send({ ok: false, msg: "Parâmetros preenchidos incorretamente!" });
             }
-            else {
-                res.send({
-                    ok: false,
-                    msg: "Erro ao cadastrar a atividade"
-                });
-            }
-        }
-        else {
-            res.send({
-                ok: false,
-                msg: "Parâmetros preenchidos incorretamente!"
-            });
+        } catch (error) {
+            console.error(error);
+            res.status(500).send({ ok: false, msg: "Erro interno no servidor." });
         }
     }
 
     async listagemView(req, res) {
-        let atividade = new AtividadesModel();
-        let listaAtividade = await atividade.listarAtividades();
-        let voluntario = new VoluntariosModel();
-        let listaVolun = await voluntario.listarVoluntarios()
-        let empresa = new EmpresasModel();
-        let listaEmp = await empresa.listarEmpresas()
-        let projeto = new ProjetosModel();
-        let listaProj = await projeto.listarProjetos()
-        let pessoa = new PessoaModel();
-        let listaPessoa = await pessoa.listarPessoa()
-        res.render('listar/atividades', { listaAtividade: listaAtividade, listaVolun: listaVolun, listaEmp: listaEmp, listaProj: listaProj, listaPessoa: listaPessoa})
-    }
+        const model = new AtividadesModel();
+        const listaAtividade = await model.listarAtividades();
+        
+        // Para cada atividade, buscar voluntários vinculados
+        for(let atv of listaAtividade) {
+            atv.voluntarios = await model.listarVoluntariosDaAtividade(atv.atv_id);
+        }
 
-    async listagemCadView(req, res) {
-        let voluntario = new VoluntariosModel();
-        let listaVolun = await voluntario.listarPessoasVoluntarios()
-        let empresa = new EmpresasModel();
-        let listaEmp = await empresa.listarEmpresas()
-        let projeto = new ProjetosModel();
-        let listaProj = await projeto.listarProjetos()
-        res.render('cadastrar/atividades', { listaVolun: listaVolun, listaEmp: listaEmp, listaProj: listaProj })
-    }
-
-    async alterarView(req, res) {
-        res.render('alterar/atividades');
+        res.render('listar/atividades', { listaAtividade });
     }
 
     async listagemAltView(req, res) {
-        let voluntario = new VoluntariosModel();
-        let listaVolun = await voluntario.listarVoluntarios()
-        let listaPessVolun = await voluntario.listarPessoasVoluntarios()
-        let empresa = new EmpresasModel();
-        let listaEmp = await empresa.listarEmpresas()
-        let projeto = new ProjetosModel();
-        let listaProj = await projeto.listarProjetos()
-        let atividade = new AtividadesModel();
-        atividade = await atividade.obterAtvId(req.params.id);
-        res.render('alterar/atividades', { listaVolun: listaVolun, listaEmp: listaEmp, listaProj: listaProj, listaPessVolun: listaPessVolun, atividade: atividade})
+        const model = new AtividadesModel();
+        const voluntario = new VoluntariosModel();
+        const empresa = new EmpresasModel();
+        const projeto = new ProjetosModel();
+
+        const [atividade, listaVolun, listaEmp, listaProj, volVinculados] = await Promise.all([
+            model.obterAtvId(req.params.id),
+            voluntario.listarVoluntarios({ apenasAtivos: true }),
+            empresa.listarEmpresas(),
+            projeto.listarProjetos(),
+            model.listarVoluntariosDaAtividade(req.params.id)
+        ]);
+
+        const idsVinculados = volVinculados.map(v => v.vol_id);
+
+        res.render('alterar/atividades', { atividade, listaVolun, listaEmp, listaProj, idsVinculados });
     }
 
     async alterar(req, res) {
-        const dataHoje = DateTime.now()
-        const dataTratar = new Date(Date.parse(req.body.createdAt))
-        const dataTratar2 = DateTime.fromJSDate(dataTratar)
-        const dataCriacao = dataTratar2.toISODate()
-        const dataTratarDoa = new Date(Date.parse(req.body.data))
-        const dataTratar2Doa = DateTime.fromJSDate(dataTratarDoa)
-        const dataTratadaDoa = dataTratar2Doa.toISODate()
-        console.log(req.body)
-        if (req.body.nome != "" && req.body.desc != "" && req.body.data != "" && req.body.pro_id != "") {
-            let atividade = new AtividadesModel(req.body.id, req.body.nome, req.body.desc, req.body.data, req.body.vol_id === "" ? null : req.body.vol_id, req.body.emp_id === "" ? null : req.body.emp_id, req.body.pro_id, dataCriacao, dataHoje.toISODate());
+        try {
+            const dataHoje = DateTime.now();
+            const { id, nome, desc, data, pro_id, emp_id, createdAt, voluntarios } = req.body;
 
-            let result = await atividade.alterarAtividades();
+            if (nome && desc && data) {
+                const atividade = new AtividadesModel(
+                    id, nome, desc, data, 
+                    emp_id || null, 
+                    pro_id || null, 
+                    'Única', 1, 
+                    createdAt, dataHoje.toISODate()
+                );
 
-            if (result) {
-                res.send({
-                    ok: true,
-                    msg: "Atividade alterada com sucesso!"
-                });
+                const result = await atividade.alterarAtividades();
+
+                if (result) {
+                    await atividade.limparVoluntarios(id);
+                    if (voluntarios) {
+                        const listaVol = Array.isArray(voluntarios) ? voluntarios : [voluntarios];
+                        await atividade.vincularVoluntarios(id, listaVol);
+                    }
+                    res.send({ ok: true, msg: "Atividade alterada com sucesso!" });
+                } else {
+                    res.send({ ok: false, msg: "Erro ao alterar atividade!" });
+                }
+            } else {
+                res.send({ ok: false, msg: "Parâmetros preenchidos incorretamente!" });
             }
-            else {
-                res.send({
-                    ok: false,
-                    msg: "Erro ao alterar atividade!"
-                });
-            }
-        }
-        else {
-            res.send({
-                ok: false,
-                msg: "Parâmetros preenchidos incorretamente!"
-            });
+        } catch (error) {
+            console.error(error);
+            res.status(500).send({ ok: false, msg: "Erro interno no servidor." });
         }
     }
 
     async excluir(req, res) {
-        if (req.body.id != null) {
-            let atividade = new AtividadesModel();
-            let ok = await atividade.excluirAtividades(req.body.id);
-
-            if (ok) {
-                res.send({ ok: true });
-            }
-            else {
-                res.send({ ok: false, msg: "Erro ao excluir atividade" })
-            }
-        }
-        else {
-            res.send({ ok: false, msg: "O id para exclusão não foi enviado" })
+        if (req.body.id) {
+            const atividade = new AtividadesModel();
+            const ok = await atividade.excluirAtividades(req.body.id);
+            if (ok) res.send({ ok: true });
+            else res.send({ ok: false, msg: "Erro ao excluir atividade" });
+        } else {
+            res.send({ ok: false, msg: "ID não enviado" });
         }
     }
 }
 
-module.exports = AtividadesController; 
+module.exports = AtividadesController;

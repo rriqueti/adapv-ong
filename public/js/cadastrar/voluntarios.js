@@ -16,6 +16,8 @@ document.addEventListener("DOMContentLoaded", function () {
         limparValidacao();
 
         let voluntario = document.querySelector("#idVolun").value;
+        let areaAtuacao = document.querySelector("#areaAtuacao").value;
+        let disponibilidade = document.querySelector("#disponibilidade").value;
 
         let listaErros = [];
 
@@ -26,7 +28,9 @@ document.addEventListener("DOMContentLoaded", function () {
         if (listaErros.length == 0) {
 
             let obj = {
-                voluntario: voluntario
+                voluntario: voluntario,
+                areaAtuacao: areaAtuacao,
+                disponibilidade: disponibilidade
             };
 
             fetch("/voluntarios/cadastrar", {

@@ -32,6 +32,12 @@ class AuthMiddleware {
     authorize(requiredPermissions) {
         return (req, res, next) => {
             const userPermissions = req.usuario.permissoes || [];
+            const perfilId = req.usuario.perfilId;
+
+            // Regra Especial: Admin (id 1) sempre tem acesso total
+            if (perfilId === 1) {
+                return next();
+            }
             
             const hasPermission = requiredPermissions.some(p => userPermissions.includes(p));
             

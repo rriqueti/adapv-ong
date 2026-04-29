@@ -93,6 +93,29 @@ async function loadGlobalData(req, res, next) {
             });
         }
 
+        // Injeta a categoria "Projetos"
+        const temPermissaoProjetos = permissoesUsuario.includes('projetos.gerenciar') || usuario.perfil_id === 1;
+
+        if (temPermissaoProjetos) {
+            if (!res.locals.menuCategorias["Projetos"]) {
+                res.locals.menuCategorias["Projetos"] = [];
+            }
+            
+            const linksProjetos = [
+                { nome: "Gestão de Projetos", url: "/projeto/listar" },
+                { nome: "Gestão de Atividades", url: "/atividades/listar" }
+            ];
+
+            linksProjetos.forEach(link => {
+                if (!res.locals.menuCategorias["Projetos"].some(item => item.menu_url === link.url)) {
+                    res.locals.menuCategorias["Projetos"].push({
+                        menu_nome_tela: link.nome,
+                        menu_url: link.url
+                    });
+                }
+            });
+        }
+
     } catch (error) {
         console.error("Erro ao carregar dados para a view:", error);
         res.locals.usuarioLogado = null;

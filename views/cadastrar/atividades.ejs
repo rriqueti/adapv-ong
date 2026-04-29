@@ -1,63 +1,95 @@
 <script src="/js/cadastrar/atividades.js"></script>
-<div class="container">
-    <div class="container-fluid">
 
-     <h1 class="h3 mb-4 text-gray-800">Cadastrar Atividade</h1>
-        <div>
-            <% if (typeof msg != "undefined") { %>             
-                <span  ><%= msg %></span>
-            <% } %>
-        </div>   
+<div class="container py-4">
+    <div class="card shadow-sm border-0" style="border-radius: 1rem;">
+        <div class="card-body p-4">
+            <h1 class="h3 mb-4 fw-bold text-gray-800">
+                <i class="fas fa-tasks me-2" style="color:var(--btn-primary-bg);"></i>
+                Cadastrar Atividade Padrão
+            </h1>
 
-        <div class="col-md-4">
-            <label for="atv_nome" class="form-label">Nome da atividade<span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="atv_nome" name="atv_nome" placeholder="Digite o nome da atividade" maxlength="200">
-        </div>
-        
-        <div class="col-md-8">
-            <label for="atv_desc" class="form-label">Descrição<span class="text-danger">*</span></label>
-            <input class="form-control" id="atv_desc" name="atv_desc" placeholder="Digite a descrição da atividade" maxlength="200">
-        </div>
-        
-        <div class="col-md-4">
-            <label for="atv_data" class="form-label">Data<span class="text-danger">*</span></label>
-            <input type="date" class="form-control" id="atv_data" name="atv_data">
-        </div>
-        
-        <div class="col-md-4">
-            <label for="vol_id" class="form-label">Voluntário</label>
-            <select name="vol_id" id="vol_id" class="form-select">
-                <option value="" selected disabled>Selecione...</option>
-                <% listaVolun.forEach(function(voluntario) { %>
-                    <option value="<%= voluntario.pess_id %>">Nome: <%= voluntario.pess_nome %> - CPF: <%= voluntario.pess_cpf%></option>
-                <% }); %>
-            </select>
-        </div>
-        
-        <div class="col-md-4">
-            <label for="emp_id" class="form-label">Empresa</label>
-            <select name="emp_id" id="emp_id" class="form-select">
-                <option value="" selected disabled>Selecione...</option>
-                <% listaEmp.forEach(function(empresa) { %>
-                    <option value="<%= empresa.emp_id %>">Nome: <%= empresa.emp_nome %> - CNPJ: <%= empresa.emp_cnpj%></option>
-                <% }); %>
-            </select>
-        </div>
-        
-        <div class="col-md-4">
-            <label for="pro_id" class="form-label">Projeto<span class="text-danger">*</span></label>
-            <select name="pro_id" id="pro_id" class="form-select">
-                <option value="" selected disabled>Selecione...</option>
-                <% listaProj.forEach(function(projeto) { %>
-                    <option value="<%= projeto.pro_id %>">Nome: <%= projeto.pro_nome %> - Descrição: <%= projeto.pro_desc%></option>
-                <% }); %>
-            </select>
-        </div>
+            <form id="formAtividade">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="atv_nome" class="form-label fw-semibold">Título da Atividade <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="atv_nome" name="nome" placeholder="Ex: Mutirão de Banho, Entrega de Ração..." maxlength="200">
+                    </div>
 
-        <br><br>
-        <div class="col-12">
-            <button type="button" class="btn btn-success px-4 py-3" id="btnCadastrar">Salvar</button>
-            <button type="button" class="btn btn-secondary px-3 py-3" id="cancelar">Cancelar</button>
+                    <div class="col-md-6">
+                        <label for="atv_data" class="form-label fw-semibold">Data Prevista <span class="text-danger">*</span></label>
+                        <input type="date" class="form-control" id="atv_data" name="data">
+                    </div>
+
+                    <div class="col-12">
+                        <label for="atv_desc" class="form-label fw-semibold">Descrição <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="atv_desc" name="desc" placeholder="Descreva detalhadamente o que deve ser feito" rows="3"></textarea>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="pro_id" class="form-label fw-semibold">Vincular ao Projeto <span class="text-danger">*</span></label>
+                        <select name="pro_id" id="pro_id" class="form-select">
+                            <option value="" selected disabled>Selecione um projeto...</option>
+                            <% if (locals.listaProj) { %>
+                                <% listaProj.forEach(function(projeto) { %>
+                                    <option value="<%= projeto.pro_id %>"><%= projeto.pro_nome %></option>
+                                <% }); %>
+                            <% } %>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="emp_id" class="form-label fw-semibold">Empresa Parceira (Opcional)</label>
+                        <select name="emp_id" id="emp_id" class="form-select">
+                            <option value="">Nenhuma</option>
+                            <% if (locals.listaEmp) { %>
+                                <% listaEmp.forEach(function(empresa) { %>
+                                    <option value="<%= empresa.emp_id %>"><%= empresa.emp_nome %></option>
+                                <% }); %>
+                            <% } %>
+                        </select>
+                    </div>
+
+                    <div class="col-12 mt-4">
+                        <div class="p-3 bg-light rounded-3 border">
+                            <label class="form-label fw-bold text-purple mb-3">
+                                <i class="fas fa-users-cog me-2"></i>Vincular Voluntários Ativos
+                            </label>
+                            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-2" style="max-height: 200px; overflow-y: auto;">
+                                <% if (locals.listaVolun && listaVolun.length > 0) { %>
+                                    <% listaVolun.forEach(function(vol) { %>
+                                        <div class="col">
+                                            <div class="form-check card-checkbox p-2 border rounded">
+                                                <input class="form-check-input ms-0 me-2" type="checkbox" name="voluntarios" value="<%= vol.vol_id %>" id="vol<%= vol.vol_id %>">
+                                                <label class="form-check-label small fw-semibold" for="vol<%= vol.vol_id %>">
+                                                    <%= vol.pess_nome %>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    <% }); %>
+                                <% } else { %>
+                                    <div class="col-12 text-center text-muted py-2">
+                                        <small>Nenhum voluntário ativo encontrado.</small>
+                                    </div>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-5 d-flex gap-2">
+                    <button type="button" class="btn btn-success px-4 py-2 fw-bold" id="btnCadastrar">
+                        <i class="fas fa-save me-2"></i>Salvar Atividade
+                    </button>
+                    <button type="button" class="btn btn-light px-4 py-2 fw-bold" id="cancelar">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
+<style>
+    .card-checkbox:hover { background-color: #f5f3ff; border-color: #ddd6fe !important; }
+    .form-check-input:checked { background-color: #7c3aed; border-color: #7c3aed; }
+</style>

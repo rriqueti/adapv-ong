@@ -1,34 +1,77 @@
 <script src="/js/cadastrar/projeto.js"></script>
-<div class="container">
-    <div class="container-fluid">
+<link rel="stylesheet" href="/css/Multiselect.css">
 
-        <h1 class="h3 mb-4 text-gray-800">Registrar Projeto</h1>
-        <% if (typeof msg != "undefined") { %>
-            <span><%= msg %></span>
-        <% } %>
+<div class="container py-4">
+    <div class="card shadow-sm border-0" style="border-radius: 1rem;">
+        <div class="card-body p-4">
+            <h1 class="h3 mb-4 fw-bold text-gray-800">
+                <i class="fas fa-project-diagram me-2" style="color:var(--btn-primary-bg);"></i>
+                Registrar Projeto / Evento
+            </h1>
 
-        <div class="col-md-6">
-            <label for="nomePro" class="form-label">Nome do Projeto<span class="text-danger">*</span></label>
-            <input type="text" name="nomePro" class="form-control" id="nomePro" placeholder="Digite o nome do projeto">
+            <form id="formProjeto" enctype="multipart/form-data">
+                <div class="row g-3">
+                    <div class="col-md-8">
+                        <label for="nomePro" class="form-label fw-semibold">Nome do Projeto <span class="text-danger">*</span></label>
+                        <input type="text" name="nome" class="form-control" id="nomePro" placeholder="Digite o nome do projeto">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="dataPro" class="form-label fw-semibold">Data do Projeto <span class="text-danger">*</span></label>
+                        <input type="date" name="data" class="form-control" id="dataPro">
+                    </div>
+
+                    <div class="col-12">
+                        <label for="descPro" class="form-label fw-semibold">Descrição do Projeto <span class="text-danger">*</span></label>
+                        <input type="text" name="desc" class="form-control" id="descPro" placeholder="Dê uma breve descrição para o projeto">
+                    </div>
+
+                    <div class="col-12">
+                        <label for="objetivoPro" class="form-label fw-semibold">Objetivo do Projeto</label>
+                        <textarea name="objetivo" class="form-control" id="objetivoPro" rows="3" placeholder="Qual o objetivo principal deste projeto?"></textarea>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="voluntariosPro" class="form-label fw-semibold">Vincular Voluntários</label>
+                        <select name="voluntarios" id="voluntariosPro" class="form-select" multiple>
+                            <% if (locals.listaVol && listaVol.length > 0) { %>
+                                <% listaVol.forEach(v => { %>
+                                    <option value="<%= v.vol_id %>"><%= v.pess_nome %></option>
+                                <% }) %>
+                            <% } %>
+                        </select>
+                        <small class="text-muted">Pressione Ctrl (ou Cmd) para selecionar múltiplos voluntários.</small>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="bannerPro" class="form-label fw-semibold">Banner / Imagem do Evento</label>
+                        <input type="file" name="banner" class="form-control" id="bannerPro" accept="image/*">
+                        <div id="previewContainer" class="mt-2 d-none">
+                            <img id="bannerPreview" src="#" alt="Preview" class="img-fluid rounded" style="max-height: 150px;">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-5 d-flex gap-2">
+                    <button type="button" class="btn btn-success px-4 py-2 fw-bold" id="btnCadastrar">
+                        <i class="fas fa-save me-2"></i>Salvar Projeto
+                    </button>
+                    <button type="button" class="btn btn-light px-4 py-2 fw-bold" id="cancelar">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
         </div>
-
-        <div class="col-md-6">
-            <label for="dataPro" class="form-label">Data do Projeto<span class="text-danger">*</span></label>
-            <input type="date" name="dataPro" class="form-control" id="dataPro" placeholder="aaaa-mm-dd">
-        </div>
-
-        <div class="col-md-6">
-            <label for="descPro" class="form-label">Descrição do Projeto<span class="text-danger">*</span></label>
-            <input type="text" name="descPro" class="form-control" id="descPro" placeholder="Dê uma descrição para o projeto">
-        </div>
-
-        <br>
-        <br>
-
-        <div class="col-12">
-            <button type="button" class="btn btn-success px-4 py-3" id="btnCadastrar">Salvar</button>
-            <button type="button" class="btn btn-secondary px-3 py-3" id="cancelar">Cancelar</button>
-        </div>
-
     </div>
 </div>
+
+<script>
+    // Preview da imagem
+    document.getElementById('bannerPro').onchange = evt => {
+        const [file] = document.getElementById('bannerPro').files;
+        if (file) {
+            document.getElementById('bannerPreview').src = URL.createObjectURL(file);
+            document.getElementById('previewContainer').classList.remove('d-none');
+        }
+    }
+</script>
