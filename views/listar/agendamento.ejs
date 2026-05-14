@@ -1,0 +1,140 @@
+<div class="container mt-4">
+
+    <h1 class="mb-4">
+        Lista de Agendamentos
+    </h1>
+
+    <table class="table table-bordered table-hover">
+
+        <thead class="table-dark">
+
+            <tr>
+
+                <th>Doador</th>
+
+                <th>Produto</th>
+
+                <th>Tipo</th>
+
+                <th>Quantidade</th>
+
+                <th>Marca</th>
+
+                <th>Validade</th>
+
+                <th>Data da Doação</th>
+
+                <th>Hora</th>
+
+                <th>Endereço</th>
+
+                <th>Status</th>
+
+                  <th>Ações</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <% for(let i = 0; i < lista.length; i++) { %>
+
+                <tr>
+
+                    <td>
+                        <%= lista[i].doador_nome %>
+                    </td>
+
+                    <td>
+                        <%= lista[i].produto_nome %>
+                    </td>
+
+                    <td>
+                        <%= lista[i].produto_tipo %>
+                    </td>
+
+                    <td>
+                        <%= lista[i].quantidade %>
+                    </td>
+
+                    <td>
+                        <%= lista[i].produto_marca %>
+                    </td>
+
+                    <td>
+                        <%= new Date(lista[i].produto_validade).toLocaleDateString('pt-BR') %>
+                    </td>
+
+                    <td>
+                        <%= new Date(lista[i].data_doacao).toLocaleDateString('pt-BR') %>
+                    </td>
+
+                    <td>
+                        <%= lista[i].hora_doacao %>
+                    </td>
+
+                    <td>
+                        <%= lista[i].endereco %>
+                    </td>
+
+                   <td>
+
+    <% if(lista[i].status_agendamento == "Pendente") { %>
+
+        <span class="badge bg-warning text-dark">
+            Pendente
+        </span>
+
+    <% } else if(lista[i].status_agendamento == "Concluído") { %>
+
+        <span class="badge bg-success">
+            Entregue
+        </span>
+
+    <% } else { %>
+
+        <span class="badge bg-danger">
+            Cancelado
+        </span>
+
+    <% } %>
+
+</td>
+
+<td>
+
+    <% if(lista[i].status_agendamento == "Pendente") { %>
+
+        <a
+            href="/agendamento/concluir/<%= lista[i].agendamento_id %>"
+            class="btn btn-success btn-sm"
+        >
+            Entregue
+        </a>
+
+        <a
+            href="/agendamento/cancelar/<%= lista[i].agendamento_id %>"
+            class="btn btn-danger btn-sm"
+        >
+            Cancelar
+        </a>
+
+    <% } else { %>
+
+        <span class="text-muted">
+            Finalizado
+        </span>
+
+    <% } %>
+
+</td>
+                </tr>
+
+            <% } %>
+
+        </tbody>
+
+    </table>
+
+</div>

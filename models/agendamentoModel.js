@@ -5,9 +5,9 @@ const banco = new Database();
 class AgendamentoModel {
 
     #agendamento_id;
+
     #doador_nome;
 
-    #produto_id;
     #produto_nome;
     #produto_tipo;
     #quantidade;
@@ -16,17 +16,20 @@ class AgendamentoModel {
 
     #data_doacao;
     #hora_doacao;
+
     #endereco;
+
     #status_agendamento;
 
     #createdAt;
     #updatedAt;
 
     constructor(
+
         agendamento_id,
+
         doador_nome,
 
-        produto_id,
         produto_nome,
         produto_tipo,
         quantidade,
@@ -35,17 +38,20 @@ class AgendamentoModel {
 
         data_doacao,
         hora_doacao,
+
         endereco,
+
         status_agendamento,
 
         createdAt,
         updatedAt
+
     ) {
 
         this.#agendamento_id = agendamento_id;
+
         this.#doador_nome = doador_nome;
 
-        this.#produto_id = produto_id;
         this.#produto_nome = produto_nome;
         this.#produto_tipo = produto_tipo;
         this.#quantidade = quantidade;
@@ -54,7 +60,9 @@ class AgendamentoModel {
 
         this.#data_doacao = data_doacao;
         this.#hora_doacao = hora_doacao;
+
         this.#endereco = endereco;
+
         this.#status_agendamento = status_agendamento;
 
         this.#createdAt = createdAt;
@@ -63,13 +71,10 @@ class AgendamentoModel {
 
     async cadastrar() {
 
-        // 1 - cadastra agendamento
-
         let sql = `
             INSERT INTO tb_agendamento
             (
                 doador_nome,
-                produto_id,
                 produto_nome,
                 produto_tipo,
                 quantidade,
@@ -83,12 +88,12 @@ class AgendamentoModel {
                 updatedAt
             )
 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
 
         let valores = [
+
             this.#doador_nome,
-            this.#produto_id,
             this.#produto_nome,
             this.#produto_tipo,
             this.#quantidade,
@@ -104,92 +109,38 @@ class AgendamentoModel {
 
         let resultado = await banco.ExecutaComandoNonQuery(sql, valores);
 
-        // 2 - verificar se produto já existe no estoque
-
-        let sqlBusca = `
-            SELECT * FROM tb_produtos
-            WHERE prod_nome = ?
-        `;
-
-        let produto = await banco.ExecutaComando(sqlBusca, [
-            this.#produto_nome
-        ]);
-
-        // 3 - se existir, soma quantidade
-
-        if (produto.length > 0) {
-
-            let sqlUpdate = `
-                UPDATE tb_produtos
-                SET
-                    prod_qnt = prod_qnt + ?,
-                    updatedAt = ?
-                WHERE prod_nome = ?
-            `;
-
-            await banco.ExecutaComandoNonQuery(sqlUpdate, [
-                this.#quantidade,
-                this.#updatedAt,
-                this.#produto_nome
-            ]);
-
-        } else {
-
-            // 4 - se não existir, cria produto novo
-
-            let sqlInsertProduto = `
-                INSERT INTO tb_produtos
-                (
-                    prod_nome,
-                    prod_tipo,
-                    prod_desc,
-                    prod_qnt,
-                    createdAt,
-                    updatedAt,
-                    prod_situa,
-                    prod_valor,
-                    prod_marca,
-                    prod_validade
-                )
-
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            `;
-
-            await banco.ExecutaComandoNonQuery(sqlInsertProduto, [
-
-                this.#produto_nome,
-                this.#produto_tipo,
-                "Produto vindo de doação",
-                this.#quantidade,
-                this.#createdAt,
-                this.#updatedAt,
-                "Disponível",
-                0,
-                this.#produto_marca,
-                this.#produto_validade
-            ]);
-        }
-
         return resultado;
     }
 
     async listar() {
 
-        let sql = `SELECT * FROM tb_agendamento`;
+        let sql = `
+            SELECT * FROM tb_agendamento
+        `;
 
         return await banco.ExecutaComando(sql);
     }
-    async listarTipos() {
+
+    async concluir(id) {
 
     let sql = `
-        SELECT DISTINCT prod_tipo
-        FROM tb_produtos
-        ORDER BY prod_tipo
+        UPDATE tb_agendamento
+        SET status_agendamento = 'Concluído'
+        WHERE agendamento_id = ?
     `;
 
-    let rows = await banco.ExecutaComando(sql);
+    return await banco.ExecutaComandoNonQuery(sql, [id]);
+}
 
-    return rows;
+async cancelar(id) {
+
+    let sql = `
+        UPDATE tb_agendamento
+        SET status_agendamento = 'Cancelado'
+        WHERE agendamento_id = ?
+    `;
+
+    return await banco.ExecutaComandoNonQuery(sql, [id]);
 }
 }
 

@@ -24,6 +24,7 @@ let financeiroRoute = require("./routes/financeiroRoutes");
 let loginRoute = require("./routes/loginRoutes");
 let cadastroRoute = require("./routes/cadastroRoutes");
 let testeRoute = require("./routes/testeRoutes");
+let AgendamentoRoute = require("./routes/agendamentoRoutes");
 // let ONGADAPVRoute = require("./routes/ONGADAPVRoutes");
 let permissaoRoute = require("./routes/permissaoRoute");
 const cookieParser = require('cookie-parser');
@@ -75,6 +76,7 @@ app.use('/admin', AdminRoute)
 app.use('/usuarios', UsuarioRoute)
 app.use('/permissoes', permissaoRoute)
 app.use('/financeiro', financeiroRoute)
+app.use('/agendamento', AgendamentoRoute);
 // app.use('/ONGADAPV', ONGADAPVRoute)
 
 

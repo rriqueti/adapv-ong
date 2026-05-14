@@ -158,6 +158,7 @@ if (temPermissaoEstoque) {
 
     });
 }
+
     } catch (error) {
         console.error("Erro ao carregar dados para a view:", error);
         res.locals.usuarioLogado = null;

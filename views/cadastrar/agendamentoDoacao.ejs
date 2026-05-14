@@ -1,0 +1,153 @@
+<script src="/js/cadastrar/agendamentoDoacao.js"></script>
+
+<div class="container mt-4">
+
+    <h1 class="mb-4">
+        Agendar Doação
+    </h1>
+
+    <div class="card p-4 shadow">
+
+        <!-- Doador -->
+
+        <div class="mb-3">
+            <label>Nome do Doador</label>
+
+            <input
+                type="text"
+                id="doador_nome"
+                class="form-control"
+            >
+        </div>
+
+        <!-- Produto -->
+
+        <div class="mb-3">
+
+            <label>Nome do Produto</label>
+
+            <input
+                type="text"
+                id="produto_nome"
+                class="form-control"
+            >
+        </div>
+
+        <div class="mb-3">
+
+            <label>Tipo do Produto</label>
+
+            <select
+                id="produto_tipo"
+                class="form-control"
+            >
+
+                <option value="">
+                    Selecione
+                </option>
+
+                <% for(let i = 0; i < listaTipos.length; i++) { %>
+
+                    <option value="<%= listaTipos[i].prod_tipo %>">
+
+                        <%= listaTipos[i].prod_tipo %>
+
+                    </option>
+
+                <% } %>
+
+            </select>
+
+        </div>
+
+        <div class="mb-3">
+
+            <label>Marca</label>
+
+            <input
+                type="text"
+                id="produto_marca"
+                class="form-control"
+            >
+        </div>
+
+        <div class="mb-3">
+
+            <label>Quantidade</label>
+
+            <input
+                type="number"
+                id="quantidade"
+                class="form-control"
+            >
+        </div>
+
+        <div class="mb-3">
+
+            <label>Validade do Produto</label>
+
+            <input
+                type="date"
+                id="produto_validade"
+                class="form-control"
+            >
+        </div>
+
+        <!-- Agendamento -->
+
+        <div class="mb-3">
+
+            <label>Data da Doação</label>
+
+            <input
+                type="date"
+                id="data_doacao"
+                class="form-control"
+            >
+        </div>
+
+        <div class="mb-3">
+
+            <label>Hora da Doação</label>
+
+            <input
+                type="time"
+                id="hora_doacao"
+                class="form-control"
+            >
+        </div>
+
+        <div class="mb-3">
+
+            <label>Endereço</label>
+
+            <input
+                type="text"
+                id="endereco"
+                class="form-control"
+            >
+        </div>
+
+        <div class="mb-3">
+
+            <label>Observações</label>
+
+            <textarea
+                id="observacoes"
+                class="form-control"
+            ></textarea>
+
+        </div>
+
+        <button
+            id="btnCadastrar"
+            class="btn btn-success"
+        >
+
+            Agendar Doação
+
+        </button>
+
+    </div>
+
+</div>
