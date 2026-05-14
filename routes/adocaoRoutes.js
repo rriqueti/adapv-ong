@@ -13,4 +13,5 @@ router.get('/alterar/:id', ctrl.listagemAltView, ctrl.alterarView)
 router.post('/alterar', ctrl.alterar) 
 router.post('/excluir', ctrl.excluir) 
 
+
 module.exports = router;

@@ -116,6 +116,48 @@ async function loadGlobalData(req, res, next) {
             });
         }
 
+        // Injeta a categoria "Estoque e Serviços"
+const temPermissaoEstoque = usuario.perfil_id === 1;
+
+if (temPermissaoEstoque) {
+
+    if (!res.locals.menuCategorias["Estoque e Serviços"]) {
+        res.locals.menuCategorias["Estoque e Serviços"] = [];
+    }
+
+    const linksEstoque = [
+
+        {
+            nome: "Produtos",
+            url: "/produtos/listar"
+        },
+
+        {
+            nome: "Cadastrar Produto",
+            url: "/produtos/cadastrar"
+        },
+
+        {
+            nome: "Estoque",
+            url: "/estoque/listar"
+        },
+
+    ];
+
+    linksEstoque.forEach(link => {
+
+        if (!res.locals.menuCategorias["Estoque e Serviços"]
+            .some(item => item.menu_url === link.url)) {
+
+            res.locals.menuCategorias["Estoque e Serviços"].push({
+                menu_nome_tela: link.nome,
+                menu_url: link.url
+            });
+
+        }
+
+    });
+}
     } catch (error) {
         console.error("Erro ao carregar dados para a view:", error);
         res.locals.usuarioLogado = null;

@@ -24,6 +24,8 @@ document.addEventListener("DOMContentLoaded", function () {
         let qnt = document.querySelector("#prod_qnt").value;
         let situa = document.querySelector("#prod_situa").value;
         let valor = document.querySelector("#prod_valor").value;
+        let marca = document.querySelector("input[name='prod_marca']").value;
+        let validade = document.querySelector("input[name='prod_validade']").value;
 
         let listaErros = [];
 
@@ -49,7 +51,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 desc: desc,
                 qnt: qnt,
                 situa: situa,
-                valor: valor
+                valor: valor,
+                prod_marca: marca,
+                prod_validade: validade
             }
 
             fetch("/produtos/cadastrar", {

@@ -1,5 +1,6 @@
 const { DateTime } = require("luxon");
 const ProdutosModel = require("../models/produtosModel");
+const EstoqueModel = require("../models/estoqueModel");
 
 class ProdutosController {
 
@@ -10,30 +11,49 @@ class ProdutosController {
     async cadastrar(req, res) {
         const dataHoje = DateTime.now();
         if (req.body.nome != "" && req.body.tipo != "" && req.body.desc != "" && req.body.qnt != "") {
-            let produtos = new ProdutosModel(0, req.body.nome, req.body.tipo, req.body.desc, req.body.qnt, dataHoje.toISODate(), dataHoje.toISODate(), req.body.situa === '' ? null : req.body.situa, req.body.valor === '' ? null : req.body.valor);
+           let produtos = new ProdutosModel(0, req.body.nome, req.body.tipo, req.body.desc, req.body.qnt, dataHoje.toISODate(), dataHoje.toISODate(), req.body.situa === '' ? null : req.body.situa,
+        req.body.valor === '' ? null : req.body.valor, req.body.prod_marca, req.body.prod_validade);
 
             let result = await produtos.cadastrar();
 
-            if (result) {
-                res.send({
-                    ok: true,
-                    msg: "Produto registrado com sucesso!"
-                });
-            }
-            else {
-                res.send({
-                    ok: false,
-                    msg: "Erro ao registrar o produto, tente novamente!"
-                });
-            }
-        }
-        else {
+           if (result) {
+
+            let listaProdutos = await new ProdutosModel().listar();
+            let ultimoProduto = listaProdutos[listaProdutos.length - 1];
+
+            let estoque = new EstoqueModel(
+                0,
+                ultimoProduto.prod_id,
+                null,
+                dataHoje.toISODate(),
+                dataHoje.toISODate()
+            );
+
+            await estoque.cadastrar();
+
+            res.send({
+                ok: true,
+                msg: "Produto registrado e enviado ao estoque!"
+            });
+
+        } else {
+
             res.send({
                 ok: false,
-                msg: "Parâmetros preenchidos incorretamente!"
+                msg: "Erro ao registrar produto!"
             });
+
         }
+
+    } else {
+
+        res.send({
+            ok: false,
+            msg: "Preencha os campos obrigatórios!"
+        });
+
     }
+}
 
     async listagemView(req, res) {
         let produto = new ProdutosModel()

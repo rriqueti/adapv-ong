@@ -5,53 +5,73 @@ const banco = new Database();
 
 class ProdutosModel {
 
-    #prod_id;
-    #prod_nome;
-    #prod_tipo;
-    #prod_desc;
-    #prod_qnt;
-    #createdAt;
-    #updatedAt;
-    #prod_situa;
-    #prod_valor;
+ #prod_id;
+#prod_nome;
+#prod_tipo;
+#prod_desc;
+#prod_qnt;
+#createdAt;
+#updatedAt;
+#prod_situa;
+#prod_valor;
+#prod_marca;
+#prod_validade;
 
-    // Getters
+// Getters
 
-    get prod_id() { return this.#prod_id }
-    get prod_nome() { return this.#prod_nome }
-    get prod_tipo() { return this.#prod_tipo }
-    get prod_desc() { return this.#prod_desc }
-    get prod_qnt() { return this.#prod_qnt }
-    get createdAt() { return this.#createdAt }
-    get updatedAt() { return this.#updatedAt }
-    get prod_situa() { return this.#prod_situa }
-    get prod_valor() { return this.#prod_valor }
+get prod_id() { return this.#prod_id }
+get prod_nome() { return this.#prod_nome }
+get prod_tipo() { return this.#prod_tipo }
+get prod_desc() { return this.#prod_desc }
+get prod_qnt() { return this.#prod_qnt }
+get createdAt() { return this.#createdAt }
+get updatedAt() { return this.#updatedAt }
+get prod_situa() { return this.#prod_situa }
+get prod_valor() { return this.#prod_valor }
+get prod_marca() { return this.#prod_marca }
+get prod_validade() { return this.#prod_validade }
 
-    // Setters
+// Setters
 
-    set prod_id(value) { this.#prod_id = value }
-    set prod_nome(value) { this.#prod_nome = value }
-    set prod_tipo(value) { this.#prod_tipo = value }
-    set prod_desc(value) { this.#prod_desc = value }
-    set prod_qnt(value) { this.#prod_qnt = value }
-    set createdAt(value) { this.#createdAt = value }
-    set updatedAt(value) { this.#updatedAt = value }
-    set prod_situa(value) { this.#prod_situa = value }
-    set prod_valor(value) { this.#prod_valor = value }
+set prod_id(value) { this.#prod_id = value }
+set prod_nome(value) { this.#prod_nome = value }
+set prod_tipo(value) { this.#prod_tipo = value }
+set prod_desc(value) { this.#prod_desc = value }
+set prod_qnt(value) { this.#prod_qnt = value }
+set createdAt(value) { this.#createdAt = value }
+set updatedAt(value) { this.#updatedAt = value }
+set prod_situa(value) { this.#prod_situa = value }
+set prod_valor(value) { this.#prod_valor = value }
+set prod_marca(value) { this.#prod_marca = value }
+set prod_validade(value) { this.#prod_validade = value }
 
-    // Constructor
+// Constructor
 
-    constructor(prod_id, prod_nome, prod_tipo, prod_desc, prod_qnt, createdAt, updatedAt, prod_situa, prod_valor) {
-        this.#prod_id = prod_id;
-        this.#prod_nome = prod_nome;
-        this.#prod_tipo = prod_tipo;
-        this.#prod_desc = prod_desc;
-        this.#prod_qnt = prod_qnt;
-        this.#createdAt = createdAt;
-        this.#updatedAt = updatedAt;
-        this.#prod_situa = prod_situa;
-        this.#prod_valor = prod_valor;
-    }
+constructor(
+    prod_id,
+    prod_nome,
+    prod_tipo,
+    prod_desc,
+    prod_qnt,
+    createdAt,
+    updatedAt,
+    prod_situa,
+    prod_valor,
+    prod_marca,
+    prod_validade
+) {
+    this.#prod_id = prod_id;
+    this.#prod_nome = prod_nome;
+    this.#prod_tipo = prod_tipo;
+    this.#prod_desc = prod_desc;
+    this.#prod_qnt = prod_qnt;
+    this.#createdAt = createdAt;
+    this.#updatedAt = updatedAt;
+    this.#prod_situa = prod_situa;
+    this.#prod_valor = prod_valor;
+    this.#prod_marca = prod_marca;
+    this.#prod_validade = prod_validade;
+}
 
     // Métodos
 
@@ -71,7 +91,10 @@ class ProdutosModel {
                 rows[i]["createdAt"],
                 rows[i]["updatedAt"],
                 rows[i]["prod_situa"],
-                rows[i]["prod_valor"]
+                rows[i]["prod_valor"],
+                rows[i]["prod_marca"],
+                rows[i]["prod_validade"]
+
             ));
         }
 
@@ -96,14 +119,16 @@ class ProdutosModel {
                 row["createdAt"],
                 row["updatedAt"],
                 row["prod_situa"],
-                row["prod_valor"]
+                row["prod_valor"],
+                rows["prod_marca"],
+                rows["prod_validade"]
             );
         }
     }
 
     async cadastrar() {
         if (this.#prod_id === 0) {
-            let sql = "INSERT INTO tb_produtos (prod_id, prod_nome, prod_tipo, prod_desc, prod_qnt, createdAt, updatedAt, prod_situa, prod_valor) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            let sql = "INSERT INTO tb_produtos (prod_id, prod_nome, prod_tipo, prod_desc, prod_qnt, createdAt, updatedAt, prod_situa, prod_valor, prod_marca, prod_validade) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             let valores = [
                 this.#prod_id,
@@ -114,7 +139,9 @@ class ProdutosModel {
                 this.#createdAt,
                 this.#updatedAt,
                 this.#prod_situa,
-                this.#prod_valor
+                this.#prod_valor,
+                this.#prod_marca,
+                this.#prod_validade
             ];
 
             let result = await banco.ExecutaComandoNonQuery(sql, valores);
@@ -135,6 +162,8 @@ class ProdutosModel {
             this.#updatedAt,
             this.#prod_situa,
             this.#prod_valor,
+            this.#prod_marca,
+            this.#prod_validade,
             this.#prod_id
         ];
 
@@ -152,6 +181,29 @@ class ProdutosModel {
 
         return result;
     }
+
+        
+    async produtosVencidos() {
+
+    let sql = `
+        SELECT * FROM tb_produtos
+        WHERE prod_validade < CURDATE()
+    `;
+
+    return await banco.ExecutaComando(sql);
+}
+
+async vencendo30Dias() {
+
+    let sql = `
+        SELECT * FROM tb_produtos
+        WHERE prod_validade
+        BETWEEN CURDATE()
+        AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)
+    `;
+
+    return await banco.ExecutaComando(sql);
+}
 
 }
 

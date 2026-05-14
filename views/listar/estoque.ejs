@@ -1,41 +1,161 @@
-<link rel="stylesheet" type="text/css"  media="print" href="/css/print.css">
+<link rel="stylesheet" type="text/css" media="print" href="/css/print.css">
+
 <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
 <script src="/js/listar/estoque.js"></script>
 
 <h1>Estoque</h1>
-<div style="display: flex; justify-content: space-between;">
-    <a id="novoReg" class="btn btn-secondary" style="max-width: 200px;" href="/estoque/cadastrar">Novo Estoque</a>
+
+<div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+    
+    <a id="novoReg"
+       class="btn btn-secondary"
+       style="max-width: 200px;"
+       href="/estoque/cadastrar">
+        Novo Estoque
+    </a>
+
     <div>
-        <button id="btnExportarExcel" class="btn btn-info" >Exportar para Excel</button>
-        <button id="btnExportarPdf"  onclick="window.print()" class="btn btn-info">Exportar para PDF</button>
+        <button id="btnExportarExcel" class="btn btn-info">
+            Exportar para Excel
+        </button>
+
+        <button id="btnExportarPdf"
+                onclick="window.print()"
+                class="btn btn-info">
+            Exportar para PDF
+        </button>
     </div>
 </div>
 
 <hr>
-<div>
-    <table id="tabelaEstoque" class="table table-striped">
-        <thead>
-            <th>Id</th>
-            <th>Id do Produto</th>
-            <th>Id do Doador</th>
-            <th>Registro Criado</th>
-            <th>Registro Atualizado</th>
-        </thead>
-        <tbody>
-            <% for (let i = 0; i < listaEstoq.length; i++) {%>
-                <tr>
-                    <td><%= listaEstoq[i].estoq_id %></td>
-                    <td><%= listaEstoq[i].prod_id %></td>
-                    <td><%= listaEstoq[i].doa_id %></td>
-                    <td><%= listaEstoq[i].createdAt %></td>
-                    <td><%= listaEstoq[i].updatedAt %></td>
 
-                    <td>
-                        <a id="alterabtn" href="/estoque/alterar/<%= listaEstoq[i].estoq_id %>" class="btn btn-primary"><i class="fas fa-pen"></i></a>
-                        <button id="delbtn" data-codigoexclusao="<%= listaEstoq[i].estoq_id %>" class="btn btn-danger btnExclusao"><i class="fas fa-trash"></i></button>
-                    </td>
-                </tr>
-            <% } %>
-        </tbody>
-    </table>
+<div class="table-responsive">
+    <div class="mb-3">
+    <label><strong>Filtrar por tipo:</strong></label>
+
+    <select id="filtroTipo" class="form-select">
+        <option value="">Todos</option>
+        <option value="Alimento">Alimento</option>
+        <option value="Bebida">Bebida</option>
+        <option value="Medicamento">Medicamento</option>
+        <option value="Produto de higiene">Produto de higiene</option>
+        <option value="Produto de limpeza">Produto de limpeza</option>
+        <option value="Acessório">Acessório</option>
+        <option value="Ferramenta">Ferramenta</option>
+        <option value="Vestuário">Vestuário</option>
+        <option value="Outro">Outro</option>
+    </select>
 </div>
+   <table id="tabelaEstoque" class="table table-striped table-bordered">
+
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>ID Produto</th>
+            <th>ID Doador</th>
+            <th>Tipo</th>
+            <th>Produto</th>
+            <th>Marca</th>
+            <th>Quantidade</th>
+            <th>Valor</th>
+            <th>Validade</th>
+            <th>Criado em</th>
+            <th>Atualizado em</th>
+            <th>Ações</th>
+            
+        </tr>
+    </thead>
+
+    <tbody>
+
+        <% for(let i = 0; i < listaEstoq.length; i++) { %>
+
+            <tr>
+
+                <td><%= listaEstoq[i].estoq_id %></td>
+
+                <td><%= listaEstoq[i].prod_id %></td>
+
+                <td><%= listaEstoq[i].doa_id %></td>
+                   <td><%= listaEstoq[i].prod_tipo %></td>
+
+                <td><%= listaEstoq[i].prod_nome %></td>
+
+                <td><%= listaEstoq[i].prod_marca %></td>
+
+                <td><%= listaEstoq[i].prod_qnt %></td>
+
+                <td>
+                    R$ <%= Number(listaEstoq[i].prod_valor).toFixed(2) %>
+                </td>
+
+                <td>
+                    <%= listaEstoq[i].prod_validade
+                        ? new Date(listaEstoq[i].prod_validade).toLocaleDateString('pt-BR')
+                        : '-' %>
+                </td>
+
+                <td>
+                    <%= listaEstoq[i].createdAt
+                        ? new Date(listaEstoq[i].createdAt).toLocaleString('pt-BR')
+                        : '-' %>
+                </td>
+
+                <td>
+                    <%= listaEstoq[i].updatedAt
+                        ? new Date(listaEstoq[i].updatedAt).toLocaleString('pt-BR')
+                        : '-' %>
+                </td>
+             
+
+                <td>
+
+                    <a href="/estoque/alterar/<%= listaEstoq[i].estoq_id %>"
+                       class="btn btn-primary btn-sm">
+                        <i class="fas fa-pen"></i>
+                    </a>
+
+                    <button
+                        data-codigoexclusao="<%= listaEstoq[i].estoq_id %>"
+                        class="btn btn-danger btn-sm btnExclusao">
+                        <i class="fas fa-trash"></i>
+                    </button>
+
+                </td>
+
+            </tr>
+
+        <% } %>
+
+    </tbody>
+
+</table>
+</div>
+
+<script>
+    document
+        .getElementById("filtroTipo")
+        .addEventListener("change", function () {
+
+            let tipoSelecionado = this.value.toLowerCase();
+
+            let linhas = document.querySelectorAll("#tabelaEstoque tbody tr");
+
+            linhas.forEach(linha => {
+
+                let tipo = linha.children[3].innerText.toLowerCase();
+
+                if (
+                    tipoSelecionado === "" ||
+                    tipo.includes(tipoSelecionado)
+                ) {
+                    linha.style.display = "";
+                }
+                else {
+                    linha.style.display = "none";
+                }
+
+            });
+
+        });
+</script>

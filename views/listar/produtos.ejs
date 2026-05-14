@@ -2,6 +2,12 @@
 <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
 <script src="/js/listar/produtos.js"></script>
 
+<select id="filtroGrupo" class="form-control">
+    <option value="">Todos</option>
+    <option value="Ração">Ração</option>
+    <option value="Medicação">Medicação</option>
+</select>
+
 <h1>Produtos Registrados</h1>
 <div style="display: flex; justify-content: space-between;">
     <a id="novoReg" class="btn btn-secondary" style="max-width: 200px;" href="/produtos/cadastrar">Novo Produto</a>
@@ -24,6 +30,8 @@
             <th>Valor</th>
             <th>Registro criado</th>
             <th>Registro atualizado</th>
+            <th>Marca</th>
+            <th>Validade</th>
         </thead>
         <tbody>
             <% for (let i = 0; i < listaProd.length; i++) { %>
@@ -37,6 +45,10 @@
                     <td><%= listaProd[i].prod_valor %></td>
                     <td><%= listaProd[i].createdAt %></td>
                     <td><%= listaProd[i].updatedAt %></td>
+                    <td><%= listaProd[i].prod_marca %></td>
+                    <td>
+                        <%= new Date(listaProd[i].prod_validade).toLocaleDateString('pt-BR') %>
+                    </td>
                     <td>
                         <a id="alterabtn" href="/produtos/alterar/<%= listaProd[i].prod_id %>" class="btn btn-primary"><i class="fas fa-pen"></i></a>
                         <button id="delbtn" data-codigoexclusao="<%= listaProd[i].prod_id %>" class="btn btn-danger btnExclusao"><i class="fas fa-trash"></i></button>

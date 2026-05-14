@@ -7,6 +7,11 @@ class EstoqueModel {
     #estoq_id
     #prod_id
     #doa_id
+    #prod_nome
+    #prod_qnt
+    #prod_valor
+    #prod_marca
+    #prod_validade
     #createdAt
     #updatedAt
 
@@ -25,35 +30,61 @@ class EstoqueModel {
     get updatedAt() { return this.#updatedAt; }
     set updatedAt(value) { this.#updatedAt = value; }
 
-    constructor(estoq_id, prod_id, doa_id, createdAt, updatedAt) {
+    get prod_nome() { return this.#prod_nome; }
+    set prod_nome(value) { this.#prod_nome = value; }
+
+    get prod_qnt() { return this.#prod_qnt; }
+    set prod_qnt(value) { this.#prod_qnt = value; }
+
+    get prod_valor() { return this.#prod_valor; }
+    set prod_valor(value) { this.#prod_valor = value; }
+
+    get prod_marca() { return this.#prod_marca; }
+    set prod_marca(value) { this.#prod_marca = value; }
+
+    get prod_validade() { return this.#prod_validade; }
+    set prod_validade(value) { this.#prod_validade = value; }
+
+
+    constructor(estoq_id, prod_id, doa_id, prod_nome, prod_qnt, prod_valor, prod_marca,prod_validade, createdAt, updatedAt) {
         this.#estoq_id = estoq_id;
         this.#prod_id = prod_id;
         this.#doa_id = doa_id;
+        this.#prod_nome = prod_nome;
+        this.#prod_qnt = prod_qnt;
+        this.#prod_valor = prod_valor;
+        this.#prod_marca = prod_marca
+        this.#prod_validade = prod_validade;
         this.#createdAt = createdAt;
         this.#updatedAt = updatedAt;
     }
+async listar() {
 
-    async listar() {
-        let sql = "SELECT * FROM tb_estoque";
+    let sql = `
+        SELECT 
+            e.estoq_id,
+            e.prod_id,
+            e.doa_id,
+            e.createdAt,
+            e.updatedAt,
 
-        let rows = await banco.ExecutaComando(sql);
+            p.prod_nome,
+            p.prod_qnt,
+            p.prod_valor,
+            p.prod_marca,
+            p.prod_validade,
+            p.prod_tipo
 
-        let lista = [];
+        FROM tb_estoque e
 
-        for (let i = 0; i < rows.length; i++) {
-            lista.push(new EstoqueModel(
-                rows[i]["estoq_id"],
-                rows[i]["prod_id"],
-                rows[i]["doa_id"],
-                rows[i]["createdAt"],
-                rows[i]["updatedAt"],
-            ))
+        INNER JOIN tb_produtos p
+        ON e.prod_id = p.prod_id
+    `;
 
-        }
+    let rows = await banco.ExecutaComando(sql);
 
-        return lista;
-    }
-
+    return rows;
+}
     async obterId(id) {
         let sql = "SELECT * FROM tb_estoque WHERE estoq_id = ?";
 
