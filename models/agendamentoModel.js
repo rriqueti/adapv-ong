@@ -1,3 +1,4 @@
+
 const Database = require("../utils/database");
 
 const banco = new Database();
@@ -5,7 +6,6 @@ const banco = new Database();
 class AgendamentoModel {
 
     #agendamento_id;
-
     #doador_nome;
 
     #produto_nome;
@@ -16,9 +16,7 @@ class AgendamentoModel {
 
     #data_doacao;
     #hora_doacao;
-
     #endereco;
-
     #status_agendamento;
 
     #createdAt;
@@ -27,7 +25,6 @@ class AgendamentoModel {
     constructor(
 
         agendamento_id,
-
         doador_nome,
 
         produto_nome,
@@ -38,18 +35,14 @@ class AgendamentoModel {
 
         data_doacao,
         hora_doacao,
-
         endereco,
-
         status_agendamento,
 
         createdAt,
         updatedAt
-
     ) {
 
         this.#agendamento_id = agendamento_id;
-
         this.#doador_nome = doador_nome;
 
         this.#produto_nome = produto_nome;
@@ -60,9 +53,7 @@ class AgendamentoModel {
 
         this.#data_doacao = data_doacao;
         this.#hora_doacao = hora_doacao;
-
         this.#endereco = endereco;
-
         this.#status_agendamento = status_agendamento;
 
         this.#createdAt = createdAt;
@@ -107,7 +98,8 @@ class AgendamentoModel {
             this.#updatedAt
         ];
 
-        let resultado = await banco.ExecutaComandoNonQuery(sql, valores);
+        let resultado =
+            await banco.ExecutaComandoNonQuery(sql, valores);
 
         return resultado;
     }
@@ -123,25 +115,14 @@ class AgendamentoModel {
 
     async concluir(id) {
 
-    let sql = `
-        UPDATE tb_agendamento
-        SET status_agendamento = 'Concluído'
-        WHERE agendamento_id = ?
-    `;
+        let sql = `
+            UPDATE tb_agendamento
+            SET status_agendamento = 'Entregue'
+            WHERE agendamento_id = ?
+        `;
 
-    return await banco.ExecutaComandoNonQuery(sql, [id]);
-}
-
-async cancelar(id) {
-
-    let sql = `
-        UPDATE tb_agendamento
-        SET status_agendamento = 'Cancelado'
-        WHERE agendamento_id = ?
-    `;
-
-    return await banco.ExecutaComandoNonQuery(sql, [id]);
-}
+        return await banco.ExecutaComandoNonQuery(sql, [id]);
+    }
 }
 
 module.exports = AgendamentoModel;
