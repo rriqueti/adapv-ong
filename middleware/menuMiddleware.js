@@ -128,11 +128,6 @@ if (temPermissaoEstoque) {
     const linksEstoque = [
 
         {
-            nome: "Produtos",
-            url: "/produtos/listar"
-        },
-
-        {
             nome: "Cadastrar Produto",
             url: "/produtos/cadastrar"
         },
