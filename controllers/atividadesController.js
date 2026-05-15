@@ -88,7 +88,14 @@ class AtividadesController {
     async alterar(req, res) {
         try {
             const dataHoje = DateTime.now();
-            const { id, nome, desc, data, pro_id, emp_id, createdAt, voluntarios } = req.body;
+            let { id, nome, desc, data, pro_id, emp_id, createdAt, voluntarios } = req.body;
+
+            if (createdAt) {
+                const parsedDate = new Date(createdAt);
+                if (!isNaN(parsedDate)) {
+                    createdAt = parsedDate.toISOString().split('T')[0];
+                }
+            }
 
             if (nome && desc && data) {
                 const atividade = new AtividadesModel(

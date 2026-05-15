@@ -53,6 +53,30 @@ class DoacoesFinanceirasModel {
         return await banco.ExecutaComando(sql);
     }
 
+    async getSaldoMesAtual() {
+        let sql = "SELECT SUM(dfin_valor) as saldo FROM tb_doacoes_financeiras WHERE MONTH(dfin_data) = MONTH(CURRENT_DATE()) AND YEAR(dfin_data) = YEAR(CURRENT_DATE())";
+        let rows = await banco.ExecutaComando(sql);
+        return rows[0]["saldo"] || 0;
+    }
+
+    async getSaldoAnoAtual() {
+        let sql = "SELECT SUM(dfin_valor) as saldo FROM tb_doacoes_financeiras WHERE YEAR(dfin_data) = YEAR(CURRENT_DATE())";
+        let rows = await banco.ExecutaComando(sql);
+        return rows[0]["saldo"] || 0;
+    }
+
+    async getSaldoTotal() {
+        let sql = "SELECT SUM(dfin_valor) as saldo FROM tb_doacoes_financeiras";
+        let rows = await banco.ExecutaComando(sql);
+        return rows[0]["saldo"] || 0;
+    }
+
+    async getTotalDoacoes() {
+        let sql = "SELECT COUNT(*) as total FROM tb_doacoes_financeiras";
+        let rows = await banco.ExecutaComando(sql);
+        return rows[0]["total"] || 0;
+    }
+
     async cadastrar() {
         let sql = `
             INSERT INTO tb_doacoes_financeiras 

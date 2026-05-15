@@ -148,6 +148,30 @@ class DoacoesModel {
         }
     }
 
+    async getUltimasDoacoes(limite = 5) {
+        let sql = "SELECT * FROM tb_doacoes ORDER BY doa_id DESC LIMIT ?";
+        let valores = [limite];
+        let rows = await banco.ExecutaComando(sql, valores);
+        let lista = [];
+
+        for (let i = 0; i < rows.length; i++) {
+            lista.push(new DoacoesModel(
+                rows[i]["doa_id"],
+                rows[i]["doa_tipo"],
+                rows[i]["doa_desc"],
+                rows[i]["doa_qnt"],
+                rows[i]["doa_doador"],
+                rows[i]["doa_cpf_cnpj"],
+                rows[i]["doa_rg"],
+                rows[i]["doa_data"],
+                rows[i]["pess_id"],
+                rows[i]["createdAt"],
+                rows[i]["updatedAt"]
+            ));
+        }
+        return lista;
+    }
+
     async editarDoacao() {
         let sql = "UPDATE tb_doacoes SET doa_tipo = ?, doa_desc = ?, doa_qnt = ?, doa_doador = ?, doa_cpf_cnpj = ?, doa_rg = ?, doa_data = ?, pess_id = ?, createdAt = ?, updatedAt = ? WHERE doa_id = ?";
 
